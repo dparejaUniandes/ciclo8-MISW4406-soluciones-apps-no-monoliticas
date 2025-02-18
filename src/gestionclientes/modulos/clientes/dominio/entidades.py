@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-import aeroalpes.modulos.vuelos.dominio.objetos_valor as ov
-from aeroalpes.seedwork.dominio.entidades import AgregacionRaizCliente
+import gestionclientes.modulos.clientes.dominio.objetos_valor as ov
+from gestionclientes.seedwork.dominio.entidades import AgregacionRaizCliente
 
 
 @dataclass

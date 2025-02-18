@@ -7,9 +7,9 @@ objetos complejos del dominio de vuelos
 
 from dataclasses import dataclass
 
-from aeroalpes.seedwork.dominio.entidades import Entidad
-from aeroalpes.seedwork.dominio.fabricas import Fabrica
-from aeroalpes.seedwork.dominio.repositorios import Mapeador, Repositorio
+from gestionclientes.seedwork.dominio.entidades import Entidad
+from gestionclientes.seedwork.dominio.fabricas import Fabrica
+from gestionclientes.seedwork.dominio.repositorios import Mapeador, Repositorio
 
 from .entidades import Cliente
 from .excepciones import TipoObjetoNoExisteEnDominioVuelosExcepcion

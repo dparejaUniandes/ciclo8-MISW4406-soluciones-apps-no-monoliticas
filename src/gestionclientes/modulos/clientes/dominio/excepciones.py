@@ -5,7 +5,7 @@ al dominio de vuelos
 
 """
 
-from aeroalpes.seedwork.dominio.excepciones import ExcepcionFabrica
+from gestionclientes.seedwork.dominio.excepciones import ExcepcionFabrica
 
 
 class TipoObjetoNoExisteEnDominioVuelosExcepcion(ExcepcionFabrica):

@@ -6,7 +6,7 @@ En este archivo usted encontrará las diferentes pruebas de validacióm para las
 
 import pytest
 
-from aeroalpes.seedwork.dominio.excepciones import (
+from gestionclientes.seedwork.dominio.excepciones import (
     ExcepcionDominio, ExcepcionFabrica, IdDebeSerInmutableExcepcion,
     ReglaNegocioExcepcion)
 

@@ -1,9 +1,7 @@
-from aeroalpes.modulos.vuelos.dominio.entidades import Aeropuerto, Proveedor
-from aeroalpes.modulos.vuelos.dominio.objetos_valor import (CodigoIATA,
-                                                            Itinerario, Leg,
-                                                            Odo,
-                                                            ParametroBusca,
-                                                            Segmento)
+from gestionclientes.modulos.clientes.dominio.entidades import (Aeropuerto,
+                                                                Proveedor)
+from gestionclientes.modulos.clientes.dominio.objetos_valor import (
+    CodigoIATA, Itinerario, Leg, Odo, ParametroBusca, Segmento)
 
 
 def filtrar_mejores_itinerarios(itinerarios: list[Itinerario]) -> list[Itinerario]:

@@ -1,6 +1,6 @@
-from aeroalpes.modulos.vuelos.dominio.entidades import Cliente
-from aeroalpes.seedwork.aplicacion.dto import Mapeador as AppMap
-from aeroalpes.seedwork.dominio.repositorios import Mapeador as RepMap
+from gestionclientes.modulos.clientes.dominio.entidades import Cliente
+from gestionclientes.seedwork.aplicacion.dto import Mapeador as AppMap
+from gestionclientes.seedwork.dominio.repositorios import Mapeador as RepMap
 
 from .dto import ClienteDTO
 

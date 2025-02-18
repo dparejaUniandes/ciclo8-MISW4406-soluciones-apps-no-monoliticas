@@ -3,11 +3,12 @@ import json
 from flask import (Response, redirect, render_template, request, session,
                    url_for)
 
-import aeroalpes.seedwork.presentacion.api as api
-from aeroalpes.modulos.vuelos.aplicacion.mapeadores import \
+import gestionclientes.seedwork.presentacion.api as api
+from gestionclientes.modulos.clientes.aplicacion.mapeadores import \
     MapeadorClienteDTOJson
-from aeroalpes.modulos.vuelos.aplicacion.servicios import ServicioCliente
-from aeroalpes.seedwork.dominio.excepciones import ExcepcionDominio
+from gestionclientes.modulos.clientes.aplicacion.servicios import \
+    ServicioCliente
+from gestionclientes.seedwork.dominio.excepciones import ExcepcionDominio
 
 bp = api.crear_blueprint('clientes', '/clientes')
 

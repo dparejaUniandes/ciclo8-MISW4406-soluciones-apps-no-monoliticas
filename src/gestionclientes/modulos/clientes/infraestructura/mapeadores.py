@@ -5,9 +5,10 @@ encargados de la transformación entre formatos de dominio y DTOs
 
 """
 
-from aeroalpes.modulos.vuelos.dominio.entidades import Cliente
-from aeroalpes.modulos.vuelos.dominio.objetos_valor import NombreCliente
-from aeroalpes.seedwork.dominio.repositorios import Mapeador
+from gestionclientes.modulos.clientes.dominio.entidades import Cliente
+from gestionclientes.modulos.clientes.dominio.objetos_valor import \
+    NombreCliente
+from gestionclientes.seedwork.dominio.repositorios import Mapeador
 
 from .dto import Cliente as ClienteDTO
 

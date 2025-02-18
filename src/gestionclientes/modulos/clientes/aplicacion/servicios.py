@@ -1,10 +1,10 @@
-from aeroalpes.modulos.vuelos.dominio.entidades import Cliente
-from aeroalpes.modulos.vuelos.dominio.fabricas import FabricaClientes
-from aeroalpes.modulos.vuelos.infraestructura.fabricas import \
+from gestionclientes.modulos.clientes.dominio.entidades import Cliente
+from gestionclientes.modulos.clientes.dominio.fabricas import FabricaClientes
+from gestionclientes.modulos.clientes.infraestructura.fabricas import \
     FabricaRepositorio
-from aeroalpes.modulos.vuelos.infraestructura.repositorios import \
+from gestionclientes.modulos.clientes.infraestructura.repositorios import \
     RepositorioClientes
-from aeroalpes.seedwork.aplicacion.servicios import Servicio
+from gestionclientes.seedwork.aplicacion.servicios import Servicio
 
 from .dto import ClienteDTO
 from .mapeadores import MapeadorCliente

@@ -6,8 +6,8 @@ En este archivo usted encontrará las diferentes pruebas de validacióm para los
 
 import pytest
 
-from aeroalpes.seedwork.dominio.excepciones import ReglaNegocioExcepcion
-from aeroalpes.seedwork.dominio.mixins import ValidarReglasMixin
+from gestionclientes.seedwork.dominio.excepciones import ReglaNegocioExcepcion
+from gestionclientes.seedwork.dominio.mixins import ValidarReglasMixin
 
 """
     Clases de Soporte para validar el seedwork

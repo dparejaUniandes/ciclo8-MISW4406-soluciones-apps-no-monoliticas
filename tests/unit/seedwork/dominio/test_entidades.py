@@ -10,8 +10,9 @@ from uuid import UUID
 
 import pytest
 
-from aeroalpes.seedwork.dominio.entidades import Entidad
-from aeroalpes.seedwork.dominio.excepciones import IdDebeSerInmutableExcepcion
+from gestionclientes.seedwork.dominio.entidades import Entidad
+from gestionclientes.seedwork.dominio.excepciones import \
+    IdDebeSerInmutableExcepcion
 
 """
     Clases de Soporte para validar el seedwork

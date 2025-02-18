@@ -5,7 +5,7 @@ a la capa de infraestructura del dominio de vuelos
 
 """
 
-from aeroalpes.seedwork.dominio.excepciones import ExcepcionFabrica
+from gestionclientes.seedwork.dominio.excepciones import ExcepcionFabrica
 
 
 class NoExisteImplementacionParaTipoFabricaExcepcion(ExcepcionFabrica):

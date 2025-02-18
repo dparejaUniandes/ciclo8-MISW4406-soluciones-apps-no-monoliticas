@@ -7,11 +7,13 @@ persistir objetos dominio (agregaciones) en la capa de infraestructura del domin
 
 from uuid import UUID
 
-from aeroalpes.config.db import db
-from aeroalpes.modulos.vuelos.dominio.entidades import Cliente
-from aeroalpes.modulos.vuelos.dominio.fabricas import FabricaClientes
-from aeroalpes.modulos.vuelos.dominio.objetos_valor import NombreCliente
-from aeroalpes.modulos.vuelos.dominio.repositorios import RepositorioClientes
+from gestionclientes.config.db import db
+from gestionclientes.modulos.clientes.dominio.entidades import Cliente
+from gestionclientes.modulos.clientes.dominio.fabricas import FabricaClientes
+from gestionclientes.modulos.clientes.dominio.objetos_valor import \
+    NombreCliente
+from gestionclientes.modulos.clientes.dominio.repositorios import \
+    RepositorioClientes
 
 from .dto import Cliente as ClienteDTO
 from .mapeadores import MapeadorCliente

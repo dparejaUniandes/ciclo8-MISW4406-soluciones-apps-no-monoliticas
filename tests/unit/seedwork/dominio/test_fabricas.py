@@ -6,7 +6,7 @@ En este archivo usted encontrará las diferentes pruebas de validacióm para las
 
 import pytest
 
-from aeroalpes.seedwork.dominio.fabricas import Fabrica
+from gestionclientes.seedwork.dominio.fabricas import Fabrica
 
 """
     Clases de Soporte para validar el seedwork

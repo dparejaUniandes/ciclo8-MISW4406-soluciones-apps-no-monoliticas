@@ -9,9 +9,11 @@ from datetime import datetime
 
 import pytest
 
-from aeroalpes.seedwork.dominio.excepciones import IdDebeSerInmutableExcepcion
-from aeroalpes.seedwork.dominio.objetos_valor import (Ciudad, Codigo,
-                                                      ObjetoValor, Pais, Ruta)
+from gestionclientes.seedwork.dominio.excepciones import \
+    IdDebeSerInmutableExcepcion
+from gestionclientes.seedwork.dominio.objetos_valor import (Ciudad, Codigo,
+                                                            ObjetoValor, Pais,
+                                                            Ruta)
 
 """
     Clases de Soporte para validar el seedwork
