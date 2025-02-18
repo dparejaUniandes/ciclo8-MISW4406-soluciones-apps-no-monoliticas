@@ -30,6 +30,8 @@ class MapeadorCliente(RepMap):
         return ClienteDTO(fecha_creacion, fecha_actualizacion, _id, entidad.nombre)
 
     def dto_a_entidad(self, dto: ClienteDTO) -> Cliente:
-        cliente = Cliente(nombre = dto.nombre)
+        cliente = Cliente(
+            nombre = dto.nombre
+        )
         
         return cliente

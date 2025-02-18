@@ -10,7 +10,7 @@ from .dto import ClienteDTO
 from .mapeadores import MapeadorCliente
 
 
-class ServicioReserva(Servicio):
+class ServicioCliente(Servicio):
 
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()

@@ -13,6 +13,7 @@ from aeroalpes.modulos.vuelos.dominio.fabricas import FabricaClientes
 from aeroalpes.modulos.vuelos.dominio.objetos_valor import NombreCliente
 from aeroalpes.modulos.vuelos.dominio.repositorios import RepositorioClientes
 
+from .dto import Cliente as ClienteDTO
 from .mapeadores import MapeadorCliente
 
 
@@ -26,8 +27,8 @@ class RepositorioClientesSQLite(RepositorioClientes):
         return self._fabrica_clientes
 
     def obtener_por_id(self, id: UUID) -> Cliente:
-        # TODO
-        raise NotImplementedError
+        cliente_dto = db.session.query(ClienteDTO).filter_by(id=str(id)).one()
+        return self._fabrica_clientes.crear_objeto(cliente_dto, MapeadorCliente())
 
     def obtener_todos(self) -> list[Cliente]:
         # TODO
