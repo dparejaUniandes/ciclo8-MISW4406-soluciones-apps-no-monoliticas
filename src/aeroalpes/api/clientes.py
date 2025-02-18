@@ -1,0 +1,37 @@
+import json
+
+from flask import (Response, redirect, render_template, request, session,
+                   url_for)
+
+import aeroalpes.seedwork.presentacion.api as api
+from aeroalpes.modulos.vuelos.aplicacion.mapeadores import \
+    MapeadorClienteDTOJson
+from aeroalpes.modulos.vuelos.aplicacion.servicios import ServicioReserva
+from aeroalpes.seedwork.dominio.excepciones import ExcepcionDominio
+
+bp = api.crear_blueprint('clientes', '/clientes')
+
+@bp.route('/cliente', methods=('POST',))
+def reservar():
+    try:
+        cliente_dict = request.json
+
+        map_cliente = MapeadorClienteDTOJson()
+        cliente_dto = map_cliente.externo_a_dto(cliente_dict)
+
+        sr = ServicioReserva()
+        dto_final = sr.crear_cliente(cliente_dto)
+
+        return map_cliente.dto_a_externo(dto_final)
+    except ExcepcionDominio as e:
+        return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')
+
+@bp.route('/reserva', methods=('GET',))
+@bp.route('/reserva/<id>', methods=('GET',))
+def dar_reserva(id=None):
+    if id:
+        sr = ServicioReserva()
+        
+        return sr.obtener_cliente_por_id(id)
+    else:
+        return [{'message': 'GET!'}]
