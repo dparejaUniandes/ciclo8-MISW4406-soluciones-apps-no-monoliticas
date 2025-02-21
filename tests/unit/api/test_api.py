@@ -5,8 +5,9 @@ import tempfile
 import pytest
 
 from gestionclientes.api import create_app, importar_modelos_alchemy
-from gestionclientes.config.db import db, init_db
+from gestionclientes.config.db import init_db
 
+db_dir = os.path.abspath(os.path.dirname(__file__))
 
 @pytest.fixture
 def app():
@@ -14,7 +15,9 @@ def app():
     # create a temporary file to isolate the database for each test
     db_fd, db_path = tempfile.mkstemp()
     # create the app with common test config
-    app = create_app({"TESTING": True, "DATABASE": db_path})
+    app = create_app({"TESTING": True, "DATABASE": db_dir})
+
+    importar_modelos_alchemy()
 
     # create the database and load test data
     with app.app_context():
@@ -56,51 +59,14 @@ def test_servidor_levanta(client):
     assert response['status'] == 'up'
 
 
-def reserva_correcta():
+def cliente_correcto():
     return {
-    "itinerarios": [
-        {
-            "odos": [
-                {
-                    "segmentos": [
-                        {
-                            "legs": [
-                                {
-                                    "fecha_salida": "2022-11-22T13:11:00Z",
-                                    "fecha_llegada": "2022-11-22T15:11:00Z",
-                                    "destino": {
-                                        "codigo": "JFK",
-                                        "nombre": "John F. Kennedy International Airport"
-                                    },
-                                    "origen": {
-                                        "codigo": "BOG",
-                                        "nombre": "El Dorado - Bogotá International Airport (BOG)"
-                                    }
+        "nombre": "Pepe"
+    }
 
-                                },
-                                {
-                                    "fecha_salida": "2022-11-22T16:00:00Z",
-                                    "fecha_llegada": "2022-11-22T23:55:00Z",
-                                    "destino": {
-                                        "codigo": "LAX",
-                                        "nombre": "Aeropuerto Internacional de Los Ángeles (Los Angeles International Airport)"
-                                    },
-                                    "origen": {
-                                        "codigo": "JFK",
-                                        "nombre": "El Dorado - Bogotá International Airport (BOG)"
-                                    }
-
-                                }
-                            ]
-                        }
-                    ]
-                }
-
-            ]
-        }
-    ]
-}
-
-def test_reservar_vuelo(client):
-    rv = client.post('/vuelos/reserva', data=json.dumps(reserva_correcta()), content_type='application/json')
+def test_cliente(client):
+    rv = client.post('/clientes/cliente', data=json.dumps(cliente_correcto()), content_type='application/json')
+    print("Resp***: ", rv)
+    response = rv.json
     assert rv is not None
+    assert response['nombre'] == 'Pepe'

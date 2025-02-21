@@ -26,7 +26,6 @@ class MapeadorCliente(RepMap):
         fecha_creacion = entidad.fecha_creacion.strftime(self._FORMATO_FECHA)
         fecha_actualizacion = entidad.fecha_actualizacion.strftime(self._FORMATO_FECHA)
         _id = str(entidad.id)
-
         return ClienteDTO(fecha_creacion, fecha_actualizacion, _id, entidad.nombre)
 
     def dto_a_entidad(self, dto: ClienteDTO) -> Cliente:

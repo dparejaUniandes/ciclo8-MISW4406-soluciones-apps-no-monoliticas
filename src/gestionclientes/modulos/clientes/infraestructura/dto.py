@@ -5,13 +5,9 @@ la infraestructura del dominio de vuelos
 
 """
 
-from sqlalchemy import Column, Integer, Table
-from sqlalchemy.orm import declarative_base, relationship
-
 from gestionclientes.config.db import db
 
 Base = db.declarative_base()
-
 
 
 class Cliente(db.Model):
