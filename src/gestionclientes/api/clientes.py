@@ -41,7 +41,16 @@ def crear_cliente_asincrono():
         map_cliente = MapeadorClienteDTOJson()
         cliente_dto = map_cliente.externo_a_dto(cliente_dict)
 
-        comando = CrearCliente(cliente_dto.fecha_creacion, cliente_dto.fecha_actualizacion, cliente_dto.id, cliente_dto.nombre)
+        comando = CrearCliente(
+            cliente_dto.fecha_creacion, 
+            cliente_dto.fecha_actualizacion, 
+            cliente_dto.id, 
+            cliente_dto.nombre,
+            cliente_dto.apellidos,
+            cliente_dto.correo,
+            cliente_dto.contrasena,
+            cliente_dto.estadoPlan
+        )
         ejecutar_commando(comando)
 
         return Response('{}', status=202, mimetype='application/json')

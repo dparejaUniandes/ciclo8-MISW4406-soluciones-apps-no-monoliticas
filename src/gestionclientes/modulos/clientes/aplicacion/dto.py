@@ -9,3 +9,7 @@ class ClienteDTO(DTO):
     fecha_actualizacion: str = field(default_factory=str)
     id: str = field(default_factory=str)
     nombre: str = field(default_factory=str)
+    apellidos: str = field(default_factory=str)
+    correo: str = field(default_factory=str)
+    contrasena: str = field(default_factory=str)
+    estadoPlan: str = field(default_factory=str)

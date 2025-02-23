@@ -38,10 +38,8 @@ class RepositorioClientesSQLite(RepositorioClientes):
 
     def agregar(self, cliente: Cliente):
         cliente_dto = self.fabrica_clientes.crear_objeto(cliente, MapeadorCliente())
-        print("*** Repo", cliente_dto)
         db.session.add(cliente_dto)
         db.session.commit()
-        print("*** Repo Commit", cliente_dto)
 
     def actualizar(self, reserva: Cliente):
         # TODO

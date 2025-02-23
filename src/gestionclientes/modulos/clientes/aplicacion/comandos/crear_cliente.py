@@ -20,16 +20,24 @@ class CrearCliente(Comando):
     fecha_actualizacion: str
     id: str
     nombre: str
-
+    apellidos: str
+    correo: str
+    contrasena: str
+    estadoPlan: str
 
 class CrearClienteHandler(CrearClienteBaseHandler):
     
     def handle(self, comando: CrearCliente):
         cliente_dto = ClienteDTO(
-                fecha_actualizacion=comando.fecha_actualizacion
-            ,   fecha_creacion=comando.fecha_creacion
-            ,   id=comando.id
-            ,   nombre=comando.nombre)
+            fecha_actualizacion=comando.fecha_actualizacion,
+            fecha_creacion=comando.fecha_creacion,
+            id=comando.id,
+            nombre=comando.nombre,
+            apellidos=comando.apellidos,
+            correo=comando.correo,
+            contrasena=comando.contrasena,
+            estadoPlan=comando.estadoPlan
+        )
 
         cliente: Cliente = self.fabrica_clientes.crear_objeto(cliente_dto, MapeadorCliente())
         cliente.crear_cliente(cliente)
