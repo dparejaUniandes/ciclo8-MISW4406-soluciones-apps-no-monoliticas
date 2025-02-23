@@ -42,11 +42,6 @@ class AgregacionRaiz(Entidad, ValidarReglasMixin):
 
 
 @dataclass
-class Locacion(Entidad):
-    def __str__(self) -> str:
-        ...
-
-@dataclass
 class AgregacionRaizCliente(Entidad):
     eventos: list[EventoDominio] = field(default_factory=list)
 

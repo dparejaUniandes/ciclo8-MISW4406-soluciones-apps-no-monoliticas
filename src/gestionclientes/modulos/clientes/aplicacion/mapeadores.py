@@ -24,7 +24,7 @@ class MapeadorClienteDTOJson(AppMap):
         clienteExterno = {
             "fecha_actualizacion": dto.fecha_actualizacion,
             "fecha_creacion": dto.fecha_creacion,
-            "id": dto.id,
+            "id": dto.idDesdeBD,
             "nombre": dto.nombre,
             "apellidos": dto.apellidos,
             "correo": dto.correo,
@@ -52,7 +52,8 @@ class MapeadorCliente(RepMap):
             entidad.nombre.apellidos,
             entidad.correo.correo,
             entidad.contrasena,
-            entidad.estadoPlan
+            entidad.estadoPlan,
+            entidad.idDesdeBD
         )
 
     def dto_a_entidad(self, dto: ClienteDTO) -> Cliente:

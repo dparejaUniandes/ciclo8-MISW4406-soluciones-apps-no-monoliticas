@@ -48,6 +48,7 @@ class MapeadorCliente(Mapeador):
             nombre=nombre,
             correo=correo,
             contrasena=dto.contrasena,
-            estadoPlan=dto.estado_plan.value
+            estadoPlan=dto.estado_plan.value,
+            idDesdeBD=dto.id, 
         )
         return cliente

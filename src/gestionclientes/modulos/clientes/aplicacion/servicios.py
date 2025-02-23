@@ -28,6 +28,7 @@ class ServicioCliente(Servicio):
         cliente: Cliente = self.fabrica_clientes.crear_objeto(cliente_dto, MapeadorCliente())
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioClientes.__class__)
         repositorio.agregar(cliente)
+        cliente.idDesdeBD = cliente.id
         return self.fabrica_clientes.crear_objeto(cliente, MapeadorCliente())
 
     def obtener_cliente_por_id(self, id) -> ClienteDTO:

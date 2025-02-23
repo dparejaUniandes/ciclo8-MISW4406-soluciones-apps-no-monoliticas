@@ -19,6 +19,7 @@ class Cliente(AgregacionRaizCliente):
     correo: ov.CorreoCliente = field(default_factory=ov.CorreoCliente)
     contrasena: str = field(default_factory=str)
     estadoPlan: ov.EstadoPlan = field(default_factory=ov.EstadoPlan)
+    idDesdeBD: str = field(default_factory=str)
 
     def crear_cliente(self, cliente: Cliente):
         self.nombre = cliente.nombre

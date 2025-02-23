@@ -13,3 +13,4 @@ class ClienteDTO(DTO):
     correo: str = field(default_factory=str)
     contrasena: str = field(default_factory=str)
     estadoPlan: str = field(default_factory=str)
+    idDesdeBD: str = field(default_factory=str)
