@@ -9,12 +9,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
 
-def create_app(configuracion=None):
+def create_app(configuracion={}):
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
 
     route = basedir
-    if configuracion is not None and configuracion["TESTING"]:
+    if configuracion.get('TESTING'):
         route = configuracion["DATABASE"]
 
     # Configuracion de BD
@@ -22,7 +22,10 @@ def create_app(configuracion=None):
             'sqlite:///' + os.path.join(route, 'database.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    print("***Config: ", app.config['SQLALCHEMY_DATABASE_URI'])
+    app.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['TESTING'] = configuracion.get('TESTING')
+
      # Inicializa la DB
     from gestionclientes.config.db import init_db
     init_db(app)

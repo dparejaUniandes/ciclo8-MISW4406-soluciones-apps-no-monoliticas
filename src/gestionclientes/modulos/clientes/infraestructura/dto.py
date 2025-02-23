@@ -16,3 +16,4 @@ class Cliente(db.Model):
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     fecha_actualizacion = db.Column(db.DateTime, nullable=False)
     nombre = db.Column(db.String, nullable=False)
+    

@@ -13,7 +13,12 @@ class MapeadorClienteDTOJson(AppMap):
         return cliente_dto
 
     def dto_a_externo(self, dto: ClienteDTO) -> dict:
-        return dto.__dict__
+        clienteExterno = {
+            "fecha_actualizacion": dto.fecha_actualizacion,
+            "fecha_creacion": dto.fecha_creacion,
+            "nombre": dto.nombre
+        }
+        return clienteExterno
 
 class MapeadorCliente(RepMap):
     _FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
