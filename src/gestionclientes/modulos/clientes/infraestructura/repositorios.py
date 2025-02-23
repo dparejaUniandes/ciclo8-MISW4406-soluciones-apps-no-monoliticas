@@ -33,8 +33,8 @@ class RepositorioClientesSQLite(RepositorioClientes):
         return self._fabrica_clientes.crear_objeto(cliente_dto, MapeadorCliente())
 
     def obtener_todos(self) -> list[Cliente]:
-        # TODO
-        raise NotImplementedError
+        clientes = db.session.query(ClienteDTO).all()
+        return self._fabrica_clientes.crear_objeto(clientes, MapeadorCliente())
 
     def agregar(self, cliente: Cliente):
         cliente_dto = self.fabrica_clientes.crear_objeto(cliente, MapeadorCliente())

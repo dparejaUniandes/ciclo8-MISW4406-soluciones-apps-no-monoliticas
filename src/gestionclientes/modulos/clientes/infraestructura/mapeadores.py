@@ -33,22 +33,46 @@ class MapeadorCliente(Mapeador):
 
         return cliente_dto
 
-    def dto_a_entidad(self, dto: ClienteDTO) -> Cliente:
-        nombre = NombreCliente(
-            nombre = dto.nombre,
-            apellidos = dto.apellidos
-        )
-        correo = CorreoCliente(
-            correo = dto.correo
-        )
-        cliente = Cliente(
-            dto.id, 
-            dto.fecha_creacion, 
-            dto.fecha_actualizacion, 
-            nombre=nombre,
-            correo=correo,
-            contrasena=dto.contrasena,
-            estadoPlan=dto.estado_plan.value,
-            idDesdeBD=dto.id, 
-        )
-        return cliente
+    def dto_a_entidad(self, dto: ClienteDTO) -> any:
+        if type(dto) is ClienteDTO:
+            print("infra only dto")
+            nombre = NombreCliente(
+                nombre = dto.nombre,
+                apellidos = dto.apellidos
+            )
+            correo = CorreoCliente(
+                correo = dto.correo
+            )
+            cliente = Cliente(
+                dto.id, 
+                dto.fecha_creacion, 
+                dto.fecha_actualizacion, 
+                nombre=nombre,
+                correo=correo,
+                contrasena=dto.contrasena,
+                estadoPlan=dto.estado_plan.value,
+                idDesdeBD=dto.id, 
+            )
+            return cliente
+        print("infra all dto", dto)
+        clientes = []
+        for clienteDTO in dto:
+            nombre = NombreCliente(
+                nombre = clienteDTO.nombre,
+                apellidos = clienteDTO.apellidos
+            )
+            correo = CorreoCliente(
+                correo = clienteDTO.correo
+            )
+            clientes.append(Cliente(
+                clienteDTO.id, 
+                clienteDTO.fecha_creacion, 
+                clienteDTO.fecha_actualizacion, 
+                nombre=nombre,
+                correo=correo,
+                contrasena=clienteDTO.contrasena,
+                estadoPlan=clienteDTO.estado_plan.value,
+                idDesdeBD=clienteDTO.id
+            ))
+        print("infra all dto Fin")
+        return clientes

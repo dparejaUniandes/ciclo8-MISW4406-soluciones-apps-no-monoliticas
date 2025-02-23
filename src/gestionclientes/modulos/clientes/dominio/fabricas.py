@@ -18,7 +18,9 @@ from .excepciones import TipoObjetoNoExisteEnDominioVuelosExcepcion
 @dataclass
 class _FabricaCliente(Fabrica):
     def crear_objeto(self, obj: any, mapeador: Mapeador) -> any:
-        if isinstance(obj, Entidad):
+        if type(obj) is list and len(obj) == 0:
+            return []
+        if isinstance(obj, Entidad) or (type(obj) is list and isinstance(obj[0], Entidad)):
             return mapeador.entidad_a_dto(obj)
         else:
             cliente: Cliente = mapeador.dto_a_entidad(obj)

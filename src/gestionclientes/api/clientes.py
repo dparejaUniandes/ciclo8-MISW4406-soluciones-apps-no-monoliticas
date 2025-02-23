@@ -79,4 +79,7 @@ def dar_cliente_query(id=None):
         
         return map_cliente.dto_a_externo(query_resultado.resultado)
     else:
-        return [{'message': 'GET!'}]
+        sr = ServicioCliente()
+        map_cliente = MapeadorClienteDTOJson()
+        
+        return map_cliente.dto_a_externo(sr.obtener_todos_los_clientes())
