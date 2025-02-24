@@ -21,7 +21,7 @@ class MapeadorFacturacionDTOJson(AppMap):
     def dto_a_externo(self, dto: FacturacionDTO) -> any:
         if type(dto) is FacturacionDTO:
             facturacionExterno = {
-                "id": dto.idDesdeBD,
+                "id": dto.id,
                 "medioPago": dto.medioPago,
                 "idCliente": dto.idCliente,
                 "monto": dto.monto
@@ -39,8 +39,8 @@ class MapeadorFacturacion(RepMap):
             _id = str(entidad.id)
             return FacturacionDTO(
                 _id, 
-                entidad.medioPago.medioPago, 
-                entidad.idCliente.idCliente,
+                entidad.medioPago, 
+                entidad.idCliente,
                 entidad.monto
             )
         
@@ -56,10 +56,9 @@ class MapeadorFacturacion(RepMap):
         return facturacionDTO
 
     def dto_a_entidad(self, dto: FacturacionDTO) -> Facturacion:
-        medioPago = MedioPago(dto.medioPago, dto.idCliente)
         facturacion = Facturacion(
-            medioPago = medioPago,
-            idCliente = IdCliente(dto.idCliente),
+            medioPago = dto.medioPago,
+            idCliente = dto.idCliente,
             monto = dto.monto
         )
         
