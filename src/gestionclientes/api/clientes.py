@@ -11,7 +11,7 @@ from gestionclientes.modulos.clientes.aplicacion.mapeadores import \
 from gestionclientes.modulos.clientes.aplicacion.queries.obtener_cliente import \
     ObtenerCliente
 from gestionclientes.modulos.clientes.aplicacion.servicios import \
-    ServicioCliente
+    ServicioFacturacion
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.aplicacion.queries import ejecutar_query
 from gestionclientes.seedwork.dominio.excepciones import ExcepcionDominio
@@ -25,7 +25,7 @@ def crear_cliente():
         map_cliente = MapeadorClienteDTOJson()
         cliente_dto = map_cliente.externo_a_dto(cliente_dict)
 
-        sr = ServicioCliente()
+        sr = ServicioFacturacion()
         dto_final = sr.crear_cliente(cliente_dto)
 
         return jsonify(map_cliente.dto_a_externo(dto_final))
@@ -63,7 +63,7 @@ def crear_cliente_asincrono():
 @bp.route('/cliente/<id>', methods=('GET',))
 def dar_cliente(id=None):
     if id:
-        sr = ServicioCliente()
+        sr = ServicioFacturacion()
         map_cliente = MapeadorClienteDTOJson()
         
         return map_cliente.dto_a_externo(sr.obtener_cliente_por_id(id))
@@ -79,7 +79,7 @@ def dar_cliente_query(id=None):
         
         return map_cliente.dto_a_externo(query_resultado.resultado)
     else:
-        sr = ServicioCliente()
+        sr = ServicioFacturacion()
         map_cliente = MapeadorClienteDTOJson()
         
         return map_cliente.dto_a_externo(sr.obtener_todos_los_clientes())
