@@ -29,6 +29,6 @@ reset: clean venv install
 clean-compose:	
 	docker-compose down -v
 
-# Correr el composer localmente
+# Correr el composer localmente - La aplicacion backend corre en el puerto 5001
 run-compose:
 	docker-compose up --build
