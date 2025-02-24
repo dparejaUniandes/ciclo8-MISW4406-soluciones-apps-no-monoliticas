@@ -17,3 +17,14 @@ flask --app src/gestionclientes/api --debug run
 
 ### Nota
 Existía un problema con la versión 3.0.2 de Flask-SQLAlchemy, por lo que se procede a bajar la versión a 2.5.1, esto porque los tests unitarios obtenían un problema `KeyError: <weakref at 0x00000251C4B1DAD0; to 'Flask' at 0x00000251C0ED3FA0>`, como se menciona en [Stack overflow](https://stackoverflow.com/questions/74366188/why-do-i-get-a-flask-weakref-error-when-importing-my-sqlalchemy-db-from-a-submod)
+
+
+### Crear Imagen docker
+```
+docker build --no-cache -t flask_app .
+```
+
+### Correr contenedor
+```
+docker run -d -p 5001:5000 --name monolitica_flask_app flask_app
+```
