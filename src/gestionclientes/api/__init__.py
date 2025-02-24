@@ -8,6 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
+    import gestionclientes.modulos.facturacion.infraestructura.dto
 
 def create_app(configuracion={}):
     # Init la aplicacion de Flask
@@ -40,11 +41,12 @@ def create_app(configuracion={}):
     db.create_all()
 
      # Importa Blueprints
-    from . import clientes
+    from . import clientes, facturacion
 
     # Registro de Blueprints
     app.register_blueprint(clientes.bp)
-
+    app.register_blueprint(facturacion.bp)
+    
     @app.route("/spec")
     def spec():
         swag = swagger(app)

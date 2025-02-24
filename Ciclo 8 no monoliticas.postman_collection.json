@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "2c8b230b-f28a-40e8-a4a5-4a1c431dbfd6",
+		"name": "Ciclo 8 no monoliticas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15124328"
+	},
+	"item": [
+		{
+			"name": "Gestión clientes",
+			"item": [
+				{
+					"name": "Crear cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"David\",\n    \"apellidos\": \"Pareja Arango 1234\",\n    \"correo\": \"david@gmail.com\",\n    \"contrasena\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear cliente asincrono",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"David\",\n    \"apellidos\": \"Pareja Arango 1234\",\n    \"correo\": \"david@gmail.com\",\n    \"contrasena\": \"5432\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente-comando",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente-comando"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos clientes query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente-query",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente-query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente/cc52ea2b-13b0-4168-8260-e7e8a088717a",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente",
+								"cc52ea2b-13b0-4168-8260-e7e8a088717a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "spec",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/spec",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"spec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener cliente query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente-query/dd9b7d6b-2b91-4272-a1d0-5d3d813123b0",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente-query",
+								"dd9b7d6b-2b91-4272-a1d0-5d3d813123b0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tutorial 3 Semana 2",
+			"item": [
+				{
+					"name": "Crear vuelos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"itinerarios\": [\n        {\n            \"odos\": [\n                {\n                    \"segmentos\": [\n                        {\n                            \"legs\": [\n                                {\n                                    \"fecha_salida\": \"2022-11-22T13:10:00Z\",\n                                    \"fecha_llegada\": \"2022-11-22T15:10:00Z\",\n                                    \"destino\": {\n                                        \"codigo\": \"JFK\",\n                                        \"nombre\": \"John F. Kennedy International Airport\"\n                                    },\n                                    \"origen\": {\n                                        \"codigo\": \"BOG\",\n                                        \"nombre\": \"El Dorado - Bogotá International Airport (BOG)\"\n                                    }\n\n                                }\n                            ]\n                        }\n                    ]\n                }\n\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/vuelos/reserva",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"vuelos",
+								"reserva"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener vuelo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/vuelos/reserva",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"vuelos",
+								"reserva"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "https://5000-dparejaunia-ciclo8nomon-f3b8jdu7vzc.ws-us117.gitpod.io",
+			"type": "string"
+		}
+	]
+}

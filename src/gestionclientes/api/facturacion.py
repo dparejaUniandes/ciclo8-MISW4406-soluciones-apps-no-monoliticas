@@ -4,11 +4,11 @@ from flask import (Flask, Response, jsonify, redirect, render_template,
                    request, session, url_for)
 
 import gestionclientes.seedwork.presentacion.api as api
-from gestionclientes.modulos.facturacion.aplicacion.comandos.crear_cliente import \
+from gestionclientes.modulos.facturacion.aplicacion.comandos.crear_facturacion import \
     CrearFacturacion
 from gestionclientes.modulos.facturacion.aplicacion.mapeadores import \
     MapeadorFacturacionDTOJson
-from gestionclientes.modulos.facturacion.aplicacion.queries.obtener_cliente import \
+from gestionclientes.modulos.facturacion.aplicacion.queries.obtener_facturacion import \
     ObtenerFacturacion
 from gestionclientes.modulos.facturacion.aplicacion.servicios import \
     ServicioFacturacion
@@ -16,10 +16,10 @@ from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.aplicacion.queries import ejecutar_query
 from gestionclientes.seedwork.dominio.excepciones import ExcepcionDominio
 
-bp = api.crear_blueprint('facturaciones', '/facturaciones')
+bp = api.crear_blueprint('facturacion', '/facturacion')
 
-@bp.route('/facturacion', methods=('POST',))
-def crear_facturacion():
+@bp.route('/realizar-pago', methods=('POST',))
+def realizar_pago():
     try:
         facturacion_dict = request.json
         map_facturacion = MapeadorFacturacionDTOJson()
@@ -34,8 +34,8 @@ def crear_facturacion():
     except Exception as e:
         return Response(json.dumps(dict(error=str(e))), status=500, mimetype='application/json')
 
-@bp.route('/facturacion-comando', methods=('POST',))
-def crear_cliente_asincrono():
+@bp.route('/realizar-pago-comando', methods=('POST',))
+def realizar_pago_asincrono():
     try:
         facturacion_dict = request.json
         map_facturacion = MapeadorFacturacionDTOJson()
@@ -54,28 +54,3 @@ def crear_cliente_asincrono():
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')
     except Exception as e:
         return Response(json.dumps(dict(error=str(e))), status=500, mimetype='application/json')
-
-@bp.route('/facturacion', methods=('GET',))
-@bp.route('/facturacion/<id>', methods=('GET',))
-def dar_cliente(id=None):
-    if id:
-        sr = ServicioFacturacion()
-        map_facturacion = MapeadorFacturacionDTOJson()
-        
-        return map_facturacion.dto_a_externo(sr.obtener_cliente_por_id(id))
-    else:
-        return [{'message': 'GET!'}]
-    
-@bp.route('/facturacion-query', methods=('GET',))
-@bp.route('/facturacion-query/<id>', methods=('GET',))
-def dar_cliente_query(id=None):
-    if id:
-        query_resultado = ejecutar_query(ObtenerFacturacion(id))
-        map_facturacion = MapeadorFacturacionDTOJson()
-        
-        return map_facturacion.dto_a_externo(query_resultado.resultado)
-    else:
-        sr = ServicioFacturacion()
-        map_facturacion = MapeadorFacturacionDTOJson()
-        
-        return map_facturacion.dto_a_externo(sr.obtener_todos_los_clientes())
