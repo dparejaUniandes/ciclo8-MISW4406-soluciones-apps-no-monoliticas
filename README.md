@@ -71,8 +71,12 @@ docker build --no-cache -t flask_app .
 docker run -d -p 5001:5000 \
   -e FLASK_APP=src/gestionclientes/api \
   -e FLASK_ENV=development \
+  -e DB_HOST_URL=db-postgres \
+  -e DB_NAME=gestionclientes \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=12345 \
+  -e DB_PORT=5432 \
   --name monolitica_flask_app flask_app
-
 ```
 
 ### Ver Logs del Contenedor
