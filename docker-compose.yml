@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: gestionclientes
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: flask_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      FLASK_APP: src/gestionclientes/api
+      FLASK_ENV: development
+      DATABASE_URL: postgresql://admin:password@db:5432/gestionclientes
+    ports:
+      - "5000:5000"
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
