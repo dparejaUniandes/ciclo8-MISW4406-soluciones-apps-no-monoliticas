@@ -13,13 +13,13 @@ from gestionclientes.seedwork.dominio.fabricas import Fabrica
 from gestionclientes.seedwork.dominio.repositorios import Repositorio
 
 from .excepciones import ExcepcionFabrica
-from .repositorios import RepositorioFacturacionSQLite
+from .repositorios import RepositorioFacturacionPosgresql
 
 
 @dataclass
 class FabricaRepositorio(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Repositorio:
         if obj == RepositorioFacturacion.__class__:
-            return RepositorioFacturacionSQLite()
+            return RepositorioFacturacionPosgresql()
         else:
             raise ExcepcionFabrica()

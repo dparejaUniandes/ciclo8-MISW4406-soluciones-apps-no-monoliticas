@@ -9,9 +9,9 @@ from uuid import UUID
 
 from gestionclientes.config.db import db
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
-from gestionclientes.modulos.facturacion.dominio.fabricas import FabricaFacturacion
-from gestionclientes.modulos.facturacion.dominio.objetos_valor import \
-    MedioPago
+from gestionclientes.modulos.facturacion.dominio.fabricas import \
+    FabricaFacturacion
+from gestionclientes.modulos.facturacion.dominio.objetos_valor import MedioPago
 from gestionclientes.modulos.facturacion.dominio.repositorios import \
     RepositorioFacturacion
 
@@ -19,7 +19,7 @@ from .dto import Facturacion as FacturacionDTO
 from .mapeadores import MapeadorFacturacion
 
 
-class RepositorioFacturacionSQLite(RepositorioFacturacion):
+class RepositorioFacturacionPosgresql(RepositorioFacturacion):
 
     def __init__(self):
         self._fabrica_facturacion: FabricaFacturacion = FabricaFacturacion()

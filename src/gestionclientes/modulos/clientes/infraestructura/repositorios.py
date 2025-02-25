@@ -19,7 +19,7 @@ from .dto import Cliente as ClienteDTO
 from .mapeadores import MapeadorCliente
 
 
-class RepositorioClientesSQLite(RepositorioClientes):
+class RepositorioClientesPostgresql(RepositorioClientes):
 
     def __init__(self):
         self._fabrica_clientes: FabricaClientes = FabricaClientes()
