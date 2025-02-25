@@ -120,6 +120,8 @@ En el módulo de facturación podemos realizar un pago del cliente, este módulo
 
 ## Documentación de endpoints
 
+En la raíz del proyecto se encuentra el archivo `Entrega 3.postman_collection.json` el cual se puede exportar en postman para probar los siguientes endpoints:
+
 **Endpoint:** `/clientes/cliente` <br>
 **Método:** POST <br>
 **Descripción:** Permite la creación de un cliente, este endpoint hace uso de servicios para la integración interna de las acciones a realizar en el flujo de creación <br>
@@ -195,4 +197,5 @@ En el módulo de facturación podemos realizar un pago del cliente, este módulo
     "monto": 24
 }
 ```
+
 
