@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db-postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: gestionclientes
+      PGUSER: postgres
+    ports:
+      - "5433:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
+
+  app:
+    build: .
+    container_name: flask_app
+    restart: always
+    depends_on:
+      db-postgres:
+        condition: service_healthy
+    environment:
+      FLASK_APP: src/gestionclientes/api
+      FLASK_ENV: development
+      DB_HOST_URL: db-postgres
+      DB_NAME: gestionclientes
+      DB_USER: postgres
+      DB_PASSWORD: 123456
+      DB_PORT: 5432
+  
+    ports:
+      - "5001:5000"
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
