@@ -3,6 +3,10 @@ En la materia de la maestría se aprenden conceptos relacionados a DDD y cómo c
 
 - Este proyecto utiliza Flask como framework web y PostgreSQL como base de datos. La aplicación puede ejecutarse tanto en un entorno local como en contenedores Docker.
 
+## Vídeo
+
+[Vídeo entrega](https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EXrh8fZ4i5NMgyrcaS-AcxMBh1PMV-VZmhzlsWdOU0WrIg?e=lN80mg)
+
 ## Ejecutar Aplicación
 
 Desde el directorio principal ejecute el siguiente comando.
