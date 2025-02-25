@@ -31,6 +31,7 @@ class UnidadTrabajo(ABC):
         for batch in batches:
             for arg in batch.args:
                 if isinstance(arg, AgregacionRaiz):
+                    print("Evento*** 2: ", arg.eventos)
                     return arg.eventos
         return list()
 

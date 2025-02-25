@@ -4,6 +4,8 @@ from flask import (Flask, Response, jsonify, redirect, render_template,
                    request, session, url_for)
 
 import gestionclientes.seedwork.presentacion.api as api
+from gestionclientes.modulos.clientes.aplicacion.comandos.actualizar_cliente import \
+    ActualizarCliente
 from gestionclientes.modulos.clientes.aplicacion.comandos.crear_cliente import \
     CrearCliente
 from gestionclientes.modulos.clientes.aplicacion.mapeadores import \

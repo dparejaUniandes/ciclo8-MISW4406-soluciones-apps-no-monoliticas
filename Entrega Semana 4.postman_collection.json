@@ -37,6 +37,33 @@
 					"response": []
 				},
 				{
+					"name": "Actualizar cliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"David\",\n    \"apellidos\": \"Pareja Arango 1234\",\n    \"correo\": \"david@gmail.com\",\n    \"contrasena\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/clientes/cliente",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"clientes",
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Crear cliente asincrono",
 					"request": {
 						"method": "POST",
@@ -131,6 +158,60 @@
 								"clientes",
 								"cliente-query",
 								"dd9b7d6b-2b91-4272-a1d0-5d3d813123b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Realizar pago",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"medioPago\": \"PSE\",\n    \"idCliente\": \"6e0471a7-7478-46a3-89fa-f363caa73dd4\",\n    \"monto\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/facturacion/realizar-pago",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"facturacion",
+								"realizar-pago"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Realizar pago comando",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"medioPago\": \"TarjetaCredito\",\n    \"idCliente\": \"123\",\n    \"monto\": 24\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/facturacion/realizar-pago-comando",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"facturacion",
+								"realizar-pago-comando"
 							]
 						}
 					},

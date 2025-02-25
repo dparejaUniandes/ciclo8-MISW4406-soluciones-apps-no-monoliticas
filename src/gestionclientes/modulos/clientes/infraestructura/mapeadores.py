@@ -35,7 +35,6 @@ class MapeadorCliente(Mapeador):
 
     def dto_a_entidad(self, dto: ClienteDTO) -> any:
         if type(dto) is ClienteDTO:
-            print("infra only dto")
             nombre = NombreCliente(
                 nombre = dto.nombre,
                 apellidos = dto.apellidos
@@ -54,7 +53,6 @@ class MapeadorCliente(Mapeador):
                 idDesdeBD=dto.id, 
             )
             return cliente
-        print("infra all dto", dto)
         clientes = []
         for clienteDTO in dto:
             nombre = NombreCliente(
@@ -74,5 +72,4 @@ class MapeadorCliente(Mapeador):
                 estadoPlan=clienteDTO.estado_plan.value,
                 idDesdeBD=clienteDTO.id
             ))
-        print("infra all dto Fin")
         return clientes

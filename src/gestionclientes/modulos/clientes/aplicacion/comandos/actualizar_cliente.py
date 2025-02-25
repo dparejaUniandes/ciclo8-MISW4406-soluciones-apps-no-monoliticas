@@ -4,6 +4,7 @@ from gestionclientes.modulos.clientes.aplicacion.dto import ClienteDTO
 from gestionclientes.modulos.clientes.aplicacion.mapeadores import \
     MapeadorCliente
 from gestionclientes.modulos.clientes.dominio.entidades import Cliente
+from gestionclientes.modulos.clientes.dominio.objetos_valor import EstadoPlan
 from gestionclientes.modulos.clientes.infraestructura.repositorios import \
     RepositorioClientes
 from gestionclientes.seedwork.aplicacion.comandos import Comando
@@ -15,27 +16,15 @@ from .base import ClienteBaseHandler
 
 
 @dataclass
-class CrearCliente(Comando):
-    fecha_creacion: str
-    fecha_actualizacion: str
+class ActualizarCliente(Comando):
     id: str
-    nombre: str
-    apellidos: str
-    correo: str
-    contrasena: str
     estadoPlan: str
 
-class CrearClienteHandler(ClienteBaseHandler):
+class ActualizarClienteHandler(ClienteBaseHandler):
     
-    def handle(self, comando: CrearCliente):
+    def handle(self, comando: ActualizarCliente):
         cliente_dto = ClienteDTO(
-            fecha_actualizacion=comando.fecha_actualizacion,
-            fecha_creacion=comando.fecha_creacion,
-            id=comando.id,
-            nombre=comando.nombre,
-            apellidos=comando.apellidos,
-            correo=comando.correo,
-            contrasena=comando.contrasena,
+            idDesdeBD=comando.id,
             estadoPlan=comando.estadoPlan
         )
 
@@ -44,13 +33,13 @@ class CrearClienteHandler(ClienteBaseHandler):
 
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioClientes.__class__)
 
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, cliente)
+        UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, cliente)
         UnidadTrabajoPuerto.savepoint()
         UnidadTrabajoPuerto.commit()
 
 
-@comando.register(CrearCliente)
-def ejecutar_comando_crear_cliente(comando: CrearCliente):
-    handler = CrearClienteHandler()
+@comando.register(ActualizarCliente)
+def ejecutar_comando_crear_cliente(comando: ActualizarCliente):
+    handler = ActualizarClienteHandler()
     handler.handle(comando)
     

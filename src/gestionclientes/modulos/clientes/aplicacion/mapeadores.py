@@ -15,7 +15,8 @@ class MapeadorClienteDTOJson(AppMap):
             apellidos = externo.get('apellidos', ""),
             correo = externo.get('correo', ""),
             contrasena = externo.get('contrasena', ""),
-            estadoPlan = EstadoPlan.PENDIENTE.value
+            estadoPlan = externo.get('estado', EstadoPlan.PENDIENTE.value),
+            idDesdeBD = externo.get('id_cliente', "")
         )
 
         return cliente_dto
@@ -33,7 +34,20 @@ class MapeadorClienteDTOJson(AppMap):
                 "estadoPlan": dto.estadoPlan
             }
             return clienteExterno
-        return dto
+        
+        clientesExterno = []
+        for cliente in dto:
+            clientesExterno.append({
+                "fecha_actualizacion": cliente.fecha_actualizacion,
+                "fecha_creacion": cliente.fecha_creacion,
+                "id": cliente.idDesdeBD,
+                "nombre": cliente.nombre,
+                "apellidos": cliente.apellidos,
+                "correo": cliente.correo,
+                "contrasena": cliente.contrasena,
+                "estadoPlan": cliente.estadoPlan
+            })
+        return clientesExterno
 
 class MapeadorCliente(RepMap):
     _FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
@@ -83,7 +97,8 @@ class MapeadorCliente(RepMap):
             nombre = nombre,
             correo = CorreoCliente(dto.correo),
             contrasena = dto.contrasena,
-            estadoPlan = dto.estadoPlan
+            estadoPlan = dto.estadoPlan,
+            idDesdeBD=dto.idDesdeBD
         )
         
         return cliente

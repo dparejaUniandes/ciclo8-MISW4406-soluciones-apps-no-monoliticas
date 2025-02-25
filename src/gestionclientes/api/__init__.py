@@ -6,6 +6,10 @@ from flask_swagger import swagger
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+def registrar_handlers():
+    import gestionclientes.modulos.clientes.aplicacion
+    import gestionclientes.modulos.facturacion.aplicacion
+
 def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
     import gestionclientes.modulos.facturacion.infraestructura.dto
@@ -34,6 +38,7 @@ def create_app(configuracion={}):
     from gestionclientes.config.db import db
 
     importar_modelos_alchemy()
+    registrar_handlers()
 
     app_context = app.app_context()
     app_context.push()

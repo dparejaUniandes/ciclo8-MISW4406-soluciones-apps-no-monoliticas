@@ -10,11 +10,12 @@ import uuid
 from dataclasses import dataclass, field
 
 import gestionclientes.modulos.facturacion.dominio.objetos_valor as ov
-from gestionclientes.seedwork.dominio.entidades import Entidad
+from gestionclientes.modulos.facturacion.dominio.eventos import PagoRealizado
+from gestionclientes.seedwork.dominio.entidades import AgregacionRaiz, Entidad
 
 
 @dataclass
-class Facturacion(Entidad):
+class Facturacion(AgregacionRaiz):
     medioPago: ov.MedioPago = field(default_factory=ov.MedioPago)
     idCliente: ov.IdCliente = field(default_factory=ov.IdCliente)
     monto: int = field(default_factory=int)
@@ -24,3 +25,5 @@ class Facturacion(Entidad):
         self.medioPago = facturacion.medioPago
         self.idCliente = facturacion.idCliente
         self.monto = facturacion.monto
+
+        self.agregar_evento(PagoRealizado(id_cliente=self.idCliente, estado="PAGADO"))

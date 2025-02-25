@@ -41,10 +41,10 @@ class RepositorioClientesSQLite(RepositorioClientes):
         db.session.add(cliente_dto)
         db.session.commit()
 
-    def actualizar(self, reserva: Cliente):
-        # TODO
-        raise NotImplementedError
+    def actualizar(self, cliente: Cliente):
+        db.session.query(ClienteDTO).filter(ClienteDTO.id == cliente.idDesdeBD).update({'estado_plan': cliente.estadoPlan})
+        db.session.commit()
 
-    def eliminar(self, reserva_id: UUID):
+    def eliminar(self, cliente_id: UUID):
         # TODO
         raise NotImplementedError

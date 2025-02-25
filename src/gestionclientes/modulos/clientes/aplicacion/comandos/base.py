@@ -4,7 +4,7 @@ from gestionclientes.modulos.clientes.infraestructura.fabricas import \
 from gestionclientes.seedwork.aplicacion.comandos import ComandoHandler
 
 
-class CrearClienteBaseHandler(ComandoHandler):
+class ClienteBaseHandler(ComandoHandler):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
         self._fabrica_clientes: FabricaClientes = FabricaClientes()
