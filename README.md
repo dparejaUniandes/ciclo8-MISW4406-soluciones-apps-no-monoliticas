@@ -63,6 +63,7 @@ docker stop monolitica_flask_app && docker rm monolitica_flask_app
 ```
 
 ### Recrear el Contenedor
+Para recrear el contenedor, usa:
 ```
 docker stop monolitica_flask_app && docker rm monolitica_flask_app
 
