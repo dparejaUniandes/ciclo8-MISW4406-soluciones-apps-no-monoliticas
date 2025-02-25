@@ -106,3 +106,93 @@ docker rmi flask_app
 
 - Si tienes problemas o dudas, revisa los logs con:
     docker container logs <nombre_del_contenedor>
+```
+
+
+# Explicación
+Para la entrega 3 hemos decidido crear el microservicio para la gestión de clientes, en este se encuentran los módulos de clientes y facturación.
+En el módulo de clientes podemos realizar varias acciones como:
+* Crear un cliente
+* Consultar un cliente por id
+* Consultar el listado de todos los clientes
+
+En el módulo de facturación podemos realizar un pago del cliente, este módulo permite el envío de un evento interno para que el módulo de clientes los pueda recibir, con esto, se pretenden que el cliente pueda actualizar el estado del plan con el estado que emite el módulo de facturación.
+
+## Documentación de endpoints
+
+**Endpoint:** `/clientes/cliente` <br>
+**Método:** POST <br>
+**Descripción:** Permite la creación de un cliente, este endpoint hace uso de servicios para la integración interna de las acciones a realizar en el flujo de creación <br>
+**Cuerpo:** 
+```
+{
+    "nombre": "Pepito",
+    "apellidos": "Pérez",
+    "correo": "pepito@gmail.com",
+    "contrasena": "12345"
+}
+```
+<br>
+
+**Endpoint:** `/clientes/cliente/<:id>` <br>
+**Método:** GET <br>
+**Descripción:** Permite la consulta de un cliente por id, este endpoint hace uso de servicios para la integración interna de las acciones a realizar en el flujo de consulta por id <br>
+**Cuerpo:** N/A
+
+<br>
+
+**Endpoint:** `/clientes/cliente-query` <br>
+**Método:** GET <br>
+**Descripción:** Permite la consulta de todos los clientes almacenados en la base de datos, este endpoint hace uso de query para la integración interna de las acciones a realizar en el flujo de consulta <br>
+**Cuerpo:** N/A
+
+<br>
+
+**Endpoint:** `/clientes/cliente-comando` <br>
+**Método:** POST <br>
+**Descripción:** Permite la creación de un cliente, este endpoint hace uso de comandos para la integración interna de las acciones a realizar en el flujo de creación <br>
+**Cuerpo:** 
+```
+{
+    "nombre": "Pepito",
+    "apellidos": "Pérez",
+    "correo": "pepito@gmail.com",
+    "contrasena": "12345"
+}
+```
+
+<br>
+
+**Endpoint:** `/clientes/cliente-query/<:id>` <br>
+**Método:** GET <br>
+**Descripción:** Permite la consulta de un cliente por id, este endpoint hace uso de query para la integración interna de las acciones a realizar en el flujo de consulta por id <br>
+**Cuerpo:** N/A
+
+<br>
+
+**Endpoint:** `/facturacion/realizar-pago-comando` <br>
+**Método:** POST <br>
+**Descripción:** Permite la realización de un pago, este endpoint hace uso de comando para la integración interna de las acciones a realizar en el flujo de realización de pago <br>
+**Cuerpo:** 
+```
+{
+    "medioPago": "TarjetaCredito",
+    "idCliente": "17d00874-4d13-4613-8d22-ef905472b7c7",
+    "monto": 24
+}
+```
+
+<br>
+
+**Endpoint:** `/facturacion/realizar-pago` <br>
+**Método:** POST <br>
+**Descripción:** Permite la realización de un pago, este endpoint hace uso de servicio para la integración interna de las acciones a realizar en el flujo de realización de pago <br>
+**Cuerpo:** 
+```
+{
+    "medioPago": "TarjetaCredito",
+    "idCliente": "17d00874-4d13-4613-8d22-ef905472b7c7",
+    "monto": 24
+}
+```
+
