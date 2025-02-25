@@ -37,33 +37,6 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar cliente",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nombre\": \"David\",\n    \"apellidos\": \"Pareja Arango 1234\",\n    \"correo\": \"david@gmail.com\",\n    \"contrasena\": \"12345\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{HOST}}/clientes/cliente",
-							"host": [
-								"{{HOST}}"
-							],
-							"path": [
-								"clientes",
-								"cliente"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Crear cliente asincrono",
 					"request": {
 						"method": "POST",
