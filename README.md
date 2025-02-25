@@ -5,7 +5,9 @@ En la materia de la maestría se aprenden conceptos relacionados a DDD y cómo c
 
 ## Vídeo
 
-[Vídeo entrega](https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EXrh8fZ4i5NMgyrcaS-AcxMBh1PMV-VZmhzlsWdOU0WrIg?e=lN80mg)
+[Vídeo entrega]([https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EXrh8fZ4i5NMgyrcaS-AcxMBh1PMV-VZmhzlsWdOU0WrIg?e=lN80mg](https://uniandes-my.sharepoint.com/:v:/g/personal/l_mendozah_uniandes_edu_co/EcDCkehzhjJKr4mbspneXVkBIEJNxTC0OL0OqjNPW6kRsQ?e=vz5cfN))
+
+https://uniandes-my.sharepoint.com/:v:/g/personal/l_mendozah_uniandes_edu_co/EcDCkehzhjJKr4mbspneXVkBIEJNxTC0OL0OqjNPW6kRsQ?e=vz5cfN
 
 ## Ejecutar Aplicación
 
