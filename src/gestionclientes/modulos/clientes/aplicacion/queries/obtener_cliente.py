@@ -19,7 +19,7 @@ class ObtenerClienteHandler(ClienteQueryBaseHandler):
 
     def handle(self, query: ObtenerCliente) -> QueryResultado:
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioClientes.__class__)
-        cliente =  self.fabrica_vuelos.crear_objeto(repositorio.obtener_por_id(query.id), MapeadorCliente())
+        cliente =  self.fabrica_clientes.crear_objeto(repositorio.obtener_por_id(query.id), MapeadorCliente())
         return QueryResultado(resultado=cliente)
 
 @query.register(ObtenerCliente)

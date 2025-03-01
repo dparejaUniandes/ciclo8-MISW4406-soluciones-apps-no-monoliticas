@@ -7,12 +7,12 @@ from gestionclientes.seedwork.aplicacion.queries import QueryHandler
 class ClienteQueryBaseHandler(QueryHandler):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
-        self._fabrica_vuelos: FabricaClientes = FabricaClientes()
+        self._fabrica_clientes: FabricaClientes = FabricaClientes()
 
     @property
     def fabrica_repositorio(self):
         return self._fabrica_repositorio
     
     @property
-    def fabrica_vuelos(self):
-        return self._fabrica_vuelos    
+    def fabrica_clientes(self):
+        return self._fabrica_clientes    

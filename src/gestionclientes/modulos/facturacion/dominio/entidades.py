@@ -18,7 +18,7 @@ from gestionclientes.seedwork.dominio.entidades import AgregacionRaiz, Entidad
 class Facturacion(AgregacionRaiz):
     medioPago: ov.MedioPago = field(default_factory=ov.MedioPago)
     idCliente: ov.IdCliente = field(default_factory=ov.IdCliente)
-    monto: int = field(default_factory=int)
+    monto: float = field(default_factory=float)
 
 
     def crear_facturacion(self, facturacion: Facturacion):
@@ -26,4 +26,4 @@ class Facturacion(AgregacionRaiz):
         self.idCliente = facturacion.idCliente
         self.monto = facturacion.monto
 
-        self.agregar_evento(PagoRealizado(id_cliente=self.idCliente, estado="PAGADO"))
+        self.agregar_evento(PagoRealizado(id_cliente=self.idCliente, estado="PAGADO", monto=self.monto))
