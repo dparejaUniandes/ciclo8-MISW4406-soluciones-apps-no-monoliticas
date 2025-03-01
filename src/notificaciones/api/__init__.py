@@ -6,13 +6,14 @@ from flask_swagger import swagger
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 def registrar_handlers():
-    import gestionclientes.modulos.clientes.aplicacion
-    import gestionclientes.modulos.facturacion.aplicacion
+    import notificaciones.modulos.notificaciones.aplicacion
+
 
 def importar_modelos_alchemy():
-    import gestionclientes.modulos.clientes.infraestructura.dto
-    import gestionclientes.modulos.facturacion.infraestructura.dto
+    import notificaciones.modulos.notificaciones.infraestructura.dto
+
 
 def create_app(configuracion={}):
     # Init la aplicacion de Flask
@@ -31,11 +32,11 @@ def create_app(configuracion={}):
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['TESTING'] = configuracion.get('TESTING')
 
-     # Inicializa la DB
-    from gestionclientes.config.db import init_db
+    # Inicializa la DB
+    from notificaciones.config.db import init_db
     init_db(app)
 
-    from gestionclientes.config.db import db
+    from notificaciones.config.db import db
 
     importar_modelos_alchemy()
     registrar_handlers()
@@ -45,13 +46,13 @@ def create_app(configuracion={}):
     # with app.app_context():
     db.create_all()
 
-     # Importa Blueprints
-    from . import clientes, facturacion
+    # Importa Blueprints
+    from . import notificacion
 
     # Registro de Blueprints
-    app.register_blueprint(clientes.bp)
-    app.register_blueprint(facturacion.bp)
-    
+    app.register_blueprint(notificacion.bp)
+
+
     @app.route("/spec")
     def spec():
         swag = swagger(app)
