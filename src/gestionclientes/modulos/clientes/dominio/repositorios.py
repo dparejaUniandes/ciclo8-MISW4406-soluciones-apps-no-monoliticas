@@ -1,7 +1,7 @@
-""" Interfaces para los repositorios del dominio de notificaciones
+""" Interfaces para los repositorios del dominio de gestion de clientes
 
 En este archivo usted encontrará las diferentes interfaces para repositorios
-del dominio de notificaciones
+del dominio de gestion de clientes
 
 """
 
@@ -10,5 +10,5 @@ from abc import ABC
 from gestionclientes.seedwork.dominio.repositorios import Repositorio
 
 
-class RepositorioNotificaciones(Repositorio, ABC):
-    """ Interfaz para los repositorios de notificaciones """
+class RepositorioClientes(Repositorio, ABC):
+    ...

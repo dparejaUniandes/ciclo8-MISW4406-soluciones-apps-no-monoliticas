@@ -8,7 +8,7 @@ services:
 # Start zookeeper
   zookeeper:
     image: apachepulsar/pulsar:latest
-    profiles: ["pulsar"]
+    # profiles: ["pulsar"]
     container_name: zookeeper
     restart: on-failure
     networks:
@@ -32,7 +32,7 @@ services:
     container_name: pulsar-init
     hostname: pulsar-init
     image: apachepulsar/pulsar:latest
-    profiles: ["pulsar"]
+    # profiles: ["pulsar"]
     networks:
       - pulsar
     command: bin/pulsar initialize-cluster-metadata --cluster cluster-a --zookeeper zookeeper:2181 --configuration-store zookeeper:2181 --web-service-url http://broker:8080 --broker-service-url pulsar://broker:6650
@@ -43,7 +43,7 @@ services:
 # Start bookie
   bookie:
     image: apachepulsar/pulsar:latest
-    profiles: ["pulsar"]
+    # profiles: ["pulsar"]
     container_name: bookie
     restart: on-failure
     networks:
@@ -66,7 +66,7 @@ services:
 # Start broker
   broker:
     image: apachepulsar/pulsar:latest
-    profiles: ["pulsar"]
+    # profiles: ["pulsar"]
     container_name: broker
     hostname: broker
     restart: on-failure
@@ -94,7 +94,7 @@ services:
 
   db-postgres:
     image: postgres:15-alpine
-    profiles: ["app"]
+    # profiles: ["app"]
     container_name: postgres_db
     restart: always
     environment:
@@ -112,10 +112,12 @@ services:
       retries: 5
 
   app_gestionclientes:
-    # build: .
+    build: 
+      context: .
+      dockerfile: gestionclientes.Dockerfile
     container_name: flask_app
-    image: gestionclientes/flask 
-    profiles: ["app"]
+    # image: gestionclientes/flask 
+    # profiles: ["app"]
     restart: always
     depends_on:
       db-postgres:
@@ -140,10 +142,12 @@ services:
       - pulsar
   
   app_integracionpagos:
-    # build: .
+    build: 
+      context: .
+      dockerfile: ./integracionpagos.Dockerfile
     container_name: flask_app_integracionpagos
-    image: integracionpagos/flask 
-    profiles: ["app"]
+    # image: integracionpagos/flask 
+    # profiles: ["app"]
     restart: always
     depends_on:
       db-postgres:
