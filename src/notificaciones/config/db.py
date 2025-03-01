@@ -9,7 +9,7 @@ DB_PORT = os.environ.get("DB_PORT", "5432")
 DB_HOST_URL = os.environ.get("DB_HOST_URL", "127.0.0.1")
 DB_NAME = os.environ.get("DB_NAME", "notificaciones")
 DB_USER = os.environ.get("DB_USER", "postgres")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "12345")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "29062013")
 
 
 def init_db(app: Flask):

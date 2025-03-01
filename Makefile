@@ -25,6 +25,10 @@ run:
 	export FLASK_APP=src/gestionclientes/api; \
 	. $(VENV_DIR)/bin/activate && flask --app src/gestionclientes/api run
 
+run_notificaciones:
+	export FLASK_APP=src/notificaciones/api; \
+	. $(VENV_DIR)/bin/activate && flask --app src/notificaciones/api run
+
 
 # Eliminar el entorno virtual
 # Elimina el directorio venv y los archivos __pycache__.

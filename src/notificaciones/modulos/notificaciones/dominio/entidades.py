@@ -13,15 +13,14 @@ from notificaciones.seedwork.dominio.entidades import AgregacionRaizNotificacion
 
 @dataclass
 class Notificacion(AgregacionRaizNotificacion):
-    nombre: ov.NombreCliente = field(default_factory=ov.NombreCliente)
-    correo: ov.CorreoCliente = field(default_factory=ov.CorreoCliente)
-    contrasena: str = field(default_factory=str)
-    estadoPlan: ov.EstadoPlan = field(default_factory=ov.EstadoPlan)
-    idDesdeBD: str = field(default_factory=str)
+    """ Entidad de notificaciones """
+    tipo: ov.NombreCliente = field(default_factory=ov.NombreCliente)
+    valor: ov.CorreoCliente = field(default_factory=ov.CorreoCliente)
+    medio: ov.TipoMedio = field(default_factory=ov.TipoMedio)
 
-    def crear_notificacion(self, cliente: Notificacion):
+
+    def crear_notificacion(self, notificacion: Notificacion):
         """ Crea una notificacion """
-        self.nombre = cliente.nombre
-        self.correo = cliente.correo
-        self.contrasena = cliente.contrasena
-        self.estadoPlan = cliente.estadoPlan
+        self.tipo = notificacion.tipo
+        self.valor = notificacion.valor
+        self.medio = notificacion.medio
