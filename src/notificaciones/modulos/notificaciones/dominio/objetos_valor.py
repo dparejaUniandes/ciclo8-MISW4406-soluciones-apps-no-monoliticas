@@ -8,20 +8,29 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
+import re
 
-from gestionclientes.seedwork.dominio.objetos_valor import ObjetoValor
+from notificaciones.seedwork.dominio.objetos_valor import ObjetoValor
 
+
+class TipoMedio(Enum):
+    """ Posibles medios de notificación """
+    CORREO = "correo"
+    SMS = "sms"
+    PUSH = "push"
 
 @dataclass(frozen=True)
-class NombreCliente(ObjetoValor):
-    nombre: str
-    apellidos: str
+class TipoNotificacion(ObjetoValor):
+    """ Tipo de notificación (ej. Alerta, Recordatorio) """
+    tipo: str
 
 @dataclass(frozen=True)
-class CorreoCliente(ObjetoValor):
-    correo: str
+class MedioNotificacion:
+    """ Medio de notificación con validación """
+    medio: TipoMedio
+    valor: str
 
-class EstadoPlan(Enum):
-    PAGADO = "PAGADO"
-    ATRASADO = "ATRASADO"
-    PENDIENTE = "PENDIENTE"
+    def __post_init__(self):
+        if self.medio == TipoMedio.CORREO:
+            if not re.match(r"[^@]+@[^@]+\.[^@]+", self.valor):
+                raise ValueError(f"Correo inválido: {self.valor}")
