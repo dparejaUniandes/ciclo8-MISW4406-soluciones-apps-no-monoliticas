@@ -3,6 +3,8 @@ version: '3.8'
 networks:
   pulsar:
     driver: bridge
+  db_gestionclientes:
+    driver: bridge
 
 services:
 # Start zookeeper
@@ -94,7 +96,7 @@ services:
 
   db-postgres:
     image: postgres:15-alpine
-    # profiles: ["app"]
+    # profiles: ["db"]
     container_name: postgres_db
     restart: always
     environment:
@@ -110,6 +112,8 @@ services:
       interval: 40s
       timeout: 20s
       retries: 5
+    networks:
+      - db_gestionclientes
 
   app_gestionclientes:
     build: 
@@ -140,33 +144,34 @@ services:
       - .:/app
     networks:
       - pulsar
+      - db_gestionclientes
   
-  app_integracionpagos:
-    build: 
-      context: .
-      dockerfile: ./integracionpagos.Dockerfile
-    container_name: flask_app_integracionpagos
-    # image: integracionpagos/flask 
-    # profiles: ["app"]
-    restart: always
-    depends_on:
-      db-postgres:
-        condition: service_healthy
-      broker:
-        condition: service_started
-    environment:
-      FLASK_APP: src/integracionpagos
-      FLASK_ENV: development
-      DB_HOST_URL: db-postgres
-      DB_NAME: integracionpagos
-      DB_USER: postgres
-      DB_PASSWORD: 123456
-      DB_PORT: 5432
+  # app_integracionpagos:
+  #   build: 
+  #     context: .
+  #     dockerfile: ./integracionpagos.Dockerfile
+  #   container_name: flask_app_integracionpagos
+  #   # image: integracionpagos/flask 
+  #   # profiles: ["app"]
+  #   restart: always
+  #   depends_on:
+  #     db-postgres:
+  #       condition: service_healthy
+  #     broker:
+  #       condition: service_started
+  #   environment:
+  #     FLASK_APP: src/integracionpagos
+  #     FLASK_ENV: development
+  #     DB_HOST_URL: db-postgres
+  #     DB_NAME: integracionpagos
+  #     DB_USER: postgres
+  #     DB_PASSWORD: 123456
+  #     DB_PORT: 5432
   
-    volumes:
-      - .:/app
-    networks:
-      - pulsar
+  #   volumes:
+  #     - .:/app
+  #   networks:
+  #     - pulsar
 
 volumes:
   postgres_data:
