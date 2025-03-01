@@ -1,10 +1,10 @@
 [project]
-name = "aeroalpes"
+name = "SaludTech"
 version = "1.0.0"
 authors = [
   { name="Equipo Monoliticas", email="" },
 ]
-description = "Proyecto de ejemplo de AeroAlpes"
+description = "Proyecto de ejemplo de SaludTech"
 readme = "README.md"
 requires-python = ">=3.10"
 

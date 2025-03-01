@@ -10,3 +10,4 @@ from gestionclientes.seedwork.dominio.eventos import EventoDominio
 class PagoRealizado(EventoDominio):
     id_cliente: uuid.UUID = None
     estado: str = None
+    monto: float = None

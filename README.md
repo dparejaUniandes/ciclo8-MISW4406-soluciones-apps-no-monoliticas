@@ -1,6 +1,15 @@
 # 📌  ciclo8-MISW4406-soluciones-apps-no-monoliticas
 En la materia de la maestría se aprenden conceptos relacionados a DDD y cómo crear aplicación no monolíticas
 
+# ENTREGA 2
+
+### Correr docker-compose usando profiles
+```bash
+docker-compose --profile pulsar up
+```
+
+# ENTREGA 1
+
 - Este proyecto utiliza Flask como framework web y PostgreSQL como base de datos. La aplicación puede ejecutarse tanto en un entorno local como en contenedores Docker.
 
 ## Vídeo
