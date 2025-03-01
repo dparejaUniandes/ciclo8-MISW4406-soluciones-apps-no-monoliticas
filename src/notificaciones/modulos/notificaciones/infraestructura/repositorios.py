@@ -11,7 +11,7 @@ from notificaciones.config.db import db
 from notificaciones.modulos.notificaciones.dominio.entidades import Notificacion
 from notificaciones.modulos.notificaciones.dominio.fabricas import FabricaNotificaciones
 from notificaciones.modulos.notificaciones.dominio.objetos_valor import \
-    NombreNotificacion
+    TipoMedio
 from notificaciones.modulos.notificaciones.dominio.repositorios import \
     RepositorioNotificaciones
 

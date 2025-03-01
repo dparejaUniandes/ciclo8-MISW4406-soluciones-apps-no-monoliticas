@@ -10,31 +10,29 @@ from gestionclientes.modulos.clientes.dominio.objetos_valor import (
     CorreoCliente, NombreCliente)
 from gestionclientes.seedwork.dominio.repositorios import Mapeador
 
-from .dto import Cliente as ClienteDTO
+from .dto import Notificacion as NotificacionDTO
 
 
-class MapeadorCliente(Mapeador):
+class MapeadorNotificacion(Mapeador):
     _FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
 
     def obtener_tipo(self) -> type:
         return Cliente.__class__
 
-    def entidad_a_dto(self, entidad: Cliente) -> ClienteDTO:
+    def entidad_a_dto(self, entidad: Cliente) -> NotificacionDTO:
         
-        cliente_dto = ClienteDTO()
+        cliente_dto = NotificacionDTO()
         cliente_dto.fecha_creacion = entidad.fecha_creacion
         cliente_dto.fecha_actualizacion = entidad.fecha_actualizacion
         cliente_dto.id = str(entidad.id)
         cliente_dto.nombre = entidad.nombre.nombre
         cliente_dto.apellidos = entidad.nombre.apellidos
-        cliente_dto.correo = entidad.correo.correo
-        cliente_dto.contrasena = entidad.contrasena
-        cliente_dto.estado_plan = entidad.estadoPlan
+   
 
         return cliente_dto
 
-    def dto_a_entidad(self, dto: ClienteDTO) -> any:
-        if type(dto) is ClienteDTO:
+    def dto_a_entidad(self, dto: NotificacionDTO) -> any:
+        if type(dto) is NotificacionDTO:
             nombre = NombreCliente(
                 nombre = dto.nombre,
                 apellidos = dto.apellidos

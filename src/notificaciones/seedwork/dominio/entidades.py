@@ -48,7 +48,7 @@ class AgregacionRaiz(Entidad):
 
 
 @dataclass
-class AgregacionRaizCliente(Entidad):
+class AgregacionRaizNotificacion(Entidad):
     eventos: list[EventoDominio] = field(default_factory=list)
 
     def agregar_evento(self, evento: EventoDominio):

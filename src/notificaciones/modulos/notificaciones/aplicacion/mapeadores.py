@@ -1,51 +1,48 @@
-from gestionclientes.modulos.clientes.dominio.entidades import Notificacion
-from gestionclientes.modulos.clientes.dominio.objetos_valor import (
-    CorreoNotificacion, EstadoPlan, NombreNotificacion)
-from gestionclientes.seedwork.aplicacion.dto import Mapeador as AppMap
-from gestionclientes.seedwork.dominio.repositorios import Mapeador as RepMap
+from notificaciones.modulos.notificaciones.dominio.entidades import Notificacion
+from notificaciones.modulos.notificaciones.dominio.objetos_valor import (
+    TipoNotificacion, MedioNotificacion, TipoMedio)
+from notificaciones.seedwork.aplicacion.dto import Mapeador as AppMap
+from notificaciones.seedwork.dominio.repositorios import Mapeador as RepMap
 
 from .dto import NotificacionDTO
 
 
-class MapeadorNotificacionnDTOJson(AppMap):
+class MapeadorNotificacionDTOJson(AppMap):
     """ Mapeador de notificaciones a DTOs """
 
     def externo_a_dto(self, externo: dict) -> NotificacionDTO:
-        cliente_dto = NotificacionDTO(
+        notificacion_dto = NotificacionDTO(
             tipo=externo.get('tipo', ""),
             medio=externo.get('medio', ""),
             valor=externo.get('valor', ""),
         )
 
-        return cliente_dto
+        return notificacion_dto
 
     def dto_a_externo(self, dto: NotificacionDTO) -> any:
         if type(dto) is NotificacionDTO:
-            clienteExterno = {
+            notificacionExterno = {
                 "fecha_actualizacion": dto.fecha_actualizacion,
                 "fecha_creacion": dto.fecha_creacion,
                 "id": dto.idDesdeBD,
-                "nombre": dto.nombre,
-                "apellidos": dto.apellidos,
-                "correo": dto.correo,
-                "contrasena": dto.contrasena,
-                "estadoPlan": dto.estadoPlan
-            }
-            return clienteExterno
+                "tipo": dto.tipo,
+                "medio": dto.medio,
+                "valor": dto.valor
 
-        clientesExterno = []
-        for cliente in dto:
-            clientesExterno.append({
-                "fecha_actualizacion": cliente.fecha_actualizacion,
-                "fecha_creacion": cliente.fecha_creacion,
-                "id": cliente.idDesdeBD,
-                "nombre": cliente.nombre,
-                "apellidos": cliente.apellidos,
-                "correo": cliente.correo,
-                "contrasena": cliente.contrasena,
-                "estadoPlan": cliente.estadoPlan
+            }
+            return notificacionExterno
+
+        notificacionesExterno = []
+        for notificacion in dto:
+            notificacionesExterno.append({
+                "fecha_actualizacion": notificacion.fecha_actualizacion,
+                "fecha_creacion": notificacion.fecha_creacion,
+                "id": notificacion.idDesdeBD,
+                "tipo": notificacion.tipo,
+                "medio": notificacion.medio,
+                "valor": notificacion.valor
             })
-        return clientesExterno
+        return notificacionesExterno
 
 
 class MapeadorNotificacion(RepMap):
@@ -71,34 +68,29 @@ class MapeadorNotificacion(RepMap):
 
             )
 
-        clientesDTO = []
-        for cliente in entidad:
-            fecha_creacion = cliente.fecha_creacion.strftime(
+        notificacionesDTO = []
+        for notificacion in entidad:
+            fecha_creacion = notificacion.fecha_creacion.strftime(
                 self._FORMATO_FECHA)
-            fecha_actualizacion = cliente.fecha_actualizacion.strftime(
+            fecha_actualizacion = notificacion.fecha_actualizacion.strftime(
                 self._FORMATO_FECHA)
-            _id = str(cliente.id)
-            clientesDTO.append(NotificacionDTO(
+            _id = str(notificacion.id)
+            notificacionesDTO.append(NotificacionDTO(
                 fecha_creacion,
                 fecha_actualizacion,
                 _id,
-                cliente.nombre.nombre,
-                cliente.nombre.apellidos,
-                cliente.correo.correo,
-                cliente.contrasena,
-                cliente.estadoPlan,
-                cliente.idDesdeBD
+                notificacion.nombre.tipo,
+                notificacion.nombre.medio,
+                notificacion.correo.valor,
             ))
-        return clientesDTO
+        return notificacionesDTO
 
     def dto_a_entidad(self, dto: NotificacionDTO) -> Notificacion:
-        nombre = NombreNotificacion(dto.nombre, dto.apellidos)
-        cliente = Notificacion(
-            nombre=nombre,
-            correo=CorreoNotificacion(dto.correo),
-            contrasena=dto.contrasena,
-            estadoPlan=dto.estadoPlan,
-            idDesdeBD=dto.idDesdeBD
+        tipo = TipoNotificacion(dto.tipo)
+        notificacion = Notificacion(
+            tipo=tipo,
+            medio= TipoMedio(dto.medio),
+            valor=dto.contrasena
         )
 
-        return cliente
+        return notificacion

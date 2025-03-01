@@ -10,5 +10,5 @@ from abc import ABC
 from gestionclientes.seedwork.dominio.repositorios import Repositorio
 
 
-class RepositorioClientes(Repositorio, ABC):
-    ...
+class RepositorioNotificaciones(Repositorio, ABC):
+    """ Repositorio de notificaciones """

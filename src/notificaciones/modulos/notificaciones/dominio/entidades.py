@@ -7,16 +7,16 @@ En este archivo usted encontrará las entidades del dominio de notificaciones
 from __future__ import annotations
 from dataclasses import dataclass, field
 
-import notificaciones.modulos.clientes.dominio.objetos_valor as ov
+import notificaciones.modulos.notificaciones.dominio.objetos_valor as ov
 from notificaciones.seedwork.dominio.entidades import AgregacionRaizNotificacion
 
 
 @dataclass
 class Notificacion(AgregacionRaizNotificacion):
     """ Entidad de notificaciones """
-    tipo: ov.NombreCliente = field(default_factory=ov.NombreCliente)
-    valor: ov.CorreoCliente = field(default_factory=ov.CorreoCliente)
-    medio: ov.TipoMedio = field(default_factory=ov.TipoMedio)
+    tipo: ov.TipoNotificacion = field(default_factory=ov.TipoNotificacion)
+    valor: ov.MedioNotificacion = field(default_factory=ov.MedioNotificacion)
+    medio: ov.MedioNotificacion = field(default_factory=ov.MedioNotificacion)
 
 
     def crear_notificacion(self, notificacion: Notificacion):
