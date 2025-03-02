@@ -1,13 +1,21 @@
-import pulsar,_pulsar  
-from pulsar.schema import *
-import uuid
-import time
 import logging
+import time
 import traceback
+import uuid
 
-from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import EventoPagoRealizado
-from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos import ComandoRealizarPago
+import _pulsar
+import pulsar
+from pulsar.schema import *
+
+from gestionclientes.modulos.facturacion.aplicacion.comandos.actualizar_facturacion import \
+    ActualizarFacturacion
+from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos import \
+    ComandoRealizarPago
+from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import \
+    EventoPagoRealizado
+from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.infraestructura import utils
+
 
 def suscribirse_a_eventos():
     cliente = None
@@ -17,7 +25,14 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}')
+            print(f'Evento recibido desde integración de pagos: {mensaje.value().data}')
+
+            data = mensaje.value().data
+            comando = ActualizarFacturacion(
+                id_cliente=data.id_cliente,
+                estadoReportado=data.estado
+            )
+            ejecutar_commando(comando)
 
             consumidor.acknowledge(mensaje)     
 
@@ -36,7 +51,7 @@ def suscribirse_a_comandos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Comando recibido: {mensaje.value().data}')
+            print(f'Comando recibido desde facturación: {mensaje.value().data}')
 
             consumidor.acknowledge(mensaje)     
             

@@ -19,6 +19,7 @@ class Facturacion(AgregacionRaiz):
     medioPago: ov.MedioPago = field(default_factory=ov.MedioPago)
     idCliente: ov.IdCliente = field(default_factory=ov.IdCliente)
     monto: float = field(default_factory=float)
+    estado_reportado: str = field(default_factory=str)
 
 
     def crear_facturacion(self, facturacion: Facturacion):

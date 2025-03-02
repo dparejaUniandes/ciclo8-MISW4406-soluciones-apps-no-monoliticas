@@ -1,10 +1,11 @@
-from gestionclientes.modulos.facturacion.dominio.fabricas import FabricaFacturacion
+from gestionclientes.modulos.facturacion.dominio.fabricas import \
+    FabricaFacturacion
 from gestionclientes.modulos.facturacion.infraestructura.fabricas import \
     FabricaRepositorio
 from gestionclientes.seedwork.aplicacion.comandos import ComandoHandler
 
 
-class CrearFacturacionBaseHandler(ComandoHandler):
+class FacturacionBaseHandler(ComandoHandler):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
         self._fabrica_facturacion: FabricaFacturacion = FabricaFacturacion()

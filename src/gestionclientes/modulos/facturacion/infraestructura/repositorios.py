@@ -5,8 +5,8 @@ persistir objetos dominio (agregaciones) en la capa de infraestructura del domin
 
 """
 
-from uuid import UUID
 import uuid
+from uuid import UUID
 
 from gestionclientes.config.db import db
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
@@ -43,10 +43,10 @@ class RepositorioFacturacionPosgresql(RepositorioFacturacion):
         db.session.add(facturacion_dto)
         db.session.commit()
 
-    def actualizar(self, reserva: Facturacion):
-        # TODO
-        raise NotImplementedError
+    def actualizar(self, facturacion: Facturacion):
+        db.session.query(FacturacionDTO).filter(FacturacionDTO.id_cliente == facturacion.idCliente).update({'estado_reportado': facturacion.estado_reportado})
+        db.session.commit()
 
-    def eliminar(self, reserva_id: UUID):
+    def eliminar(self, facturacion_id: UUID):
         # TODO
         raise NotImplementedError

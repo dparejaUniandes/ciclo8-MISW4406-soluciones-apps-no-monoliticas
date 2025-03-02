@@ -16,4 +16,5 @@ class Facturacion(db.Model):
     medio_pago = db.Column(db.String, nullable=False)
     id_cliente = db.Column(db.String, nullable=False)
     monto = db.Column(db.Float, nullable=False)
+    estado_reportado = db.Column(db.String, nullable=False)
     

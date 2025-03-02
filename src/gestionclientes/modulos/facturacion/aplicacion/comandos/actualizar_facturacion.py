@@ -15,34 +15,29 @@ from .base import FacturacionBaseHandler
 
 
 @dataclass
-class CrearFacturacion(Comando):
-    id: str
-    medio_pago: str
+class ActualizarFacturacion(Comando):
     id_cliente: str
-    monto: int
+    estadoReportado: str
 
-class CrearFacturacionHandler(FacturacionBaseHandler):
+class ActualizarFacturacionHandler(FacturacionBaseHandler):
     
-    def handle(self, comando: CrearFacturacion):
+    def handle(self, comando: ActualizarFacturacion):
         facturacion_dto = FacturacionDTO(
-            id=comando.id,
-            medioPago=comando.medio_pago,
             idCliente=comando.id_cliente,
-            monto=comando.monto,
+            estadoReportado=comando.estadoReportado
         )
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
-        facturacion.crear_facturacion(facturacion)
 
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion.__class__)
 
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, facturacion)
+        UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)
         UnidadTrabajoPuerto.savepoint()
         UnidadTrabajoPuerto.commit()
 
 
-@comando.register(CrearFacturacion)
-def ejecutar_comando_crear_facturacion(comando: CrearFacturacion):
-    handler = CrearFacturacionHandler()
+@comando.register(ActualizarFacturacion)
+def ejecutar_comando_actualizar_facturacion(comando: ActualizarFacturacion):
+    handler = ActualizarFacturacionHandler()
     handler.handle(comando)
     

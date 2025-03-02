@@ -7,10 +7,13 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
+from integracionpagos.modulos.pagos.aplicacion.comandos.realizar_pago import \
+    RealizarPago
 from integracionpagos.modulos.pagos.infraestructura.schema.v1.comandos import \
     ComandoRealizarPago
 from integracionpagos.modulos.pagos.infraestructura.schema.v1.eventos import \
     EventoPagoRealizado
+from integracionpagos.seedwork.aplicacion.comandos import ejecutar_commando
 from integracionpagos.seedwork.infraestructura import utils
 
 
@@ -22,7 +25,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}')
+            print(f'Evento recibido desde integración pago: {mensaje.value().data}')
 
             consumidor.acknowledge(mensaje)     
 
@@ -42,8 +45,15 @@ def suscribirse_a_comandos():
         while True:
             mensaje = consumidor.receive()
             print('=========================================')
-            print("Comando Recibido: '%s'" % mensaje.value().data)
+            print("Comando Recibido desde integración pago: '%s'" % mensaje.value().data)
             print('=========================================')
+
+            data = mensaje.value().data
+            comando = RealizarPago(
+                id_cliente=data.id_cliente,
+                monto=data.monto
+            )
+            ejecutar_commando(comando)
 
             print('==== Comunicación con pasarela de pagos ====')
 

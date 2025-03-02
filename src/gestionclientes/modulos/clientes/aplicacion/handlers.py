@@ -9,7 +9,7 @@ class HandlerClienteDominio(Handler):
     @staticmethod
     def handle_pago_realizado(sender, evento):
         print("Desde cliente: ", evento)
-        print('================ PAGO REALIZADO ===========')
+        print('================ PAGO REALIZADO desde clientes, se emite desde facturación ===========')
         comando = ActualizarCliente(
             id=evento.id_cliente,
             estadoPlan=evento.estado

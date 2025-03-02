@@ -59,7 +59,8 @@ class MapeadorFacturacion(RepMap):
         facturacion = Facturacion(
             medioPago = dto.medioPago,
             idCliente = dto.idCliente,
-            monto = dto.monto
+            monto = dto.monto,
+            estado_reportado=dto.estadoReportado
         )
         
         return facturacion

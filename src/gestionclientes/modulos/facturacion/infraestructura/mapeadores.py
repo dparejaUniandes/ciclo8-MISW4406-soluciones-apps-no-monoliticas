@@ -25,6 +25,7 @@ class MapeadorFacturacion(Mapeador):
         facturacion_dto.medio_pago = entidad.medioPago
         facturacion_dto.id_cliente = entidad.idCliente
         facturacion_dto.monto = entidad.monto
+        facturacion_dto.estado = "PAGO"
 
         return facturacion_dto
 

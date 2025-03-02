@@ -9,3 +9,4 @@ class FacturacionDTO(DTO):
     medioPago: str = field(default_factory=str)
     idCliente: str = field(default_factory=str)
     monto: str = field(default_factory=int)
+    estadoReportado: str = field(default_factory=str)
