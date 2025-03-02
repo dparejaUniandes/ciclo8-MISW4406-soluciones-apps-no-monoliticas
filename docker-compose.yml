@@ -172,6 +172,23 @@ services:
       - .:/app
     networks:
       - pulsar
+  
+  # Servicio BFF
+  bff:
+    container_name: bff
+    hostname: bff
+    image: saludtech/bff 
+    profiles: ["saludtech", "bff"]
+    depends_on:
+      - saludtech
+      - broker
+    environment:
+      - AEROALPES_ADDRESS=saludtech
+      - BROKER_HOST=broker
+    networks:
+      - pulsar
+    ports:
+      - "8003:8003"
 
 volumes:
   postgres_data:
