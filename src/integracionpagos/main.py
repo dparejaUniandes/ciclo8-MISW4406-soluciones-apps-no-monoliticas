@@ -6,6 +6,7 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
+# este documento solo sirve como propósito de identificar la correcta recepción del comando para realizar pago.
 
 def time_millis():
     return int(time.time() * 1000)
