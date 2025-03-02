@@ -27,10 +27,31 @@ class PagoRealizadoPayload(Record):
 class EventoPagoRealizado(EventoIntegracion):
     data = PagoRealizadoPayload()
 
+# COMANDOS
+
+class Mensaje(Record):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String()
+    type = String()
+    datacontenttype = String()
+    service_name = String()
+
+class ComandoIntegracion(Mensaje):
+    ...
+
+class ComandoRealizarPagoPayload(ComandoIntegracion):
+    id_cliente = String()
+    monto = Float()
+
+class ComandoRealizarPago(ComandoIntegracion):
+    data = ComandoRealizarPagoPayload()
+
 HOSTNAME = os.getenv('PULSAR_ADDRESS', default="localhost")
 
 client = pulsar.Client(f'pulsar://{HOSTNAME}:6650')
-consumer = client.subscribe('comandos-pago', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='sub-notificacion-comandos-pago', schema=AvroSchema(EventoPagoRealizado))
+consumer = client.subscribe('comandos-pago', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='sub-notificacion-comandos-pago', schema=AvroSchema(ComandoRealizarPago))
 
 while True:
     msg = consumer.receive()

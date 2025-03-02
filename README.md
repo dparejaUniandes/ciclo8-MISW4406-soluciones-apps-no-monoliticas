@@ -8,6 +8,22 @@ En la materia de la maestría se aprenden conceptos relacionados a DDD y cómo c
 docker-compose --profile pulsar up
 ```
 
+## Ejecutar Aplicación
+
+Desde el directorio principal ejecute el siguiente comando. (ver en la entrega 1 para la ejecución de gestionclientes)
+
+```bash
+python src/integracionpagos/main.py 
+flask --app src/integracionpagos/api run 
+```
+
+Siempre puede ejecutarlo en modo DEBUG:
+
+```bash
+python src/integracionpagos/main.py 
+flask --app src/integracionpagos/api --debug run
+```
+
 # ENTREGA 1
 
 - Este proyecto utiliza Flask como framework web y PostgreSQL como base de datos. La aplicación puede ejecutarse tanto en un entorno local como en contenedores Docker.
