@@ -6,6 +6,7 @@ persistir objetos dominio (agregaciones) en la capa de infraestructura del domin
 """
 
 from uuid import UUID
+import uuid
 
 from gestionclientes.config.db import db
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
@@ -38,6 +39,7 @@ class RepositorioFacturacionPosgresql(RepositorioFacturacion):
 
     def agregar(self, facturacion: Facturacion):
         facturacion_dto = self.fabrica_facturacion.crear_objeto(facturacion, MapeadorFacturacion())
+        facturacion_dto.id = str(uuid.uuid4())
         db.session.add(facturacion_dto)
         db.session.commit()
 

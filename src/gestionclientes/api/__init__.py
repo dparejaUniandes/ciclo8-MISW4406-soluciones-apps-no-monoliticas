@@ -14,6 +14,17 @@ def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
     import gestionclientes.modulos.facturacion.infraestructura.dto
 
+def comenzar_consumidor():
+
+    import threading
+    import gestionclientes.modulos.facturacion.infraestructura.consumidores as facturacion
+
+    # Suscripción a eventos
+    threading.Thread(target=facturacion.suscribirse_a_eventos).start()
+
+    # Suscripción a comandos
+    threading.Thread(target=facturacion.suscribirse_a_comandos).start()
+
 def create_app(configuracion={}):
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
@@ -42,8 +53,10 @@ def create_app(configuracion={}):
 
     app_context = app.app_context()
     app_context.push()
-    # with app.app_context():
-    db.create_all()
+    with app.app_context():
+        db.create_all()
+        if not app.config.get('TESTING'):
+            comenzar_consumidor() 
 
      # Importa Blueprints
     from . import clientes, facturacion

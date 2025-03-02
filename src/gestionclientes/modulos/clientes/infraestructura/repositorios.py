@@ -6,6 +6,7 @@ persistir objetos dominio (agregaciones) en la capa de infraestructura del domin
 """
 
 from uuid import UUID
+import uuid
 
 from gestionclientes.config.db import db
 from gestionclientes.modulos.clientes.dominio.entidades import Cliente
@@ -38,6 +39,7 @@ class RepositorioClientesPostgresql(RepositorioClientes):
 
     def agregar(self, cliente: Cliente):
         cliente_dto = self.fabrica_clientes.crear_objeto(cliente, MapeadorCliente())
+        cliente_dto.id = str(uuid.uuid4())
         db.session.add(cliente_dto)
         db.session.commit()
 

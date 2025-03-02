@@ -14,8 +14,8 @@ DB_PASSWORD = os.environ.get("DB_PASSWORD", "12345")
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def init_db(app: Flask):
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] =  f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST_URL}:{DB_PORT}/{DB_NAME}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+    # app.config['SQLALCHEMY_DATABASE_URI'] =  f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST_URL}:{DB_PORT}/{DB_NAME}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking for better performance
     
     db.init_app(app)
