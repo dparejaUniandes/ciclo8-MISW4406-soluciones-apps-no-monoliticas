@@ -61,6 +61,7 @@ def notificar_informacion_asincrono():
             notificacion_dto.id,
             notificacion_dto.tipo,
             notificacion_dto.medio,
+            notificacion_dto.valor,
         )
         ejecutar_commando(comando)
 

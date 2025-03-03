@@ -42,12 +42,18 @@ class MapeadorNotificacion(Mapeador):
 
                 )
 
+                # medio = MedioNotificacion(
+                #     medio=dto.medio,
+                #     valor=dto.valor
+                # )
+                print("Medio DTO n\"", dto.medio)
+
                 notificacion = Notificacion(
                     dto.id,
                     dto.fecha_creacion,
                     dto.fecha_actualizacion,
                     tipo=tipo,
-                    medio=dto.medio,
+                    medio=dto.medio.value,
                     valor=dto.valor,
 
                 )
