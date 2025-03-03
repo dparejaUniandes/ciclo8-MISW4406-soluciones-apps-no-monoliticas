@@ -3,6 +3,9 @@ from dataclasses import dataclass, field
 from integracionpagos.modulos.pagos.aplicacion.dto import PagoDTO
 from integracionpagos.modulos.pagos.aplicacion.mapeadores import MapeadorPago
 from integracionpagos.modulos.pagos.dominio.entidades import Pago
+from integracionpagos.modulos.pagos.dominio.eventos import PagoRealizado
+from integracionpagos.modulos.pagos.infraestructura.despachadores import \
+    Despachador
 from integracionpagos.modulos.pagos.infraestructura.repositorios import \
     RepositorioPagos
 from integracionpagos.seedwork.aplicacion.comandos import Comando
@@ -33,6 +36,13 @@ class RealizarPagoHandler(PagoBaseHandler):
 
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPagos.__class__)
         repositorio.agregar(pago)
+
+        pago_realizado = PagoRealizado(
+            id_cliente=pago_dto.id_cliente,
+            estado_pago = "CONFIRMADO"
+        )
+        despachador = Despachador()
+        despachador.publicar_evento(pago_realizado, 'eventos-pago')
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, pago)
         # UnidadTrabajoPuerto.savepoint()
