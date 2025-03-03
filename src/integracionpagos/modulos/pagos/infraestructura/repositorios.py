@@ -10,7 +10,7 @@ from uuid import UUID
 
 from integracionpagos.config.db import db
 from integracionpagos.modulos.pagos.dominio.entidades import Pago
-from integracionpagos.modulos.pagos.dominio.fabricas import FabricaPagos
+from integracionpagos.modulos.pagos.dominio.fabricas import FabricaPago
 from integracionpagos.modulos.pagos.dominio.repositorios import \
     RepositorioPagos
 
@@ -21,7 +21,7 @@ from .mapeadores import MapeadorPago
 class RepositorioPagosPostgresql(RepositorioPagos):
 
     def __init__(self):
-        self._fabrica_pagos: FabricaPagos = FabricaPagos()
+        self._fabrica_pagos: FabricaPago = FabricaPago()
 
     @property
     def fabrica_pagos(self):

@@ -26,6 +26,8 @@ class RealizarPagoHandler(PagoBaseHandler):
             monto=comando.monto
         )
 
+        print("Pago xyz. ", pago_dto)
+
         pago: Pago = self.fabrica_pagos.crear_objeto(pago_dto, MapeadorPago())
         pago.crear_pago(pago)
 
@@ -37,7 +39,7 @@ class RealizarPagoHandler(PagoBaseHandler):
 
 
 @comando.register(RealizarPago)
-def ejecutar_comando_crear_cliente(comando: RealizarPago):
+def ejecutar_comando_realizar_pago(comando: RealizarPago):
     handler = RealizarPagoHandler()
     handler.handle(comando)
     

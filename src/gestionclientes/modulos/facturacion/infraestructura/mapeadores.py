@@ -25,7 +25,7 @@ class MapeadorFacturacion(Mapeador):
         facturacion_dto.medio_pago = entidad.medioPago
         facturacion_dto.id_cliente = entidad.idCliente
         facturacion_dto.monto = entidad.monto
-        facturacion_dto.estado = "PAGO"
+        facturacion_dto.estado_reportado = "PAGO_ENVIADO"
 
         return facturacion_dto
 
@@ -36,7 +36,8 @@ class MapeadorFacturacion(Mapeador):
                 dto.id, 
                 medioPago=dto.medio_pago,
                 idCliente=dto.id_cliente,
-                monto=dto.monto
+                monto=dto.monto,
+                estado_reportado=dto.estadoReportado
             )
             return facturacion
         print("infra all dto", dto)
