@@ -8,7 +8,6 @@ persistir objetos dominio (agregaciones) en la capa de infraestructura del domin
 import uuid
 from uuid import UUID
 
-from integracionpagos.config.db import sqliteConnection
 from integracionpagos.modulos.pagos.dominio.entidades import Pago
 from integracionpagos.modulos.pagos.dominio.fabricas import FabricaPago
 from integracionpagos.modulos.pagos.dominio.repositorios import (
@@ -16,6 +15,22 @@ from integracionpagos.modulos.pagos.dominio.repositorios import (
 
 from .dto import Pago as PagoDTO
 from .mapeadores import MapeadorPago
+
+# Sin Flask
+import sqlite3
+
+sqliteConnection = None
+
+def init_db():
+    global sqliteConnection
+    if sqliteConnection is None:
+        sqliteConnection = sqlite3.connect('sql_integracionpagos.db')
+        cursor = sqliteConnection.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS pagos(id, fecha_creacion, fecha_actualizacion,id_cliente,monto,estado_pago,pasarela_pago)")
+        cursor.close()
+        return sqliteConnection
+    else:
+        return sqliteConnection
 
 
 class RepositorioPagosPostgresqlNoSQLAlchemy(RepositorioPagosNoSQLAlchemy):
@@ -37,15 +52,17 @@ class RepositorioPagosPostgresqlNoSQLAlchemy(RepositorioPagosNoSQLAlchemy):
 
     def agregar(self, pagos: Pago):
         pago_dto = self.fabrica_pagos.crear_objeto(pagos, MapeadorPago())
-        cursor = sqliteConnection.cursor()
+        cursor = init_db().cursor()
+        data = cursor.execute("SELECT * FROM pagos")
+        print("hola** ", data.description)
         cursor.execute("INSERT INTO pagos VALUES(?,?,?,?,?,?,?)", 
-                       pago_dto.id,
+                       (pago_dto.id,
                        pago_dto.fecha_creacion,
                        pago_dto.fecha_actualizacion,
                        pago_dto.id_cliente,
                        pago_dto.monto,
                        pago_dto.estado_pago,
-                       pago_dto.pasarela_pago
+                       pago_dto.pasarela_pago)
                     )
         cursor.close()
         # pago_dto.id = str(uuid.uuid4())

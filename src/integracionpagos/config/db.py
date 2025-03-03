@@ -20,20 +20,3 @@ def init_db(app: Flask):
     
     db.init_app(app)
 
-
-
-# Sin Flask
-import sqlite3
-
-sqliteConnection = sqlite3.connect('sql_integracionpagos.db')
-cursor = sqliteConnection.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS pagos(\
-               id, \
-               fecha_creacion, \
-               fecha_actualizacion,\
-               id_cliente,\
-               monto,\
-               estado_pago,\
-               pasarela_pago\
-               )")
-cursor.close()
