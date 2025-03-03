@@ -4,6 +4,8 @@ from integracionpagos.modulos.pagos.aplicacion.dto import PagoDTO
 from integracionpagos.modulos.pagos.aplicacion.mapeadores import MapeadorPago
 from integracionpagos.modulos.pagos.dominio.entidades import Pago
 from integracionpagos.modulos.pagos.dominio.eventos import PagoRealizado
+from integracionpagos.modulos.pagos.dominio.repositorios import \
+    RepositorioPagosNoSQLAlchemy
 from integracionpagos.modulos.pagos.infraestructura.despachadores import \
     Despachador
 from integracionpagos.modulos.pagos.infraestructura.repositorios import \
@@ -34,7 +36,7 @@ class RealizarPagoHandler(PagoBaseHandler):
         pago: Pago = self.fabrica_pagos.crear_objeto(pago_dto, MapeadorPago())
         pago.crear_pago(pago)
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPagos.__class__)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPagosNoSQLAlchemy.__class__)
         repositorio.agregar(pago)
 
         pago_realizado = PagoRealizado(

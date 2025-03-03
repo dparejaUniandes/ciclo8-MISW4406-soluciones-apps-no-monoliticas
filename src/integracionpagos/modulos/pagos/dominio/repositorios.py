@@ -12,3 +12,6 @@ from integracionpagos.seedwork.dominio.repositorios import Repositorio
 
 class RepositorioPagos(Repositorio, ABC):
     ...
+
+class RepositorioPagosNoSQLAlchemy(Repositorio, ABC):
+    ...
