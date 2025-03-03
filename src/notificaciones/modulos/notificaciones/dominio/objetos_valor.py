@@ -29,8 +29,3 @@ class MedioNotificacion(ObjetoValor):
     """ Medio de notificación con validación """
     medio: TipoMedio
     valor: str
-
-    def __post_init__(self):
-        if self.medio == TipoMedio.CORREO:
-            if not re.match(r"[^@]+@[^@]+\.[^@]+", self.valor):
-                raise ValueError(f"Correo inválido: {self.valor}")

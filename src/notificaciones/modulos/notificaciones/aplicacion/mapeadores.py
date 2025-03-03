@@ -21,13 +21,19 @@ class MapeadorNotificacionDTOJson(AppMap):
 
     def dto_a_externo(self, dto: NotificacionDTO) -> any:
         if type(dto) is NotificacionDTO:
+
+            medio = MedioNotificacion(
+                medio=dto.medio,
+                valor=dto.valor
+            )
+
             notificacionExterno = {
                 "fecha_actualizacion": dto.fecha_actualizacion,
                 "fecha_creacion": dto.fecha_creacion,
-                "id": dto.idDesdeBD,
+                "id": dto.id,
                 "tipo": dto.tipo,
-                "medio": dto.medio,
-                "valor": dto.valor
+                "medio": medio.medio.value,
+                "valor": medio.valor
 
             }
             return notificacionExterno
@@ -37,7 +43,7 @@ class MapeadorNotificacionDTOJson(AppMap):
             notificacionesExterno.append({
                 "fecha_actualizacion": notificacion.fecha_actualizacion,
                 "fecha_creacion": notificacion.fecha_creacion,
-                "id": notificacion.idDesdeBD,
+                "id": notificacion.id,
                 "tipo": notificacion.tipo,
                 "medio": notificacion.medio,
                 "valor": notificacion.valor
