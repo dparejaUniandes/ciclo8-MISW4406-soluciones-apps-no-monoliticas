@@ -96,7 +96,7 @@ services:
 
   db-postgres:
     image: postgres:15-alpine
-    profiles: ["db"]
+    profiles: ["app-clientes"]
     container_name: postgres_db
     restart: always
     environment:
@@ -121,13 +121,13 @@ services:
       dockerfile: gestionclientes.Dockerfile
     container_name: flask_app
     # image: gestionclientes/flask 
-    profiles: ["app"]
+    profiles: ["app-clientes"]
     restart: always
     depends_on:
       db-postgres:
         condition: service_healthy
-      broker:
-        condition: service_started
+      # broker:
+      #   condition: service_started
     environment:
       FLASK_APP: src/gestionclientes/api
       FLASK_ENV: development
@@ -136,6 +136,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 123456
       DB_PORT: 5432
+      BROKER_HOST: broker
   
     ports:
       - "5001:5000"
@@ -152,7 +153,7 @@ services:
       dockerfile: ./integracionpagos.Dockerfile
     container_name: flask_app_integracionpagos
     # image: integracionpagos/flask 
-    profiles: ["app"]
+    profiles: ["app-pagos"]
     restart: always
     depends_on:
       db-postgres:

@@ -54,7 +54,6 @@ class RepositorioPagosPostgresqlNoSQLAlchemy(RepositorioPagosNoSQLAlchemy):
         pago_dto = self.fabrica_pagos.crear_objeto(pagos, MapeadorPago())
         cursor = init_db().cursor()
         data = cursor.execute("SELECT * FROM pagos")
-        print("hola** ", data.description)
         cursor.execute("INSERT INTO pagos VALUES(?,?,?,?,?,?,?)", 
                        (pago_dto.id,
                        pago_dto.fecha_creacion,
