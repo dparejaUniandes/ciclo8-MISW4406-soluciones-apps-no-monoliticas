@@ -32,10 +32,11 @@ class RealizarPagoHandler(PagoBaseHandler):
         pago.crear_pago(pago)
 
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioPagos.__class__)
+        repositorio.agregar(pago)
 
-        UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, pago)
-        UnidadTrabajoPuerto.savepoint()
-        UnidadTrabajoPuerto.commit()
+        # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, pago)
+        # UnidadTrabajoPuerto.savepoint()
+        # UnidadTrabajoPuerto.commit()
 
 
 @comando.register(RealizarPago)
