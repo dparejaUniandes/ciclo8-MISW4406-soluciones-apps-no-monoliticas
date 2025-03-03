@@ -135,3 +135,5 @@ dmypy.json
 
 # Data Volume for Zookeeper
 /data
+
+sql_integracionpagos.db-journal
