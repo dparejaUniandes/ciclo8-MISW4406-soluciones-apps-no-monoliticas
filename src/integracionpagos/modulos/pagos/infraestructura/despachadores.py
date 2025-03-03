@@ -25,7 +25,7 @@ class Despachador:
         payload = PagoRealizadoPayload(
             id_cliente=str(evento.id_cliente), 
             estado=str(evento.estado_pago), 
-            fecha_creacion=int(unix_time_millis(evento.fecha_creacion))
+            # fecha_creacion=int(unix_time_millis(evento.fecha_creacion))
         )
         evento_integracion = EventoPagoRealizado(data=payload)
         self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoPagoRealizado))

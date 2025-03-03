@@ -11,11 +11,11 @@ tasks:
   - name: Instalar dependencias
     init: gp sync-await bundle
     command: pip install -r requirements.txt
-  - name: Crear imagenes Docker
-    init: > 
-      docker build . -f gestionclientes.Dockerfile -t gestionclientes/flask  &&
-      docker build . -f integracionpagos.Dockerfile -t integracionpagos/flask &&
-      gp sync-done images
+  # - name: Crear imagenes Docker
+  #   init: > 
+  #     docker build . -f gestionclientes.Dockerfile -t gestionclientes/flask  &&
+  #     docker build . -f integracionpagos.Dockerfile -t integracionpagos/flask &&
+  #     gp sync-done images
   - name: Crear folder para datos y asigna permisos
     init: > 
       mkdir -p data/bookkeeper && 
