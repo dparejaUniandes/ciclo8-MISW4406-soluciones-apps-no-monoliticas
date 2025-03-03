@@ -21,9 +21,9 @@ from .repositorios_no_sqlalchemy import \
 @dataclass
 class FabricaRepositorio(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Repositorio:
-        if obj == RepositorioFacturacion.__class__:
+        if obj.__name__ == RepositorioFacturacion.__name__:
             return RepositorioFacturacionPosgresql()
-        elif obj == RepositorioFacturacionNoSQLAlchemy.__class__:
+        elif obj.__name__ == RepositorioFacturacionNoSQLAlchemy.__name__:
             return RepositorioFacturacionPostgresqlNoSQLAlchemy()
         else:
             raise ExcepcionFabrica()

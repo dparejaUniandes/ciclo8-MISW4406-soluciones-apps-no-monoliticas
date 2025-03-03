@@ -31,7 +31,7 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy.__class__)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
         repositorio.actualizar(facturacion)
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)

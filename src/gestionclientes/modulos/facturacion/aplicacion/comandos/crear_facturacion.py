@@ -34,7 +34,7 @@ class CrearFacturacionHandler(FacturacionBaseHandler):
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
         facturacion.crear_facturacion(facturacion)
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion.__class__)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion)
 
         UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, facturacion)
         UnidadTrabajoPuerto.savepoint()
