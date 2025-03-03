@@ -7,9 +7,9 @@ objetos complejos del dominio de notificaciones
 
 from dataclasses import dataclass
 
-from gestionclientes.seedwork.dominio.entidades import Entidad
-from gestionclientes.seedwork.dominio.fabricas import Fabrica
-from gestionclientes.seedwork.dominio.repositorios import Mapeador
+from notificaciones.seedwork.dominio.entidades import Entidad
+from notificaciones.seedwork.dominio.fabricas import Fabrica
+from notificaciones.seedwork.dominio.repositorios import Mapeador
 
 from .entidades import Notificacion
 from .excepciones import TipoObjetoNoExisteEnDominioVuelosExcepcion
@@ -37,7 +37,7 @@ class FabricaNotificaciones(Fabrica):
                      mapeador: Mapeador) -> any:
         """ Crea un objeto del dominio de notificaciones """
         if mapeador.obtener_tipo() == Notificacion.__class__:
-            fabrica_cliente = _FabricaNotificacion()
-            return fabrica_cliente.crear_objeto(obj, mapeador)
+            fabrica_notificacion = _FabricaNotificacion()
+            return fabrica_notificacion.crear_objeto(obj, mapeador)
         else:
             raise TipoObjetoNoExisteEnDominioVuelosExcepcion()

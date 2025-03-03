@@ -5,69 +5,67 @@ encargados de la transformación entre formatos de dominio y DTOs
 
 """
 
-from gestionclientes.modulos.clientes.dominio.entidades import Cliente
-from gestionclientes.modulos.clientes.dominio.objetos_valor import (
-    CorreoCliente, NombreCliente)
-from gestionclientes.seedwork.dominio.repositorios import Mapeador
+from notificaciones.modulos.notificaciones.dominio.entidades import Notificacion
+from notificaciones.modulos.notificaciones.dominio.objetos_valor import (
+    TipoNotificacion, TipoMedio, MedioNotificacion)
+from notificaciones.seedwork.dominio.repositorios import Mapeador
 
 from .dto import Notificacion as NotificacionDTO
 
 
 class MapeadorNotificacion(Mapeador):
+    """ Mapeador de notificaciones a DTOs """
     _FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
 
     def obtener_tipo(self) -> type:
-        return Cliente.__class__
+        return Notificacion.__class__
 
-    def entidad_a_dto(self, entidad: Cliente) -> NotificacionDTO:
-        
-        cliente_dto = NotificacionDTO()
-        cliente_dto.fecha_creacion = entidad.fecha_creacion
-        cliente_dto.fecha_actualizacion = entidad.fecha_actualizacion
-        cliente_dto.id = str(entidad.id)
-        cliente_dto.nombre = entidad.nombre.nombre
-        cliente_dto.apellidos = entidad.nombre.apellidos
-   
+    def entidad_a_dto(self, entidad: Notificacion) -> NotificacionDTO:
 
-        return cliente_dto
+        notificacion_dto = NotificacionDTO()
+        notificacion_dto.fecha_creacion = entidad.fecha_creacion
+        notificacion_dto.fecha_actualizacion = entidad.fecha_actualizacion
+        notificacion_dto.id = str(entidad.id)
+        notificacion_dto.tipo = entidad.tipo
+        notificacion_dto.medio = entidad.medio
+        notificacion_dto.valor = entidad.valor
+
+        return notificacion_dto
 
     def dto_a_entidad(self, dto: NotificacionDTO) -> any:
-        if type(dto) is NotificacionDTO:
-            nombre = NombreCliente(
-                nombre = dto.nombre,
-                apellidos = dto.apellidos
-            )
-            correo = CorreoCliente(
-                correo = dto.correo
-            )
-            cliente = Cliente(
-                dto.id, 
-                dto.fecha_creacion, 
-                dto.fecha_actualizacion, 
-                nombre=nombre,
-                correo=correo,
-                contrasena=dto.contrasena,
-                estadoPlan=dto.estado_plan.value,
-                idDesdeBD=dto.id, 
-            )
-            return cliente
-        clientes = []
-        for clienteDTO in dto:
-            nombre = NombreCliente(
-                nombre = clienteDTO.nombre,
-                apellidos = clienteDTO.apellidos
-            )
-            correo = CorreoCliente(
-                correo = clienteDTO.correo
-            )
-            clientes.append(Cliente(
-                clienteDTO.id, 
-                clienteDTO.fecha_creacion, 
-                clienteDTO.fecha_actualizacion, 
-                nombre=nombre,
-                correo=correo,
-                contrasena=clienteDTO.contrasena,
-                estadoPlan=clienteDTO.estado_plan.value,
-                idDesdeBD=clienteDTO.id
-            ))
-        return clientes
+        try:
+            print(type(dto))
+            print(NotificacionDTO)
+            if type(dto) is Notificacion:
+                tipo = TipoNotificacion(
+                    tipo=dto.tipo,
+
+                )
+
+                notificacion = Notificacion(
+                    dto.id,
+                    dto.fecha_creacion,
+                    dto.fecha_actualizacion,
+                    tipo=tipo,
+                    medio=dto.medio,
+                    valor=dto.valor,
+
+                )
+                return notificacion
+
+            notificaciones = []
+
+            for notificacionDTO in dto:
+
+                notificaciones.append(Notificacion(
+                    notificacionDTO.id,
+                    notificacionDTO.fecha_creacion,
+                    notificacionDTO.fecha_actualizacion,
+                    tipo=notificacionDTO.tipo,
+                    medio=notificacionDTO.medio,
+                    valor=notificacionDTO.valor,
+
+                ))
+            return notificaciones
+        except Exception as e:
+            print(f'Error en mapeador: {e}')

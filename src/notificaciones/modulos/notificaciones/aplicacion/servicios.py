@@ -27,15 +27,20 @@ class ServicioNotificacion(Servicio):
         """ Fabrica de notificaciones """
         return self._fabrica_notificaciones
 
-    def crear_notificacion(self, cliente_dto: NotificacionDTO) -> NotificacionDTO:
+    def crear_notificacion(self, notification_dto: NotificacionDTO) -> NotificacionDTO:
         """ Crear una notificacion """
-        cliente: Notificacion = self.fabrica_notificaciones.crear_objeto(
-            cliente_dto, MapeadorNotificacion())
+        print(f'APLICACION - Notificacion recibida: {notification_dto}')
+        print(type(notification_dto))
+        notificacion: Notificacion = self.fabrica_notificaciones.crear_objeto(
+            notification_dto, MapeadorNotificacion())
+        print(f'APLICACION - Notificacion creada: {notificacion}')
         repositorio = self.fabrica_repositorio.crear_objeto(
             RepositorioNotificaciones.__class__)
-        repositorio.agregar(cliente)
-        cliente.idDesdeBD = cliente.id
-        return self.fabrica_notificaciones.crear_objeto(cliente, MapeadorNotificacion())
+        print(f'APLICACION - Repositorio: {repositorio}')
+        repositorio.agregar(notificacion)
+        print(f'APLICACION - Notificacion agregada: {notificacion}')
+        notificacion.idDesdeBD = notificacion.id
+        return self.fabrica_notificaciones.crear_objeto(notificacion, MapeadorNotificacion())
 
     def obtener_notificacion_por_id(self, id) -> NotificacionDTO:
         """ Obtener una notificacion por id """

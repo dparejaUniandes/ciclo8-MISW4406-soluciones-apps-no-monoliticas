@@ -18,17 +18,22 @@ from notificaciones.seedwork.dominio.excepciones import ExcepcionDominio
 
 bp = api.crear_blueprint('notificaciones', '/notificaciones')
 
-
 @bp.route('/notificacion', methods=('POST',))
 def notificar_informacion():
     """ Crea una notificación de información """
     try:
         notificacion_dict = request.json
+        print(f'API -Notificacion recibida: {notificacion_dict}')
         map_notificacion = MapeadorNotificacionDTOJson()
+        print(f'API -Mapeador: {map_notificacion}')
         notificacion_dto = map_notificacion.externo_a_dto(notificacion_dict)
+        print(f'API -Notificacion DTO: {notificacion_dto}')
 
+        print(notificacion_dto)
         sr = ServicioNotificacion()
+        print(f'API - Servicio: {sr}')
         dto_final = sr.crear_notificacion(notificacion_dto)
+        print(f'API - DTO final: {dto_final}')
 
         return jsonify(map_notificacion.dto_a_externo(dto_final))
     except ExcepcionDominio as e:
@@ -36,6 +41,7 @@ def notificar_informacion():
                         status=400,
                         mimetype='application/json')
     except Exception as e:
+        print(str(e))
         return Response(json.dumps(dict(error=str(e))),
                         status=500,
                         mimetype='application/json')

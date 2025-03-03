@@ -27,7 +27,7 @@ run:
 
 run_notificaciones:
 	export FLASK_APP=src/notificaciones/api; \
-	. $(VENV_DIR)/bin/activate && flask --app src/notificaciones/api run
+	. $(VENV_DIR)/bin/activate && flask --app src/notificaciones/api run --debugger --reload
 
 
 # Eliminar el entorno virtual
