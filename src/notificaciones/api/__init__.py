@@ -24,8 +24,8 @@ def create_app(configuracion={}):
         route = configuracion["DATABASE"]
 
     # Configuracion de BD
-    # app.config['SQLALCHEMY_DATABASE_URI'] =\
-    #         'sqlite:///' + os.path.join(route, 'database.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] =\
+            'sqlite:///' + os.path.join(route, 'database.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     app.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'

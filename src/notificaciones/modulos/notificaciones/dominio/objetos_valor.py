@@ -25,7 +25,7 @@ class TipoNotificacion(ObjetoValor):
     tipo: str
 
 @dataclass(frozen=True)
-class MedioNotificacion:
+class MedioNotificacion(ObjetoValor):
     """ Medio de notificación con validación """
     medio: TipoMedio
     valor: str

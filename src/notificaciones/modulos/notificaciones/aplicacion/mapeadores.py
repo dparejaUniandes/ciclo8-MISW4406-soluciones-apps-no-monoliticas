@@ -62,9 +62,9 @@ class MapeadorNotificacion(RepMap):
                 fecha_creacion,
                 fecha_actualizacion,
                 _id,
-                entidad.nombre.tipo,
-                entidad.nombre.medio,
-                entidad.correo.valor,
+                entidad.tipo,
+                entidad.medio,
+                entidad.valor,
 
             )
 
@@ -86,11 +86,13 @@ class MapeadorNotificacion(RepMap):
         return notificacionesDTO
 
     def dto_a_entidad(self, dto: NotificacionDTO) -> Notificacion:
-        tipo = TipoNotificacion(dto.tipo)
         notificacion = Notificacion(
-            tipo=tipo,
-            medio= TipoMedio(dto.medio),
-            valor=dto.contrasena
+            id=dto.id,
+            fecha_creacion=dto.fecha_creacion,
+            fecha_actualizacion=dto.fecha_actualizacion,
+            tipo=dto.tipo,
+            medio=TipoMedio(dto.medio),
+            valor=dto.valor
         )
 
         return notificacion

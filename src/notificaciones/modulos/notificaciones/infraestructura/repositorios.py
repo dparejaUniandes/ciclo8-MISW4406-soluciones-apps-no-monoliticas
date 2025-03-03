@@ -41,12 +41,15 @@ class RepositorioNotificacionesSQLite(RepositorioNotificaciones):
         notificaciones = db.session.query(NotificacionDTO).all()
         return self._fabrica_notificaciones.crear_objeto(notificaciones, MapeadorNotificacion())
 
-    def agregar(self, cliente: Notificacion):
+    def agregar(self, notificacion: NotificacionDTO):
         """ Agregar un notificacion """
-        cliente_dto = self.fabrica_notificaciones.crear_objeto(
-            cliente, MapeadorNotificacion())
-        db.session.add(cliente_dto)
+        print(f'INFRAESTRUCTURA - Notificacion recibida en repositorio: {notificacion}')
+        notificacion_dto = self.fabrica_notificaciones.crear_objeto(
+            notificacion, MapeadorNotificacion())
+        print(f'INFRAESTRUCTURA - Notificacion creada en repositorio: {notificacion_dto}')
+        db.session.add(notificacion_dto)
         db.session.commit()
+        print("INFRAESTRUCTURA - ok")
 
     def actualizar(self, cliente: Notificacion):
         """ Actualizar un notificacion """

@@ -1,7 +1,7 @@
 """ DTO de notificaciones """
 from dataclasses import dataclass, field
 
-from gestionclientes.seedwork.aplicacion.dto import DTO
+from notificaciones.seedwork.aplicacion.dto import DTO
 
 
 @dataclass(frozen=True)

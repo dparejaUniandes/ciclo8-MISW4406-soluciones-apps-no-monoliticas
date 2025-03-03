@@ -137,3 +137,5 @@ dmypy.json
 /data
 
 sql_integracionpagos.db-journal
+
+database.db-journal
