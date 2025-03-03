@@ -6,6 +6,8 @@ from gestionclientes.modulos.facturacion.aplicacion.mapeadores import \
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
 from gestionclientes.modulos.facturacion.infraestructura.repositorios import \
     RepositorioFacturacion
+from gestionclientes.modulos.facturacion.infraestructura.repositorios_no_sqlalchemy import \
+    RepositorioFacturacionNoSQLAlchemy
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
@@ -29,11 +31,12 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion.__class__)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy.__class__)
+        repositorio.actualizar(facturacion)
 
-        UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)
-        UnidadTrabajoPuerto.savepoint()
-        UnidadTrabajoPuerto.commit()
+        # UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)
+        # UnidadTrabajoPuerto.savepoint()
+        # UnidadTrabajoPuerto.commit()
 
 
 @comando.register(ActualizarFacturacion)

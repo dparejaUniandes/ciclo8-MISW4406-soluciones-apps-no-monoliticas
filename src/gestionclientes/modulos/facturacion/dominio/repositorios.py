@@ -12,3 +12,6 @@ from gestionclientes.seedwork.dominio.repositorios import Repositorio
 
 class RepositorioFacturacion(Repositorio, ABC):
     ...
+
+class RepositorioFacturacionNoSQLAlchemy(Repositorio, ABC):
+    ...
