@@ -17,6 +17,7 @@ def importar_modelos_alchemy():
 def comenzar_consumidor():
 
     import threading
+
     import gestionclientes.modulos.facturacion.infraestructura.consumidores as facturacion
 
     # Suscripción a eventos
@@ -24,6 +25,7 @@ def comenzar_consumidor():
 
     # Suscripción a comandos
     threading.Thread(target=facturacion.suscribirse_a_comandos).start()
+    threading.Thread(target=facturacion.suscribirse_a_comandos_bff).start()
 
 def create_app(configuracion={}):
     # Init la aplicacion de Flask

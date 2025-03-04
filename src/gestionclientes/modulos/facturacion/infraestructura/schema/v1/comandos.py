@@ -12,3 +12,11 @@ class ComandoRealizarPagoPayload(ComandoIntegracion):
 
 class ComandoRealizarPago(ComandoIntegracion):
     data = ComandoRealizarPagoPayload()
+
+class ComandoRealizarPagoPayloadBFF(ComandoIntegracion):
+    medioPago = String()
+    idCliente = String()
+    monto = Float()
+
+class ComandoRealizarPagoBFF(ComandoIntegracion):
+    data = ComandoRealizarPagoPayloadBFF()
