@@ -27,6 +27,7 @@ class CrearNotificacion(Comando):
 
 
 class CrearNotificacionHandler(NotificacionBaseHandler):
+    """ Manejador del comando para crear una notificación """
 
     def handle(self, comando: CrearNotificacion):
         """ Ejecutar comando para crear una notificación """
