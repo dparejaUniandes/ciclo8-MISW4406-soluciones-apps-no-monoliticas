@@ -58,6 +58,27 @@ Si deseas ejecutar en modo DEBUG, usa:
 flask --app src/gestionclientes/api --debug run
 ```
 
+#### Ejecución de PULSAR
+```bash
+docker-compose --profile pulsar up
+```
+
+#### Ejecución de Notificaciones
+```bash
+flask --app src/notificaciones/api run --port 6000
+```
+
+#### Ejecución de Integración de pagos
+```bash
+flask --app src/integracionpagos/api run --port 6000
+```
+
+
+#### Ejecución de BFF
+```bash
+uvicorn bff_web.main:app --host localhost --port 8003 --reload
+```
+
 ### 2. Ejecutar la Aplicación con Docker
 #### Construir y Levantar los Contenedores
 
