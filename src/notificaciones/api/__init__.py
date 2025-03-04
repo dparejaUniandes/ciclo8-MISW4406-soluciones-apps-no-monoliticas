@@ -8,11 +8,26 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def registrar_handlers():
+    """ Registra los handlers de la aplicacion """
     import notificaciones.modulos.notificaciones.aplicacion
 
 
 def importar_modelos_alchemy():
+    """ Importa los modelos de alchemy """
     import notificaciones.modulos.notificaciones.infraestructura.dto
+
+
+def comenzar_consumidor():
+    """ Comienza el consumidor """
+    import threading
+
+    import notificaciones.modulos.notificaciones.infraestructura.consumidores as notificacion
+
+    # Suscripción a eventos
+    threading.Thread(target=notificacion.suscribirse_a_eventos).start()
+
+    # Suscripción a comandos
+    threading.Thread(target=notificacion.suscribirse_a_comandos).start()
 
 
 def create_app(configuracion={}):
@@ -25,7 +40,7 @@ def create_app(configuracion={}):
 
     # Configuracion de BD
     app.config['SQLALCHEMY_DATABASE_URI'] =\
-            'sqlite:///' + os.path.join(route, 'database.db')
+        'sqlite:///' + os.path.join(route, 'database.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     app.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'
@@ -34,24 +49,32 @@ def create_app(configuracion={}):
 
     # Inicializa la DB
     from notificaciones.config.db import init_db
-    init_db(app)
-
     from notificaciones.config.db import db
 
+    init_db(app)
+
+    # importar_modelos_alchemy()
+    # registrar_handlers()
+
+    # app_context = app.app_context()
+    # app_context.push()
+    # # with app.app_context():
+    # db.create_all()
+
+    # # Importa Blueprints
+    # from . import notificacion
+
+    # # Registro de Blueprints
+    # app.register_blueprint(notificacion.bp)
     importar_modelos_alchemy()
     registrar_handlers()
 
     app_context = app.app_context()
     app_context.push()
-    # with app.app_context():
-    db.create_all()
-
-    # Importa Blueprints
-    from . import notificacion
-
-    # Registro de Blueprints
-    app.register_blueprint(notificacion.bp)
-
+    with app.app_context():
+        db.create_all()
+        if not app.config.get('TESTING'):
+            comenzar_consumidor()
 
     @app.route("/spec")
     def spec():

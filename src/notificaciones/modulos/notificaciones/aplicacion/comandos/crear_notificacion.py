@@ -21,11 +21,13 @@ class CrearNotificacion(Comando):
     fecha_creacion: str
     fecha_actualizacion: str
     id: str
-    nombre: str
-    apellidos: str
+    tipo: str
+    medio: str
+    valor: str
 
 
 class CrearNotificacionHandler(NotificacionBaseHandler):
+    """ Manejador del comando para crear una notificación """
 
     def handle(self, comando: CrearNotificacion):
         """ Ejecutar comando para crear una notificación """
@@ -33,9 +35,9 @@ class CrearNotificacionHandler(NotificacionBaseHandler):
             fecha_actualizacion=comando.fecha_actualizacion,
             fecha_creacion=comando.fecha_creacion,
             id=comando.id,
-            tipo=comando.nombre,
-            medio=comando.apellidos,
-            valor=comando.apellidos,
+            tipo=comando.tipo,
+            medio=comando.medio,
+            valor=comando.valor,
         )
 
         cliente: Notificacion = self.fabrica_clientes.crear_objeto(
