@@ -17,7 +17,7 @@ El proyecto está diseñado bajo el patrón de microservicios, dividido en módu
 
 <br>
 
-<img width="1232" alt="image" src="https://github.com/user-attachments/assets/0eb83bfd-92fd-462b-984c-8aa12909d5fa" />
+<img width="1232" alt="image" src="https://github.com/user-attachments/assets/43015034-26a6-4871-91c3-26f7ea515204" />
 
 <br>
 
