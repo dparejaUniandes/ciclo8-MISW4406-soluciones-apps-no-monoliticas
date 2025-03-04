@@ -20,7 +20,11 @@ El proyecto está diseñado bajo el patrón de microservicios, dividido en módu
 <img width="1232" alt="image" src="https://github.com/user-attachments/assets/0eb83bfd-92fd-462b-984c-8aa12909d5fa" />
 
 <br>
-Imagen de la arquitectura realizada para la entrega 4
+
+*Imagen de la arquitectura realizada para la entrega 4*
+
+<br>
+
 - **bff_web**: Backend for Frontend (BFF), se encarga de manejar la comunicación entre el frontend y los microservicios del backend. Actúa como una capa intermedia para optimizar y simplificar la interacción entre la interfaz de usuario y los microservicios.
 
 - **GestionClientes**: Responsable de la gestión de clientes, incluyendo funcionalidades como creación, consulta y actualización de clientes.
