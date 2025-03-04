@@ -15,6 +15,12 @@ El proyecto está diseñado bajo el patrón de microservicios, dividido en módu
 
 [Diagrama de arquitectura](https://excalidraw.com/#room=e5b32f4d90ffe8b83d7b,HzWcY7ddsq1vONTdtmts4A)
 
+<br>
+
+<img width="1232" alt="image" src="https://github.com/user-attachments/assets/0eb83bfd-92fd-462b-984c-8aa12909d5fa" />
+
+<br>
+Imagen de la arquitectura realizada para la entrega 4
 - **bff_web**: Backend for Frontend (BFF), se encarga de manejar la comunicación entre el frontend y los microservicios del backend. Actúa como una capa intermedia para optimizar y simplificar la interacción entre la interfaz de usuario y los microservicios.
 
 - **GestionClientes**: Responsable de la gestión de clientes, incluyendo funcionalidades como creación, consulta y actualización de clientes.
