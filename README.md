@@ -8,7 +8,7 @@ Este proyecto es una solución basada en la arquitectura de microservicios utili
 
 ## ENLACE VIDEO
 
-[Video](url)
+[Video](https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EVDgaw5ycNJNtgtH2uWm9JkBgejnmIoPSs3Cuk9pD_aHog?e=ausKOJ)
 
 ### 1. Arquitectura General
 El proyecto está diseñado bajo el patrón de microservicios, dividido en módulos que permiten una gestión modularizada de los distintos aspectos del sistema. Los principales módulos son:
@@ -17,7 +17,7 @@ El proyecto está diseñado bajo el patrón de microservicios, dividido en módu
 
 <br>
 
-<img width="1232" alt="image" src="https://github.com/user-attachments/assets/43015034-26a6-4871-91c3-26f7ea515204" />
+<img width="1234" alt="image" src="https://github.com/user-attachments/assets/9c8f5ba1-75e4-4eaa-b3dd-4a04a0bc01cc" />
 
 <br>
 
