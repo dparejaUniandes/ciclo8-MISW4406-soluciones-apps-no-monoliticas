@@ -1,28 +1,115 @@
 # 📌  ciclo8-MISW4406-soluciones-apps-no-monoliticas
-En la materia de la maestría se aprenden conceptos relacionados a DDD y cómo crear aplicación no monolíticas
 
-# ENTREGA 2
+Este proyecto es una solución basada en la arquitectura de microservicios utilizando Domain-Driven Design (DDD), y está enfocado en la creación de aplicaciones no monolíticas. El objetivo es proporcionar un conjunto de servicios para la gestión de clientes y facturación, utilizando tecnologías como Flask, PostgreSQL, y Docker.
 
-### Correr docker-compose usando profiles
+# ENTREGA 4
+
+Este proyecto es una solución basada en la arquitectura de microservicios utilizando Domain-Driven Design (DDD), y está enfocado en la creación de aplicaciones no monolíticas. El objetivo es proporcionar un conjunto de servicios para la gestión de clientes y facturación, utilizando tecnologías como Flask, PostgreSQL, y Docker.
+
+## ENLACE VIDEO
+
+[Video](url)
+
+### 1. Arquitectura General
+El proyecto está diseñado bajo el patrón de microservicios, dividido en módulos que permiten una gestión modularizada de los distintos aspectos del sistema. Los principales módulos son:
+
+[Diagrama de arquitectura](https://5000-dparejaunia-ciclo8misw4-9w6csqmlxoe.ws-us118.gitpod.io)
+
+- **bff_web**: Backend for Frontend (BFF), se encarga de manejar la comunicación entre el frontend y los microservicios del backend. Actúa como una capa intermedia para optimizar y simplificar la interacción entre la interfaz de usuario y los microservicios.
+
+- **GestionClientes**: Responsable de la gestión de clientes, incluyendo funcionalidades como creación, consulta y actualización de clientes.
+- **Facturación**: Gestiona el proceso de pagos, incluyendo la integración con los clientes para actualizar su estado de plan.
+- **Notificaciones**: Envía notificaciones al sistema para alertar sobre eventos importantes.
+- **IntegraciónPagos**: Encargado de gestionar la integración del pago, con eventos que se emiten al módulo de clientes para realizar actualizaciones en su estado.
+- **Seedwork**: Un conjunto de clases y utilidades que definen comportamientos y servicios comunes utilizados por los demás módulos, como manejo de excepciones, comandos, consultas, etc.
+
+### 2. Descripción de las Tecnologías Utilizadas
+
+- **Flask**: Framework utilizado para la creación de la API RESTful.
+- **PostgreSQL**: Base de datos utilizada para almacenar la información de clientes y facturación.
+- **Docker**: Contenerización del proyecto, lo que facilita su ejecución en distintos entornos.
+- **Python**: Lenguaje de programación utilizado para desarrollar los microservicios.
+
+### 3. Estructura de Carpetas
+El proyecto está organizado en módulos que contienen el código fuente y las configuraciones necesarias. Los módulos clave incluyen:
+
+- **gestionclientes**: Módulo principal que gestiona la creación, consulta y actualización de clientes.
+- **facturacion**: Módulo de facturación que gestiona los pagos y actualiza el estado de los clientes.
+- **notificaciones**: Módulo que gestiona el envío de notificaciones dentro del sistema.
+- **integracionpagos**: Módulo responsable de la integración con los pagos, emitiendo eventos hacia otros módulos.
+- **seedwork**: Contiene clases y utilidades comunes como el manejo de excepciones, comandos y consultas.
+
+### 4. Flujo de Datos y Comunicaciones Entre Módulos
+- **API de Clientes**: Permite la creación y consulta de clientes, tanto de manera sincrónica como asincrónica, usando comandos y consultas.
+- **Facturación**: Los pagos se gestionan mediante un servicio que interactúa con el módulo de clientes para actualizar su estado de plan.
+- **Eventos Internos**: La comunicación entre los módulos se realiza mediante eventos. Por ejemplo, al realizar un pago, un evento es emitido para notificar al módulo de clientes que se debe actualizar el estado del plan.
+
+## Instrucciones para Ejecutar el Proyecto
+
+### 1. Ejecutar la Aplicación en un Entorno Local
+Desde el directorio principal, puedes ejecutar la aplicación utilizando el siguiente comando:
+
 ```bash
-docker-compose --profile pulsar up
+flask --app src/gestionclientes/api run
+```
+Si deseas ejecutar en modo DEBUG, usa:
+
+```bash
+flask --app src/gestionclientes/api --debug run
 ```
 
-## Ejecutar Aplicación
+### 2. Ejecutar la Aplicación con Docker
+#### Construir y Levantar los Contenedores
 
-Desde el directorio principal ejecute el siguiente comando. (ver en la entrega 1 para la ejecución de gestionclientes)
+Si deseas ejecutar la aplicación usando Docker Compose, ejecuta:
 
-```bash
-python src/integracionpagos/main.py 
-flask --app src/integracionpagos/api run 
-```
-
-Siempre puede ejecutarlo en modo DEBUG:
 
 ```bash
-python src/integracionpagos/main.py 
-flask --app src/integracionpagos/api --debug run
+make run-compose
 ```
+
+Esto construirá las imágenes de Docker y levantará los contenedores necesarios, incluyendo Flask y PostgreSQL. La aplicación estará disponible en http://localhost:5001/ y la base de datos en el puerto 5433.
+
+Detener y Limpiar Contenedores
+Para detener y eliminar los contenedores y volúmenes, utiliza:
+
+```bash
+make clean-compose
+```
+
+### 3. Ejecutar la Aplicación con Docker (sin Compose)
+Para construir y ejecutar la aplicación en un contenedor Docker:
+
+```bash
+docker build --no-cache -t flask_app .
+docker run -d -p 5001:5000 --name monolitica_flask_app flask_app
+```
+
+Para detener y eliminar el contenedor:
+
+
+```bash
+docker stop monolitica_flask_app && docker rm monolitica_flask_app
+```
+
+### Documentación de Endpoints
+
+Los endpoints principales de la API están documentados a través de la colección de Postman, ubicada en el archivo Entrega 3.postman_collection.json. Algunos de los endpoints más importantes incluyen:
+
+/clientes/cliente (POST): Crea un nuevo cliente.
+/clientes/cliente/<id> (GET): Consulta un cliente por su ID.
+/facturacion/realizar-pago (POST): Realiza un pago utilizando el servicio de facturación.
+
+Puedes importar esta colección en Postman para probar los endpoints directamente.
+
+## Notas Finales
+Este proyecto está diseñado para ser fácil de implementar en entornos locales o en contenedores Docker, y sigue principios de Domain-Driven Design (DDD) y microservicios para garantizar una arquitectura escalable y mantenible. Asegúrate de revisar los logs y seguir las instrucciones del Dockerfile para facilitar la instalación.
+
+
+
+
+_____________________________________________
+
 
 # ENTREGA 1
 
@@ -140,7 +227,35 @@ docker rmi flask_app
 ```
 
 
-# Explicación
+# ENTREGA 2
+
+### Correr docker-compose usando profiles
+```bash
+docker-compose --profile pulsar up
+```
+
+## Ejecutar Aplicación
+
+Desde el directorio principal ejecute el siguiente comando. (ver en la entrega 1 para la ejecución de gestionclientes)
+
+```bash
+python src/integracionpagos/main.py 
+flask --app src/integracionpagos/api run 
+```
+
+Siempre puede ejecutarlo en modo DEBUG:
+
+```bash
+python src/integracionpagos/main.py 
+flask --app src/integracionpagos/api --debug run
+```
+
+
+
+
+# ENTREGA 3
+
+## Explicación
 Para la entrega 3 hemos decidido crear el microservicio para la gestión de clientes, en este se encuentran los módulos de clientes y facturación.
 En el módulo de clientes podemos realizar varias acciones como:
 * Crear un cliente
@@ -228,5 +343,3 @@ En la raíz del proyecto se encuentra el archivo `Entrega 3.postman_collection.j
     "monto": 24
 }
 ```
-
-
