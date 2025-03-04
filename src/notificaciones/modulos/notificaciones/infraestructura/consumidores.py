@@ -24,7 +24,7 @@ def suscribirse_a_eventos():
     try:
         print("Esperando mensajes en Pulsar...")
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-gestionclientes',
+        consumidor = cliente.subscribe('eventos-gestionclientes-notificacion',
                                        consumer_type=_pulsar.ConsumerType.Shared,
                                        subscription_name='notificaciones-sub-eventos',
                                        schema=AvroSchema(EventoPagoConfirmado))
@@ -59,7 +59,7 @@ def suscribirse_a_comandos():
     try:
         print("Esperando mensajes en Pulsar...")
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('comandos-integracionauditoria',
+        consumidor = cliente.subscribe('comandos-integracionauditoria-notificacion',
                                        consumer_type=_pulsar.ConsumerType.Shared,
                                        subscription_name='notificaciones-sub-comandos',
                                        schema=AvroSchema(ComandoRealizarPago))
