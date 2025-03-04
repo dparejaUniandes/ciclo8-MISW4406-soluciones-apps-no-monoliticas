@@ -13,7 +13,7 @@ Este proyecto es una solución basada en la arquitectura de microservicios utili
 ### 1. Arquitectura General
 El proyecto está diseñado bajo el patrón de microservicios, dividido en módulos que permiten una gestión modularizada de los distintos aspectos del sistema. Los principales módulos son:
 
-[Diagrama de arquitectura](https://5000-dparejaunia-ciclo8misw4-9w6csqmlxoe.ws-us118.gitpod.io)
+[Diagrama de arquitectura](https://excalidraw.com/#room=e5b32f4d90ffe8b83d7b,HzWcY7ddsq1vONTdtmts4A)
 
 - **bff_web**: Backend for Frontend (BFF), se encarga de manejar la comunicación entre el frontend y los microservicios del backend. Actúa como una capa intermedia para optimizar y simplificar la interacción entre la interfaz de usuario y los microservicios.
 
