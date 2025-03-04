@@ -5,6 +5,8 @@ networks:
     driver: bridge
   db_gestionclientes:
     driver: bridge
+  gestionclientes:
+    driver: bridge
 
 services:
 # Start zookeeper
@@ -82,7 +84,7 @@ services:
       - managedLedgerDefaultWriteQuorum=1
       - managedLedgerDefaultAckQuorum=1
       - advertisedAddress=broker
-      - advertisedListeners=external:pulsar://127.0.0.1:6650
+      - advertisedListeners=external:pulsar://broker:6650
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -119,8 +121,9 @@ services:
     build: 
       context: .
       dockerfile: gestionclientes.Dockerfile
+    hostname: clientes  
     container_name: flask_app
-    # image: gestionclientes/flask 
+    image: gestionclientes/flask 
     profiles: ["app-clientes"]
     restart: always
     depends_on:
@@ -146,6 +149,7 @@ services:
     networks:
       - pulsar
       - db_gestionclientes
+      - gestionclientes
   
   app_integracionpagos:
     build: 
@@ -155,11 +159,11 @@ services:
     # image: integracionpagos/flask 
     profiles: ["app-pagos"]
     restart: always
-    depends_on:
-      db-postgres:
-        condition: service_healthy
-      broker:
-        condition: service_started
+    # depends_on:
+    #   db-postgres:
+    #     condition: service_healthy
+      # broker:
+      #   condition: service_started
     environment:
       FLASK_APP: src/integracionpagos
       FLASK_ENV: development
@@ -168,6 +172,8 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 123456
       DB_PORT: 5432
+      PULSAR_ADDRESS: broker
+      BROKER_HOST: broker
   
     volumes:
       - .:/app
@@ -176,18 +182,22 @@ services:
   
   # Servicio BFF
   bff:
+    build: 
+      context: .
+      dockerfile: ./bff.Dockerfile
     container_name: bff
     hostname: bff
-    image: saludtech/bff 
-    profiles: ["saludtech", "bff"]
-    depends_on:
-      - saludtech
-      - broker
+    # image: saludtech/bff 
+    profiles: ["bff"]
+    # depends_on:
+    #   broker:
+    #     condition: service_started
     environment:
-      - AEROALPES_ADDRESS=saludtech
+      - SALUDTECH_ADDRESS=clientes
       - BROKER_HOST=broker
     networks:
       - pulsar
+      - gestionclientes
     ports:
       - "8003:8003"
 
