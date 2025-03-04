@@ -51,8 +51,7 @@ class RepositorioFacturacionPostgresqlNoSQLAlchemy(RepositorioFacturacionNoSQLAl
         raise NotImplementedError
 
     def agregar(self, facturacion: Facturacion):
-        # TODO
-        raise NotImplementedError
+        return None
 
     def actualizar(self, facturacion: Facturacion):
         cursor = init_db().cursor()

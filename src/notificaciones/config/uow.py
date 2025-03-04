@@ -1,5 +1,5 @@
-from gestionclientes.config.db import db
-from gestionclientes.seedwork.infraestructura.uow import Batch, UnidadTrabajo
+from notificaciones.config.db import db
+from notificaciones.seedwork.infraestructura.uow import Batch, UnidadTrabajo
 
 
 class UnidadTrabajoSQLAlchemy(UnidadTrabajo):

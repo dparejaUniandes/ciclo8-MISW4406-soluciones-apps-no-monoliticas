@@ -1,5 +1,5 @@
 import os
-
+import threading
 from flask import Flask, jsonify
 from flask_swagger import swagger
 
@@ -8,74 +8,57 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def registrar_handlers():
-    """ Registra los handlers de la aplicacion """
+    """Registra los handlers de la aplicación."""
     import notificaciones.modulos.notificaciones.aplicacion
 
 
 def importar_modelos_alchemy():
-    """ Importa los modelos de alchemy """
+    """Importa los modelos de SQLAlchemy."""
     import notificaciones.modulos.notificaciones.infraestructura.dto
 
 
-def comenzar_consumidor():
-    """ Comienza el consumidor """
-    import threading
-
+def comenzar_consumidor(app):
+    """Comienza el consumidor dentro del contexto de la aplicación."""
     import notificaciones.modulos.notificaciones.infraestructura.consumidores as notificacion
 
-    # Suscripción a eventos
-    threading.Thread(target=notificacion.suscribirse_a_eventos).start()
+    def run_with_context(target):
+        with app.app_context():
+            target()
 
-    # Suscripción a comandos
-    threading.Thread(target=notificacion.suscribirse_a_comandos).start()
+    # Suscripción a eventos y comandos en hilos separados
+    threading.Thread(target=lambda: run_with_context(notificacion.suscribirse_a_eventos), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(notificacion.suscribirse_a_comandos), daemon=True).start()
 
 
 def create_app(configuracion={}):
-    # Init la aplicacion de Flask
+    """Crea y configura la aplicación Flask."""
     app = Flask(__name__, instance_relative_config=True)
 
     route = basedir
     if configuracion.get('TESTING'):
         route = configuracion["DATABASE"]
 
-    # Configuracion de BD
-    app.config['SQLALCHEMY_DATABASE_URI'] =\
-        'sqlite:///' + os.path.join(route, 'database.db')
+    # Configuración de la base de datos
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
     app.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['TESTING'] = configuracion.get('TESTING')
 
-    # Inicializa la DB
-    from notificaciones.config.db import init_db
-    from notificaciones.config.db import db
-
+    # Inicializa la base de datos
+    from notificaciones.config.db import init_db, db
     init_db(app)
 
-    # importar_modelos_alchemy()
-    # registrar_handlers()
-
-    # app_context = app.app_context()
-    # app_context.push()
-    # # with app.app_context():
-    # db.create_all()
-
-    # # Importa Blueprints
-    # from . import notificacion
-
-    # # Registro de Blueprints
-    # app.register_blueprint(notificacion.bp)
+    # Importa modelos y handlers
     importar_modelos_alchemy()
     registrar_handlers()
 
-    app_context = app.app_context()
-    app_context.push()
+    # Ejecuta en el contexto de la aplicación
     with app.app_context():
         db.create_all()
         if not app.config.get('TESTING'):
-            comenzar_consumidor()
+            comenzar_consumidor(app)
 
+    # Rutas de la API
     @app.route("/spec")
     def spec():
         swag = swagger(app)

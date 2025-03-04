@@ -43,7 +43,7 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
             medio="correo"
         )
         despachador = Despachador()
-        despachador.publicar_evento(pago_confirmado, 'eventos-gestionclientes-notificacion')
+        despachador.publicar_evento_notificacion(pago_confirmado, 'eventos-gestionclientes-notificacion')
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)
         # UnidadTrabajoPuerto.savepoint()

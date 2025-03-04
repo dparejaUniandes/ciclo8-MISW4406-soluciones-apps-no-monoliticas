@@ -5,6 +5,8 @@ networks:
     driver: bridge
   db_gestionclientes:
     driver: bridge
+  gestionclientes:
+    driver: bridge
 
 services:
 # Start zookeeper
@@ -96,7 +98,7 @@ services:
 
   db-postgres:
     image: postgres:15-alpine
-    profiles: ["app-clientes"]
+    profiles: ["app-clientes", "db"]
     container_name: postgres_db
     restart: always
     environment:
@@ -176,20 +178,24 @@ services:
   
   # Servicio BFF
   bff:
+    build: 
+      context: .
+      dockerfile: ./bff.Dockerfile
     container_name: bff
     hostname: bff
-    image: saludtech/bff 
-    profiles: ["saludtech", "bff"]
-    depends_on:
-      - saludtech
-      - broker
+    # image: saludtech/bff 
+    profiles: ["bff"]
+    # depends_on:
+    #   broker:
+    #     condition: service_started
     environment:
-      - AEROALPES_ADDRESS=saludtech
+      - SALUDTECH_ADDRESS=clientes
       - BROKER_HOST=broker
     networks:
       - pulsar
+      - gestionclientes
     ports:
-      - "8003:8003"
+      - "5002:8003"
 
 volumes:
   postgres_data:

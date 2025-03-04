@@ -43,4 +43,9 @@ class ClienteRespuesta:
     codigo: int
 
 
+@strawberry.input
+class RealizarPagoInput:
+    medioPago: str
+    idCliente: str
+    monto: float
 

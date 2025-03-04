@@ -14,12 +14,13 @@ from notificaciones.seedwork.dominio.repositorios import Repositorio
 
 from .excepciones import ExcepcionFabrica
 from .repositorios import RepositorioNotificacionesSQLite
+from .repositorios_no_sqlalchemy import RepositorioNotificacionesPostgresqlNoSQLAlchemy
 
 
 @dataclass
 class FabricaRepositorio(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Repositorio:
         if obj == RepositorioNotificaciones.__class__:
-            return RepositorioNotificacionesSQLite()
+            return RepositorioNotificacionesPostgresqlNoSQLAlchemy()
         else:
             raise ExcepcionFabrica()

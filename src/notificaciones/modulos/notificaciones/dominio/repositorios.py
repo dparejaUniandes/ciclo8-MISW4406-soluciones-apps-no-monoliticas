@@ -12,3 +12,6 @@ from notificaciones.seedwork.dominio.repositorios import Repositorio
 
 class RepositorioNotificaciones(Repositorio, ABC):
     """ Repositorio de notificaciones """
+
+class RepositorioNotificacionesNoSQLAlchemy(Repositorio, ABC):
+    ...

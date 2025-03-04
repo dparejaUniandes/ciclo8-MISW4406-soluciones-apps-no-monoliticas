@@ -76,6 +76,7 @@ def suscribirse_a_comandos_bff():
 
             data = mensaje.value().data
             comando = CrearFacturacion(
+                id=data.idCliente,
                 medio_pago=data.medioPago,
                 id_cliente=data.idCliente,
                 monto=data.monto
