@@ -6,7 +6,8 @@ from pulsar.schema import *
 from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos import (
     ComandoRealizarPago, ComandoRealizarPagoPayload)
 from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import (
-    EventoPagoRealizado, PagoRealizadoPayload)
+    EventoPagoConfirmado, EventoPagoRealizado, PagoConfirmadoPayload,
+    PagoRealizadoPayload)
 from gestionclientes.seedwork.infraestructura import utils
 
 epoch = datetime.datetime.utcfromtimestamp(0)
@@ -29,6 +30,15 @@ class Despachador:
         )
         evento_integracion = EventoPagoRealizado(data=payload)
         self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoPagoRealizado))
+    
+    def publicar_evento_notificacion(self, evento, topico):
+        payload = PagoConfirmadoPayload(
+            tipo=str(evento.tipo), 
+            valor=str(evento.valor), 
+            medio=str(evento.medio)
+        )
+        evento_integracion = EventoPagoConfirmado(data=payload)
+        self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoPagoConfirmado))
 
     def publicar_comando(self, comando, topico):
         payload = ComandoRealizarPagoPayload(

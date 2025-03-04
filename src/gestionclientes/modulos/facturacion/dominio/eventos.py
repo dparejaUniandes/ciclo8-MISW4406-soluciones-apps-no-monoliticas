@@ -11,3 +11,9 @@ class PagoRealizado(EventoDominio):
     id_cliente: uuid.UUID = None
     estado: str = None
     monto: float = None
+
+@dataclass
+class PagoConfirmado(EventoDominio):
+    tipo: str = None
+    valor: str = None
+    medio: str = None

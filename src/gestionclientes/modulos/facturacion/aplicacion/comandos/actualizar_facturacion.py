@@ -4,6 +4,9 @@ from gestionclientes.modulos.facturacion.aplicacion.dto import FacturacionDTO
 from gestionclientes.modulos.facturacion.aplicacion.mapeadores import \
     MapeadorFacturacion
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
+from gestionclientes.modulos.facturacion.dominio.eventos import PagoConfirmado
+from gestionclientes.modulos.facturacion.infraestructura.despachadores import \
+    Despachador
 from gestionclientes.modulos.facturacion.infraestructura.repositorios import \
     RepositorioFacturacion
 from gestionclientes.modulos.facturacion.infraestructura.repositorios_no_sqlalchemy import \
@@ -33,6 +36,14 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
 
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
         repositorio.actualizar(facturacion)
+
+        pago_confirmado = PagoConfirmado(
+            tipo="ALERTA",
+            valor = "pepe@gmail.com",
+            medio="correo"
+        )
+        despachador = Despachador()
+        despachador.publicar_evento(pago_confirmado, 'eventos-gestionclientes-notificacion')
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.actualizar, facturacion)
         # UnidadTrabajoPuerto.savepoint()
