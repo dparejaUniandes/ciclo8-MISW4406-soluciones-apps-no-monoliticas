@@ -80,11 +80,12 @@ flask --app src/notificaciones/api run --port 6000
 
 #### Ejecución de Integración de pagos
 ```bash
-flask --app src/integracionpagos/api run --port 6000
+flask --app src/integracionpagos/api run --port 7000
 ```
 
 
 #### Ejecución de BFF
+Se debe ingresar a la carpeta src y ejecutar <br>
 ```bash
 uvicorn bff_web.main:app --host localhost --port 8003 --reload
 ```
