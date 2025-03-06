@@ -57,10 +57,9 @@ class RepositorioNotificacionesPostgresqlNoSQLAlchemy(RepositorioNotificacionesN
                        (notificacion_dto.id,
                        notificacion_dto.fecha_creacion,
                        notificacion_dto.fecha_actualizacion,
-                       notificacion_dto.id_cliente,
-                       notificacion_dto.monto,
-                       notificacion_dto.estado_pago,
-                       notificacion_dto.pasarela_pago)
+                       notificacion_dto.tipo,
+                       notificacion_dto.valor,
+                       notificacion_dto.medio.value)
                     )
         cursor.close()
 

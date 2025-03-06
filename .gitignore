@@ -139,3 +139,4 @@ dmypy.json
 sql_integracionpagos.db-journal
 
 database.db-journal
+sql_notificaciones.db-journal

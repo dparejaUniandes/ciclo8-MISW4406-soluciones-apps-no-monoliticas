@@ -46,6 +46,7 @@ class CrearNotificacionHandler(NotificacionBaseHandler):
 
         repositorio = self.fabrica_repositorio.crear_objeto(
             RepositorioNotificaciones.__class__)
+        repositorio.agregar(cliente)
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, cliente)
         # UnidadTrabajoPuerto.savepoint()
