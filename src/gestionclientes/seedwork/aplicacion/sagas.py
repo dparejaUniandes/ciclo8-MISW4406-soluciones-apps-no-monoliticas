@@ -24,22 +24,7 @@ class CoordinadorSaga(ABC):
 
     @abstractmethod
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
-        comando=None
-        if tipo_comando == RevertirFacturacion:
-            comando=RevertirFacturacion(
-                
-            )
-        elif tipo_comando == RevertirPago:
-            comando=RevertirPago(
-                id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente,
-                estado = evento.estado
-            )
-        elif tipo_comando == RevertirNotificacion:
-            comando=RevertirNotificacion(
-                
-            )
-        return comando
+        ...
 
     def publicar_comando(self,evento: EventoDominio, tipo_comando: type):
         comando = self.construir_comando(evento, tipo_comando)
@@ -92,7 +77,6 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
     index: int
     
     def obtener_paso_dado_un_evento(self, evento: EventoDominio):
-        print("PASOS***: ", self.pasos, "EVENTO: ", evento)
         for i, paso in enumerate(self.pasos):
             if not isinstance(paso, Transaccion):
                 continue

@@ -65,12 +65,26 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         # TODO Transforma un evento en la entrada de un comando
         # Por ejemplo si el evento que llega es ReservaCreada y el tipo_comando es PagarReserva
         # Debemos usar los atributos de ReservaCreada para crear el comando PagarReserva
-        ...
+        comando=Comando()
+        if tipo_comando == RevertirFacturacion:
+            comando=RevertirFacturacion(
+                
+            )
+        elif tipo_comando == RevertirPago:
+            comando=RevertirPago(
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente,
+                estado = evento.estado
+            )
+        elif tipo_comando == RevertirNotificacion:
+            comando=RevertirNotificacion(
+                
+            )
+        return comando
 
 
 # TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
 def oir_mensaje(mensaje):
-    print("MENSAJE: ", mensaje, " ", type(mensaje))
     if isinstance(mensaje, EventoDominio):
         coordinador = CoordinadorReservas()
         coordinador.inicializar_pasos(mensaje.id_correlacion)
