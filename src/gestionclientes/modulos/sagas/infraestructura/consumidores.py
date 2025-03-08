@@ -6,6 +6,7 @@ import uuid
 import _pulsar
 import pulsar
 from pulsar.schema import *
+from pydispatch import dispatcher
 
 from gestionclientes.modulos.facturacion.aplicacion.comandos.actualizar_facturacion import \
     ActualizarFacturacion
@@ -15,6 +16,8 @@ from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos impo
     ComandoRealizarPago, ComandoRealizarPagoBFF)
 from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import \
     EventoPagoRealizado
+from gestionclientes.modulos.sagas.dominio.eventos.pagos import (PagoRealizado,
+                                                                 PagoRevertido)
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.infraestructura import utils
 
@@ -33,14 +36,22 @@ def suscribirse_a_eventos():
             event_type = mensaje.value().event_type
             if event_type == "pago_realizado":
                 print("**************** SE RECIBE PAGO REALIZADO **************")
+                evento = PagoRealizado(
+                    id_correlacion = data.id_correlacion,
+                    id_cliente = data.id_cliente,
+                    estado = data.estado
+                )
+                dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
             
-            elif event_type == "pago_realizado_compensacion":
-                print("**************** SE RECIBE PAGO REALIZADO COMPENSACIÓN**************")
-            # comando = ActualizarFacturacion(
-            #     id_cliente=data.id_cliente,
-            #     estadoReportado=data.estado
-            # )
-            # ejecutar_commando(comando)
+            elif event_type == "pago_realizado_revertido":
+                print("**************** SE RECIBE PAGO REALIZADO REVERTIDO**************")
+                evento = PagoRevertido(
+                    id_correlacion = data.id_correlacion,
+                    id_cliente = data.id_cliente,
+                    estado = data.estado
+                )
+                dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
+
 
             consumidor.acknowledge(mensaje)     
 

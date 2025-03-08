@@ -15,6 +15,6 @@ def crear_cliente():
         id_cliente="abcd-1234", 
         estado="CANCELADO"
     )
-    evento_integracion = EventoPagoRealizado(data=payload, event_type="pago_realizado_compensacion")
+    evento_integracion = EventoPagoRealizado(data=payload, event_type="pago_realizado_revertido")
     despachador._publicar_mensaje(evento_integracion, 'eventos-pago', AvroSchema(EventoPagoRealizado))
     return {"mensaje": "Evento de compensación emitido"}

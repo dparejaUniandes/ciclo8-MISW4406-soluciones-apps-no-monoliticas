@@ -9,6 +9,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def registrar_handlers():
     import gestionclientes.modulos.clientes.aplicacion
     import gestionclientes.modulos.facturacion.aplicacion
+    import gestionclientes.modulos.sagas.aplicacion
 
 def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto

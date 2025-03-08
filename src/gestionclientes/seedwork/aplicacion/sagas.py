@@ -27,11 +27,13 @@ class CoordinadorSaga(ABC):
         comando=None
         if tipo_comando == RevertirFacturacion:
             comando=RevertirFacturacion(
-
+                
             )
         elif tipo_comando == RevertirPago:
             comando=RevertirPago(
-
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente,
+                estado = evento.estado
             )
         elif tipo_comando == RevertirNotificacion:
             comando=RevertirNotificacion(
@@ -101,7 +103,7 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
         raise Exception("Evento no hace parte de la transacción")
                 
     def es_ultima_transaccion(self, index):
-        return len(self.pasos) - 1
+        return len(self.pasos) - 1 == index
 
     def procesar_evento(self, evento: EventoDominio):
         paso, index = self.obtener_paso_dado_un_evento(evento)
