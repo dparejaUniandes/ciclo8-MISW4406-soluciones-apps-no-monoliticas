@@ -11,6 +11,7 @@ class PagoRealizadoPayload(Record):
 
 class EventoPagoRealizado(EventoIntegracion):
     data = PagoRealizadoPayload()
+    event_type = String()
 
 class PagoConfirmadoPayload(Record):
     tipo = String()
