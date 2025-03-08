@@ -8,7 +8,6 @@ class PagoRealizadoPayload(Record):
     id_cliente = String()
     estado = String()
     fecha_creacion = Long()
-    event_type = String()
 
 class EventoPagoRealizado(EventoIntegracion):
     data = PagoRealizadoPayload()
