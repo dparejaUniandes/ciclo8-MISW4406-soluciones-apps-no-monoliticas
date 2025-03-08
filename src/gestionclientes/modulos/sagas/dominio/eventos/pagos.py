@@ -1,0 +1,28 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime
+
+from integracionpagos.seedwork.dominio.eventos import EventoDominio
+
+
+class EventoPago(EventoDominio):
+    ...
+
+@dataclass
+class PagoRealizado(EventoPago):
+    id_correlacion: str = None
+    id_cliente: str = None, 
+    estado: str = None
+
+@dataclass
+class PagoFallido(EventoPago):
+    id_correlacion: str = None
+    id_cliente: str = None, 
+    estado: str = None
+
+@dataclass
+class PagoRevertido(EventoPago):
+    id_correlacion: str = None
+    id_cliente: str = None, 
+    estado: str = None
