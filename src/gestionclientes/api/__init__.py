@@ -19,9 +19,11 @@ def comenzar_consumidor():
     import threading
 
     import gestionclientes.modulos.facturacion.infraestructura.consumidores as facturacion
+    import gestionclientes.modulos.sagas.infraestructura.consumidores as saga
 
     # Suscripción a eventos
     threading.Thread(target=facturacion.suscribirse_a_eventos).start()
+    threading.Thread(target=saga.suscribirse_a_eventos).start()
 
     # Suscripción a comandos
     threading.Thread(target=facturacion.suscribirse_a_comandos).start()
