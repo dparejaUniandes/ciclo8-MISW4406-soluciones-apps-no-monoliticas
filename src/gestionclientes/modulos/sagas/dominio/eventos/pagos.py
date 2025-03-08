@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from integracionpagos.seedwork.dominio.eventos import EventoDominio
+from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
 
 class EventoPago(EventoDominio):

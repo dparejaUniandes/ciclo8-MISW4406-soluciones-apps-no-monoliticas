@@ -32,6 +32,7 @@ class Despachador:
 
     def publicar_comando(self, comando, topico):
         payload = ComandoRealizarPagoPayload(
+            id_correlacion=str(comando.id_correlacion),
             id_cliente=str(comando.id_cliente),
             monto = float(comando.monto)
         )

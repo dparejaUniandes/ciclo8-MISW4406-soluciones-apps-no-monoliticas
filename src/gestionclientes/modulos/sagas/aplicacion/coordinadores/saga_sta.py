@@ -20,13 +20,34 @@ from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
 class CoordinadorReservas(CoordinadorOrquestacion):
 
-    def inicializar_pasos(self):
+    def inicializar_pasos(self, id_correlacion):
         self.pasos = [
-            Inicio(index=0),
-            Transaccion(index=1, comando=CrearFacturacion, evento=FacturacionCreada, error=FacturacionFallida, compensacion=RevertirFacturacion),
-            Transaccion(index=2, comando=RealizarPago, evento=PagoRealizado, error=PagoFallido, compensacion=RevertirPago),
-            Transaccion(index=3, comando=CrearNotificacion, evento=NotificacionCreada, error=NotificacionFallida, compensacion=RevertirNotificacion),
-            Fin(index=4)
+            Inicio(index=0, id_correlacion=id_correlacion),
+            Transaccion(
+                index=1, 
+                comando=CrearFacturacion, 
+                evento=FacturacionCreada, 
+                error=FacturacionFallida, 
+                compensacion=RevertirFacturacion, 
+                id_correlacion=id_correlacion
+            ),
+            Transaccion(
+                index=2, 
+                comando=RealizarPago, 
+                evento=PagoRealizado, 
+                error=PagoFallido, 
+                compensacion=RevertirPago,
+                id_correlacion=id_correlacion
+            ),
+            Transaccion(
+                index=3, 
+                comando=CrearNotificacion, 
+                evento=NotificacionCreada, 
+                error=NotificacionFallida, 
+                compensacion=RevertirNotificacion,
+                id_correlacion=id_correlacion
+            ),
+            Fin(index=4, id_correlacion=id_correlacion)
         ]
 
     def iniciar(self):
@@ -49,8 +70,10 @@ class CoordinadorReservas(CoordinadorOrquestacion):
 
 # TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
 def oir_mensaje(mensaje):
+    print("MENSAJE: ", mensaje, " ", type(mensaje))
     if isinstance(mensaje, EventoDominio):
         coordinador = CoordinadorReservas()
+        coordinador.inicializar_pasos(mensaje.id_correlacion)
         coordinador.procesar_evento(mensaje)
     else:
         raise NotImplementedError("El mensaje no es evento de Dominio")

@@ -11,8 +11,8 @@ from gestionclientes.modulos.clientes.dominio.objetos_valor import EstadoPlan
 Base = db.declarative_base()
 
 
-class Cliente(db.Model):
-    __tablename__ = "clientes"
+class SagaLog(db.Model):
+    __tablename__ = "saga_log"
     id = db.Column(db.String, primary_key=True)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     fecha_actualizacion = db.Column(db.DateTime, nullable=False)

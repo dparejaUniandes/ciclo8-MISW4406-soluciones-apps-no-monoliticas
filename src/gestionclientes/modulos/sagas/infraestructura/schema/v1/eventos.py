@@ -1,6 +1,6 @@
 from pulsar.schema import *
 
-from integracionpagos.seedwork.infraestructura.schema.v1.eventos import \
+from gestionclientes.seedwork.infraestructura.schema.v1.eventos import \
     EventoIntegracion
 
 

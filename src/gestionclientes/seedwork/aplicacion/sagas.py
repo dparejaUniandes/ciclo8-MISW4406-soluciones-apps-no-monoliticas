@@ -61,9 +61,9 @@ class CoordinadorSaga(ABC):
     def terminar():
         ...
 
+@dataclass
 class Paso():
     id_correlacion: uuid.UUID
-    fecha_evento: datetime.datetime
     index: int
 
 @dataclass
@@ -76,12 +76,10 @@ class Fin(Paso):
 
 @dataclass
 class Transaccion(Paso):
-    
     comando: Comando
     evento: EventoDominio
     error: EventoDominio
     compensacion: Comando
-    exitosa: bool
 
 class CoordinadorCoreografia(CoordinadorSaga, ABC):
     # TODO Piense como podemos hacer un Coordinador con coreografía y Sagas
@@ -94,6 +92,7 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
     index: int
     
     def obtener_paso_dado_un_evento(self, evento: EventoDominio):
+        print("PASOS***: ", self.pasos, "EVENTO: ", evento)
         for i, paso in enumerate(self.pasos):
             if not isinstance(paso, Transaccion):
                 continue

@@ -8,16 +8,10 @@ import pulsar
 from pulsar.schema import *
 from pydispatch import dispatcher
 
-from gestionclientes.modulos.facturacion.aplicacion.comandos.actualizar_facturacion import \
-    ActualizarFacturacion
-from gestionclientes.modulos.facturacion.aplicacion.comandos.crear_facturacion import \
-    CrearFacturacion
-from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos import (
-    ComandoRealizarPago, ComandoRealizarPagoBFF)
-from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import \
+from gestionclientes.modulos.sagas.infraestructura.schema.v1.eventos import \
     EventoPagoRealizado
 from gestionclientes.modulos.sagas.dominio.eventos.pagos import (PagoRealizado,
-                                                                 PagoRevertido)
+                                                                 PagoFallido)
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.infraestructura import utils
 
@@ -45,7 +39,7 @@ def suscribirse_a_eventos():
             
             elif event_type == "pago_realizado_revertido":
                 print("**************** SE RECIBE PAGO REALIZADO REVERTIDO**************")
-                evento = PagoRevertido(
+                evento = PagoFallido(
                     id_correlacion = data.id_correlacion,
                     id_cliente = data.id_cliente,
                     estado = data.estado

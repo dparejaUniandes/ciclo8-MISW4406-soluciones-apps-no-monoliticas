@@ -1,4 +1,4 @@
-from gestionclientes.modulos.clientes.aplicacion.comandos.base import \
+from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
     SagaBaseHandler
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
