@@ -5,6 +5,7 @@ from gestionclientes.seedwork.infraestructura.schema.v1.eventos import \
 
 
 class PagoRealizadoPayload(Record):
+    id_correlacion = String()
     id_cliente = String()
     estado = String()
     fecha_creacion = Long()
