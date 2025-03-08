@@ -27,7 +27,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido desde integración de pagos: {mensaje.value().data}')
+            print(f'Evento recibido desde integración de pagos hacia sagas: {mensaje.value().data}')
 
             data = mensaje.value().data
             event_type = mensaje.value().event_type

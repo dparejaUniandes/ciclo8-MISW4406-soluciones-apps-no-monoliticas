@@ -27,7 +27,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido desde integración de pagos: {mensaje.value().data}')
+            print(f'Evento emitido desde integración de pagos hacia facturacion: {mensaje.value().data}')
 
             data = mensaje.value().data
             comando = ActualizarFacturacion(
