@@ -152,11 +152,13 @@ class CoordinadorReservas(CoordinadorOrquestacion):
 
 # TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
 def oir_mensaje(evento):
+    print("EVENTO***: ", evento, isinstance(evento, EventoDominio))
     if isinstance(evento, EventoDominio):
         coordinador = CoordinadorReservas()
         coordinador.inicializar_pasos(evento.id_correlacion)
         paso, index = coordinador.obtener_paso_dado_un_evento(evento)
         coordinador.persistir_en_saga_log(evento, paso, index)
-        coordinador.procesar_evento(evento)
+        if type(evento) != FacturacionFallida:
+            coordinador.procesar_evento(evento)
     else:
         raise NotImplementedError("El mensaje no es evento de Dominio")

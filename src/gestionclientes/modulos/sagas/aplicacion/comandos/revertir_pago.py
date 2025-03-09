@@ -16,10 +16,10 @@ class RevertirPago(SagaInfo):
 class RevertirPagoHandler(SagaBaseHandler):
     def handle(self, comando: RevertirPago):
         print("********************** EJECUCIÓN COMANDO REVERTIR PAGO, EMITE EVENTO DE REVERSIÓN")
-        eventoDominio = PagoRevertido(
-            id_correlacion = comando.id_correlacion, id_cliente = comando.id_cliente, command_type="revertir_pago")
-        despachador = Despachador()
-        despachador.publicar_comando(eventoDominio, 'comandos-compensacion-saga')
+        # eventoDominio = PagoRevertido(
+        #     id_correlacion = comando.id_correlacion, id_cliente = comando.id_cliente, command_type="revertir_pago")
+        # despachador = Despachador()
+        # despachador.publicar_comando(eventoDominio, 'comandos-compensacion-saga')
 
 
 @comando.register(RevertirPago)

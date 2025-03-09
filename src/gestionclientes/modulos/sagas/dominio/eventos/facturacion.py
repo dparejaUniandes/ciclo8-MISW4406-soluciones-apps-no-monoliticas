@@ -1,7 +1,7 @@
 import uuid
 from dataclasses import dataclass
 
-from integracionpagos.seedwork.dominio.eventos import EventoDominio
+from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
 
 class EventoFacturacion(EventoDominio):

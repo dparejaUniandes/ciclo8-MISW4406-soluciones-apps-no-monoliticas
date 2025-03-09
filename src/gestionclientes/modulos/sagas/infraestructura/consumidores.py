@@ -62,7 +62,7 @@ def suscribirse_a_eventos_facturacion():
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-gestionclientes-notificacion', consumer_type=_pulsar.ConsumerType.Shared,subscription_name='sagas-sub-eventos', schema=AvroSchema(EventoPagoConfirmado))
+        consumidor = cliente.subscribe('eventos-gestionclientes-notificacion', consumer_type=_pulsar.ConsumerType.Shared,subscription_name='sagas-sub-eventos-facturacion', schema=AvroSchema(EventoPagoConfirmado))
 
         while True:
             mensaje = consumidor.receive()
@@ -74,8 +74,8 @@ def suscribirse_a_eventos_facturacion():
                 print("**************** Consumidor saga: SE RECIBE PAGO CONFIRMADO facturación **************")
                 evento = FacturacionCreada(
                     id_correlacion = data.id_correlacion,
-                    id_cliente = data.id_cliente,
-                    estado = data.estado
+                    id_cliente = data.valor,
+                    estado = "CONFIRMADO"
                 )
                 dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
             
@@ -83,8 +83,8 @@ def suscribirse_a_eventos_facturacion():
                 print("**************** Consumidor saga: SE RECIBE PAGO CONFIRMADO facturación REVERTIDO**************")
                 evento = FacturacionFallida(
                     id_correlacion = data.id_correlacion,
-                    id_cliente = data.id_cliente,
-                    estado = data.estado
+                    id_cliente = data.valor,
+                    estado = "CONFIRMADO"
                 )
                 dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
 
