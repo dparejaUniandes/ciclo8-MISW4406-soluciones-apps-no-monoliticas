@@ -1,5 +1,3 @@
-from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
-    SagaBaseHandler
 from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import \
     CrearFacturacion
 from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import \
@@ -26,6 +24,7 @@ from gestionclientes.seedwork.aplicacion.sagas import (CoordinadorOrquestacion,
                                                        Fin, Inicio,
                                                        Transaccion)
 from gestionclientes.seedwork.dominio.eventos import EventoDominio
+from gestionclientes.modulos.sagas.infraestructura.fabricas import FabricaRepositorio
 
 
 class CoordinadorReservas(CoordinadorOrquestacion):
@@ -73,24 +72,25 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         # Probablemente usted podría usar un repositorio para ello
         nombre_paso = ""
         estado = ""
-        if paso.evento == FacturacionCreada or paso.error == FacturacionFallida:
-            nombre_paso = FacturacionCreada.__name__ if paso.evento == FacturacionCreada else RevertirFacturacion.__name__,
+        print("Evento: *** ", type(evento), type(evento) == PagoFallido)
+        if type(evento) == FacturacionCreada or type(evento) == FacturacionFallida:
+            nombre_paso = FacturacionCreada.__name__ if type(evento) == FacturacionCreada else RevertirFacturacion.__name__,
             estado = "INICIO"
-        elif paso.evento == PagoRealizado or paso.error == PagoFallido:
-            nombre_paso = PagoRealizado.__name__ if paso.evento == PagoRealizado else RevertirPago.__name__,
+        elif type(evento) == PagoRealizado or type(evento) == PagoFallido:
+            nombre_paso = PagoRealizado.__name__ if type(evento) == PagoRealizado else RevertirPago.__name__,
             estado = "MEDIO"
-        elif paso.evento == NotificacionCreada or paso.error == NotificacionFallida:
-            nombre_paso = NotificacionCreada.__name__ if paso.evento == NotificacionCreada else RevertirNotificacion.__name__,
+        elif type(evento) == NotificacionCreada or type(evento) == NotificacionFallida:
+            nombre_paso = NotificacionCreada.__name__ if type(evento) == NotificacionCreada else RevertirNotificacion.__name__,
             estado = "FIN"
         saga = Saga(
             id_correlacion = evento.id_correlacion,
             id_cliente = evento.id_cliente,
-            nombre_paso = nombre_paso,
+            nombre_paso = nombre_paso[0],
             estado = estado,
             index = index
         )
-        print("Nombre  y estado*** ", nombre_paso, estado)
-        repositorio = SagaBaseHandler.fabrica_repositorio.crear_objeto(RepositorioSagas)
+        fabrica = FabricaRepositorio()
+        repositorio=fabrica.crear_objeto(RepositorioSagas)
         repositorio.agregar(saga)
         
 
