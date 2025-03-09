@@ -39,7 +39,7 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
         repositorio.actualizar(facturacion)
 
         pago_confirmado = PagoConfirmado(
-            id_correlacion = comando.id_correlacion
+            id_correlacion = comando.id_correlacion,
             tipo="ALERTA",
             valor = "pepe@gmail.com",
             medio="correo",

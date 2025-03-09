@@ -10,3 +10,4 @@ from integracionpagos.seedwork.dominio.eventos import EventoDominio
 class PagoRealizado(EventoDominio):
     id_cliente: uuid.UUID = None
     estado_pago: str = None
+    id_correlacion: str = None

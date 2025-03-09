@@ -25,6 +25,7 @@ class Despachador:
         payload = PagoRealizadoPayload(
             id_cliente=str(evento.id_cliente), 
             estado=str(evento.estado_pago),
+            id_correlacion=str(evento.id_correlacion)
             # fecha_creacion=int(unix_time_millis(evento.fecha_creacion))
         )
         evento_integracion = EventoPagoRealizado(data=payload, event_type="pago_realizado")

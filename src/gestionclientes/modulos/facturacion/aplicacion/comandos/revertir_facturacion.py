@@ -41,7 +41,7 @@ class RevertirFacturacionHandler(FacturacionBaseHandler):
             tipo="ALERTA-REVERSION",
             valor = "pepe@gmail.com",
             medio="correo",
-            event_type="facturacion_actualizada_revertida"
+            event_type="facturacion_actualizada_revertida",
             id_correlacion=comando.id_correlacion
         )
         despachador = Despachador()

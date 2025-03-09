@@ -1,10 +1,12 @@
 """ Caso de uso para crear una Notificación """
 from dataclasses import dataclass
 
-from notificaciones.modulos.notificaciones.aplicacion.dto import NotificacionDTO
+from notificaciones.modulos.notificaciones.aplicacion.dto import \
+    NotificacionDTO
 from notificaciones.modulos.notificaciones.aplicacion.mapeadores import \
     MapeadorNotificacion
-from notificaciones.modulos.notificaciones.dominio.entidades import Notificacion
+from notificaciones.modulos.notificaciones.dominio.entidades import \
+    Notificacion
 from notificaciones.modulos.notificaciones.infraestructura.repositorios import \
     RepositorioNotificaciones
 from notificaciones.seedwork.aplicacion.comandos import Comando
@@ -24,6 +26,7 @@ class CrearNotificacion(Comando):
     tipo: str
     medio: str
     valor: str
+    id_correlacion: str
 
 
 class CrearNotificacionHandler(NotificacionBaseHandler):

@@ -40,7 +40,8 @@ def suscribirse_a_eventos():
                 id=str(uuid.uuid4()),
                 tipo=data.tipo,
                 medio=data.medio,
-                valor=data.valor
+                valor=data.valor,
+                id_correlacion=data.id_correlacion
             )
             ejecutar_commando(comando)
             consumidor.acknowledge(mensaje)

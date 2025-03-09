@@ -51,7 +51,8 @@ def suscribirse_a_comandos():
             data = mensaje.value().data
             comando = RealizarPago(
                 id_cliente=data.id_cliente,
-                monto=data.monto
+                monto=data.monto,
+                id_correlacion=data.id_correlacion
             )
             ejecutar_commando(comando)
 
