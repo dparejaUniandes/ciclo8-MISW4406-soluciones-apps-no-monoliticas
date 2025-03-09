@@ -16,7 +16,7 @@ from notificaciones.modulos.notificaciones.infraestructura.schema.v1.eventos imp
     EventoPagoConfirmado
 from notificaciones.seedwork.aplicacion.comandos import ejecutar_commando
 from notificaciones.seedwork.infraestructura import utils
-
+from datetime import datetime
 
 def suscribirse_a_eventos():
     """Suscribirse a eventos"""
@@ -35,14 +35,18 @@ def suscribirse_a_eventos():
                 f'Evento recibido desde integración gestionclientes ========> notificaciones: {mensaje.value().data}')
             data = mensaje.value().data
             comando = CrearNotificacion(
-                fecha_creacion=str(time.time()),
-                fecha_actualizacion=str(time.time()),
+                fecha_creacion=datetime.fromtimestamp(float(time.time())),
+                fecha_actualizacion=datetime.fromtimestamp(float(time.time())),
                 id=str(uuid.uuid4()),
                 tipo=data.tipo,
                 medio=data.medio,
                 valor=data.valor
             )
+            print(
+                f'Comando Inicia Ejecución en notificaciones ========> ')
             ejecutar_commando(comando)
+            print(
+                f'Comando Ejecutado en notificaciones ========> ')
             consumidor.acknowledge(mensaje)
 
         cliente.close()
