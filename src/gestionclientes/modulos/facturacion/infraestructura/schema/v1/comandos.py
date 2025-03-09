@@ -7,6 +7,7 @@ from gestionclientes.seedwork.infraestructura.schema.v1.comandos import \
 
 
 class ComandoRealizarPagoPayload(ComandoIntegracion):
+    id_correlacion = String()
     id_cliente = String()
     monto = Float()
 
