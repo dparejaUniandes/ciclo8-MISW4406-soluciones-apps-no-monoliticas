@@ -20,13 +20,34 @@ from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
 class CoordinadorReservas(CoordinadorOrquestacion):
 
-    def inicializar_pasos(self):
+    def inicializar_pasos(self, id_correlacion):
         self.pasos = [
-            Inicio(index=0),
-            Transaccion(index=1, comando=CrearFacturacion, evento=FacturacionCreada, error=FacturacionFallida, compensacion=RevertirFacturacion),
-            Transaccion(index=2, comando=RealizarPago, evento=PagoRealizado, error=PagoFallido, compensacion=RevertirPago),
-            Transaccion(index=3, comando=CrearNotificacion, evento=NotificacionCreada, error=NotificacionFallida, compensacion=RevertirNotificacion),
-            Fin(index=4)
+            Inicio(index=0, id_correlacion=id_correlacion),
+            Transaccion(
+                index=1, 
+                comando=CrearFacturacion, 
+                evento=FacturacionCreada, 
+                error=FacturacionFallida, 
+                compensacion=RevertirFacturacion, 
+                id_correlacion=id_correlacion
+            ),
+            Transaccion(
+                index=2, 
+                comando=RealizarPago, 
+                evento=PagoRealizado, 
+                error=PagoFallido, 
+                compensacion=RevertirPago,
+                id_correlacion=id_correlacion
+            ),
+            Transaccion(
+                index=3, 
+                comando=CrearNotificacion, 
+                evento=NotificacionCreada, 
+                error=NotificacionFallida, 
+                compensacion=RevertirNotificacion,
+                id_correlacion=id_correlacion
+            ),
+            Fin(index=4, id_correlacion=id_correlacion)
         ]
 
     def iniciar(self):
@@ -44,13 +65,29 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         # TODO Transforma un evento en la entrada de un comando
         # Por ejemplo si el evento que llega es ReservaCreada y el tipo_comando es PagarReserva
         # Debemos usar los atributos de ReservaCreada para crear el comando PagarReserva
-        ...
+        comando=Comando()
+        if tipo_comando == RevertirFacturacion:
+            comando=RevertirFacturacion(
+                
+            )
+        elif tipo_comando == RevertirPago:
+            comando=RevertirPago(
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente,
+                estado = evento.estado
+            )
+        elif tipo_comando == RevertirNotificacion:
+            comando=RevertirNotificacion(
+                
+            )
+        return comando
 
 
 # TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
 def oir_mensaje(mensaje):
     if isinstance(mensaje, EventoDominio):
         coordinador = CoordinadorReservas()
+        coordinador.inicializar_pasos(mensaje.id_correlacion)
         coordinador.procesar_evento(mensaje)
     else:
         raise NotImplementedError("El mensaje no es evento de Dominio")

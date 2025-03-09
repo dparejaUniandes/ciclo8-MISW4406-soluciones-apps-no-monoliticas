@@ -13,11 +13,3 @@ class PagoRealizadoPayload(Record):
 class EventoPagoRealizado(EventoIntegracion):
     data = PagoRealizadoPayload()
     event_type = String()
-
-class PagoConfirmadoPayload(Record):
-    tipo = String()
-    valor = String()
-    medio = String()
-
-class EventoPagoConfirmado(EventoIntegracion):
-    data = PagoConfirmadoPayload()

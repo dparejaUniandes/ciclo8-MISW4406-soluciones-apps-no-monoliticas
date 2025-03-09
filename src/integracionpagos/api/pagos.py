@@ -12,6 +12,7 @@ bp = api.crear_blueprint('pagos', '/pagos')
 def crear_cliente():
     despachador = Despachador()
     payload = PagoRealizadoPayload(
+        id_correlacion="4321-dcba",
         id_cliente="abcd-1234", 
         estado="CANCELADO"
     )

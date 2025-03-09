@@ -1,13 +1,14 @@
-from gestionclientes.modulos.clientes.aplicacion.comandos.base import \
+from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
     SagaBaseHandler
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
+from gestionclientes.seedwork.aplicacion.comandos import Comando
 
 
-class RealizarPago():
+class RealizarPago(Comando):
     ...
 
-class RevertirPago():
+class RevertirPago(Comando):
     id_correlacion: str
     id_cliente: str
     estado: str

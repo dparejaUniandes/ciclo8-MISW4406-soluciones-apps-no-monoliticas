@@ -16,7 +16,7 @@ from gestionclientes.modulos.clientes.dominio.objetos_valor import \
 from gestionclientes.modulos.clientes.dominio.repositorios import \
     RepositorioClientes
 
-from .dto import Cliente as ClienteDTO
+from .dto import SagaLog as ClienteDTO
 
 
 class RepositorioClientesPostgresql(RepositorioClientes):

@@ -24,22 +24,7 @@ class CoordinadorSaga(ABC):
 
     @abstractmethod
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
-        comando=None
-        if tipo_comando == RevertirFacturacion:
-            comando=RevertirFacturacion(
-                
-            )
-        elif tipo_comando == RevertirPago:
-            comando=RevertirPago(
-                id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente,
-                estado = evento.estado
-            )
-        elif tipo_comando == RevertirNotificacion:
-            comando=RevertirNotificacion(
-                
-            )
-        return comando
+        ...
 
     def publicar_comando(self,evento: EventoDominio, tipo_comando: type):
         comando = self.construir_comando(evento, tipo_comando)
@@ -61,9 +46,9 @@ class CoordinadorSaga(ABC):
     def terminar():
         ...
 
+@dataclass
 class Paso():
     id_correlacion: uuid.UUID
-    fecha_evento: datetime.datetime
     index: int
 
 @dataclass
@@ -76,12 +61,10 @@ class Fin(Paso):
 
 @dataclass
 class Transaccion(Paso):
-    
     comando: Comando
     evento: EventoDominio
     error: EventoDominio
     compensacion: Comando
-    exitosa: bool
 
 class CoordinadorCoreografia(CoordinadorSaga, ABC):
     # TODO Piense como podemos hacer un Coordinador con coreografía y Sagas
