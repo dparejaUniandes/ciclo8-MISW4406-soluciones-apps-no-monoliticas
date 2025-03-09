@@ -1,14 +1,12 @@
+from dataclasses import dataclass
 from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
-    SagaBaseHandler
+    SagaBaseHandler, SagaInfo
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 
-
-class RevertirFacturacion(Comando):
-    ...
-
-class CrearFacturacion(Comando):
+@dataclass
+class RevertirFacturacion(SagaInfo):
     ...
 
 class RevertirFacturacionHandler(SagaBaseHandler):

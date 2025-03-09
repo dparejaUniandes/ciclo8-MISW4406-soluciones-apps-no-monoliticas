@@ -1,17 +1,13 @@
+from dataclasses import dataclass
 from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
-    SagaBaseHandler
+    SagaBaseHandler, SagaInfo
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 
-
-class RealizarPago(Comando):
+@dataclass
+class RevertirPago(SagaInfo):
     ...
-
-class RevertirPago(Comando):
-    id_correlacion: str
-    id_cliente: str
-    estado: str
 
 class RevertirPagoHandler(SagaBaseHandler):
     def handle(self, comando: RevertirPago):

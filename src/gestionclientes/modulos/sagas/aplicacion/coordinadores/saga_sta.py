@@ -1,9 +1,9 @@
-from gestionclientes.modulos.sagas.aplicacion.comandos.facturacion import (
-    CrearFacturacion, RevertirFacturacion)
-from gestionclientes.modulos.sagas.aplicacion.comandos.notificaciones import (
-    CrearNotificacion, RevertirNotificacion)
-from gestionclientes.modulos.sagas.aplicacion.comandos.pagos import (
-    RealizarPago, RevertirPago)
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import CrearFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import RevertirFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import CrearNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import RevertirNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import RevertirPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import RealizarPago
 from gestionclientes.modulos.sagas.dominio.eventos.facturacion import (
     FacturacionCreada, FacturacionFallida, FacturacionRevertida)
 from gestionclientes.modulos.sagas.dominio.eventos.notificacion import (
@@ -68,17 +68,35 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         comando=Comando()
         if tipo_comando == RevertirFacturacion:
             comando=RevertirFacturacion(
-                
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente
             )
         elif tipo_comando == RevertirPago:
+            print("hola*** r ", evento)
             comando=RevertirPago(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente,
-                estado = evento.estado
+                id_cliente = evento.id_cliente
             )
         elif tipo_comando == RevertirNotificacion:
             comando=RevertirNotificacion(
-                
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.valor
+            )
+        if tipo_comando == CrearFacturacion:
+            comando=CrearFacturacion(
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente
+            )
+        elif tipo_comando == RealizarPago:
+            print("hola n*** ", evento)
+            comando=RealizarPago(
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.id_cliente
+            )
+        elif tipo_comando == CrearNotificacion:
+            comando=CrearNotificacion(
+                id_correlacion = evento.id_correlacion,
+                id_cliente = evento.valor
             )
         return comando
 

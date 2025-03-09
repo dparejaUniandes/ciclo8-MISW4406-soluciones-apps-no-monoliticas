@@ -3,12 +3,12 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from gestionclientes.modulos.sagas.aplicacion.comandos.facturacion import (
-    CrearFacturacion, RevertirFacturacion)
-from gestionclientes.modulos.sagas.aplicacion.comandos.notificaciones import (
-    CrearNotificacion, RevertirNotificacion)
-from gestionclientes.modulos.sagas.aplicacion.comandos.pagos import (
-    RealizarPago, RevertirPago)
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import CrearFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import RevertirFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import CrearNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import RevertirNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import RevertirPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import RealizarPago
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
@@ -95,6 +95,7 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
         elif isinstance(evento, paso.error):
             self.publicar_comando(evento, self.pasos[index-1].compensacion)
         elif isinstance(evento, paso.evento):
-            self.publicar_comando(evento, self.pasos[index+1].compensacion)
+            print("Comando: ", self.pasos[index].comando)
+            self.publicar_comando(evento, self.pasos[index].comando)
 
 
