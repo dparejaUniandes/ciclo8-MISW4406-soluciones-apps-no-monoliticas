@@ -73,9 +73,13 @@ flask --app src/gestionclientes/api --debug run
 docker-compose --profile pulsar up
 ```
 
-#### Ejecución de Notificaciones
+#### Ejecución de Notificaciones & Base de datos
 ```bash
 flask --app src/notificaciones/api run --port 6000
+```
+
+```
+docker-compose -f docker-compose-db.yml up
 ```
 
 #### Ejecución de Integración de pagos
