@@ -26,6 +26,7 @@ class CrearFacturacion(Comando):
     medio_pago: str
     id_cliente: str
     monto: int
+    id_correlacion: str
 
 class CrearFacturacionHandler(FacturacionBaseHandler):
     
@@ -43,7 +44,7 @@ class CrearFacturacionHandler(FacturacionBaseHandler):
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
         repositorio.agregar(repositorio)
 
-        eventoDominio = FacturacionCreada(id_cliente=facturacion.idCliente, estado="PAGADO", monto=facturacion.monto)
+        eventoDominio = FacturacionCreada(id_correlacion=comando.id_correlacion,id_cliente=facturacion.idCliente, estado="PAGADO", monto=facturacion.monto)
         despachador = Despachador()
         despachador.publicar_comando(eventoDominio, 'comandos-pago')
 

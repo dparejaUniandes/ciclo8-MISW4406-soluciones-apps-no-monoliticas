@@ -15,9 +15,11 @@ class EventoPagoRealizado(EventoIntegracion):
     event_type = String()
 
 class PagoConfirmadoPayload(Record):
+    id_correlacion = String()
     tipo = String()
     valor = String()
     medio = String()
 
 class EventoPagoConfirmado(EventoIntegracion):
     data = PagoConfirmadoPayload()
+    event_type = String()

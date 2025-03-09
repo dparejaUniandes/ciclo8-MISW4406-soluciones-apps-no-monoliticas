@@ -34,7 +34,8 @@ def suscribirse_a_eventos():
             data = mensaje.value().data
             comando = ActualizarFacturacion(
                 id_cliente=data.id_cliente,
-                estadoReportado=data.estado
+                estadoReportado=data.estado,
+                id_correlacion=data.id_correlacion
             )
             ejecutar_commando(comando)
 
@@ -81,7 +82,8 @@ def suscribirse_a_comandos_bff():
                 id=data.idCliente,
                 medio_pago=data.medioPago,
                 id_cliente=data.idCliente,
-                monto=data.monto
+                monto=data.monto,
+                id_correlacion=str(uuid.uuid4())
             )
             ejecutar_commando(comando)
 
@@ -108,6 +110,7 @@ def suscribirse_a_comandos_saga():
             if command_type == "revertir_facturacion":
                 print(f'Comando recibido desde saga: {mensaje.value().data}')
                 comando = RevertirFacturacion(
+                    id_correlacion=data.id_correlacion,
                     id_cliente=data.id_cliente,
                     estadoReportado="CANCELADO"
                 )

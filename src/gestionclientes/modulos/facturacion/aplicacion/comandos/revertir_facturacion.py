@@ -22,6 +22,7 @@ from .base import FacturacionBaseHandler
 class RevertirFacturacion(Comando):
     id_cliente: str
     estadoReportado: str
+    id_correlacion: str
 
 class RevertirFacturacionHandler(FacturacionBaseHandler):
     
@@ -39,7 +40,9 @@ class RevertirFacturacionHandler(FacturacionBaseHandler):
         pago_confirmado = PagoConfirmado(
             tipo="ALERTA-REVERSION",
             valor = "pepe@gmail.com",
-            medio="correo"
+            medio="correo",
+            event_type="facturacion_actualizada_revertida"
+            id_correlacion=comando.id_correlacion
         )
         despachador = Despachador()
         despachador.publicar_evento_notificacion(pago_confirmado, 'eventos-gestionclientes-notificacion')

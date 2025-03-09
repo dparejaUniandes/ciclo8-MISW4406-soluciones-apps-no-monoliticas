@@ -16,11 +16,8 @@ class RevertirNotificacion(SagaInfo):
 
 class RevertirNotificacionHandler(SagaBaseHandler):
     def handle(self, comando: RevertirNotificacion):
+        # La reversión de la notificación se realiza desde facturación en actualizar, dada la naturaleza del flujo.
         print("********************** EJECUCIÓN COMANDO RevertirNotificacion, emite evento compensación")
-        eventoDominio = NotificacionRevertida(
-            id_correlacion = comando.id_correlacion, id_cliente = comando.id_cliente, command_type="revertir_notificacion")
-        despachador = Despachador()
-        despachador.publicar_comando(eventoDominio, 'comandos-compensacion-saga')
 
 
 @comando.register(RevertirNotificacion)

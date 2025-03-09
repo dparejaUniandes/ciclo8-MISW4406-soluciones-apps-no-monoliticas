@@ -24,6 +24,7 @@ def comenzar_consumidor():
 
     # Suscripción a eventos
     threading.Thread(target=facturacion.suscribirse_a_eventos).start()
+    threading.Thread(target=facturacion.suscribirse_a_comandos_saga).start()
     threading.Thread(target=saga.suscribirse_a_eventos).start()
 
     # Suscripción a comandos
