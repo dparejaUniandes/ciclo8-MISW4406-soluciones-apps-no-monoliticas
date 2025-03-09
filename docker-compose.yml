@@ -7,6 +7,10 @@ networks:
     driver: bridge
   gestionclientes:
     driver: bridge
+  db_notificaciones:
+    driver: bridge
+  db_integracionpagos:
+    driver: bridge
 
 services:
 # Start zookeeper
@@ -96,7 +100,7 @@ services:
     command: bash -c "bin/apply-config-from-env.py conf/broker.conf
       &&  exec bin/pulsar broker"
 
-  db-postgres:
+  db-clientes:
     image: postgres:15-alpine
     profiles: ["app-clientes", "db"]
     container_name: postgres_db
@@ -116,29 +120,72 @@ services:
       retries: 5
     networks:
       - db_gestionclientes
+  
+  
+  db-pagos:
+    image: postgres:15-alpine
+    profiles: ["app-pagos", "db"]
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: integracionpagos
+      PGUSER: postgres
+    ports:
+      - "5434:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
+    networks:
+      - db_integracionpagos
+  
+  db-notificaciones:
+    image: postgres:15-alpine
+    profiles: ["app-notificaciones", "db"]
+    container_name: db-notificaciones
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: notificaciones
+      PGUSER: postgres
+    ports:
+      - "5435:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
+    networks:
+      - db_notificaciones
 
-  app_gestionclientes:
+  ms-gestionclientes:
     build: 
       context: .
       dockerfile: gestionclientes.Dockerfile
     hostname: clientes  
-    container_name: flask_app
+    container_name: ms-clientes
     image: gestionclientes/flask 
     profiles: ["app-clientes"]
     restart: always
     depends_on:
-      db-postgres:
+      db-clientes:
         condition: service_healthy
       # broker:
       #   condition: service_started
     environment:
       FLASK_APP: src/gestionclientes/api
       FLASK_ENV: development
-      DB_HOST_URL: db-postgres
+      DB_HOST_URL: db-clientes
       DB_NAME: gestionclientes
       DB_USER: postgres
       DB_PASSWORD: 123456
-      DB_PORT: 5432
+      DB_PORT: 5433
       BROKER_HOST: broker
   
     ports:
@@ -151,13 +198,43 @@ services:
       - db_gestionclientes
       - gestionclientes
   
-  app_integracionpagos:
+  ms-pagos:
     build: 
       context: .
       dockerfile: ./integracionpagos.Dockerfile
-    container_name: flask_app_integracionpagos
+    container_name: ms-pagos
     # image: integracionpagos/flask 
     profiles: ["app-pagos"]
+    restart: always
+    depends_on:
+      db-pagos:
+        condition: service_healthy
+      # broker:
+      #   condition: service_started
+    environment:
+      FLASK_APP: src/integracionpagos
+      FLASK_ENV: development
+      DB_HOST_URL: db-pagos
+      DB_NAME: integracionpagos
+      DB_USER: postgres
+      DB_PASSWORD: 123456
+      DB_PORT: 5434
+      PULSAR_ADDRESS: broker
+      BROKER_HOST: broker
+  
+    volumes:
+      - .:/app
+    networks:
+      - pulsar
+      - db_integracionpagos
+    
+  ms-notificaciones:
+    build: 
+      context: .
+      dockerfile: ./notificaciones.Dockerfile
+    container_name: app-notificaciones
+    # image: integracionpagos/flask 
+    profiles: ["app-notificaciones"]
     restart: always
     # depends_on:
     #   db-postgres:
@@ -165,10 +242,10 @@ services:
       # broker:
       #   condition: service_started
     environment:
-      FLASK_APP: src/integracionpagos
+      FLASK_APP: src/notificaciones
       FLASK_ENV: development
-      DB_HOST_URL: db-postgres
-      DB_NAME: integracionpagos
+      DB_HOST_URL: db-notificaciones
+      DB_NAME: notificaciones
       DB_USER: postgres
       DB_PASSWORD: 123456
       DB_PORT: 5432
@@ -179,6 +256,7 @@ services:
       - .:/app
     networks:
       - pulsar
+      - db_notificaciones
   
   # Servicio BFF
   bff:
@@ -194,7 +272,7 @@ services:
     #     condition: service_started
     environment:
       - SALUDTECH_ADDRESS=clientes
-      - BROKER_HOST=broker
+      - BROKER_HOST=34.72.58.111
     networks:
       - pulsar
       - gestionclientes
