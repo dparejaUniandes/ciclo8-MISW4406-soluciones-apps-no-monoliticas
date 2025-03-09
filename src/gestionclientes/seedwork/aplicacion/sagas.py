@@ -25,7 +25,7 @@ class CoordinadorSaga(ABC):
     id_correlacion: uuid.UUID
 
     @abstractmethod
-    def persistir_en_saga_log(self, mensaje):
+    def persistir_en_saga_log(self, evento, paso, index):
         ...
 
     @abstractmethod

@@ -1,3 +1,5 @@
+from gestionclientes.modulos.sagas.aplicacion.comandos.base import \
+    SagaBaseHandler
 from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import \
     CrearFacturacion
 from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import \
@@ -10,6 +12,7 @@ from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion imp
     RevertirNotificacion
 from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import \
     RevertirPago
+from gestionclientes.modulos.sagas.dominio.entidades import Saga
 from gestionclientes.modulos.sagas.dominio.eventos.facturacion import (
     FacturacionCreada, FacturacionFallida, FacturacionRevertida)
 from gestionclientes.modulos.sagas.dominio.eventos.notificacion import (
@@ -17,6 +20,7 @@ from gestionclientes.modulos.sagas.dominio.eventos.notificacion import (
 from gestionclientes.modulos.sagas.dominio.eventos.pagos import (PagoFallido,
                                                                  PagoRealizado,
                                                                  PagoRevertido)
+from gestionclientes.modulos.sagas.dominio.repositorios import RepositorioSagas
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.aplicacion.sagas import (CoordinadorOrquestacion,
                                                        Fin, Inicio,
@@ -57,15 +61,38 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         ]
 
     def iniciar(self):
-        self.persistir_en_saga_log(self.pasos[0])
+        # self.persistir_en_saga_log(self.pasos[0])
+        ...
     
     def terminar(self):
-        self.persistir_en_saga_log(self.pasos[-1])
+        # self.persistir_en_saga_log(self.pasos[-1])
+        ...
 
-    def persistir_en_saga_log(self, mensaje):
+    def persistir_en_saga_log(self, evento, paso, index):
         # TODO Persistir estado en DB
         # Probablemente usted podría usar un repositorio para ello
-        ...
+        nombre_paso = ""
+        estado = ""
+        if paso.evento == FacturacionCreada or paso.error == FacturacionFallida:
+            nombre_paso = FacturacionCreada.__name__ if paso.evento == FacturacionCreada else RevertirFacturacion.__name__,
+            estado = "INICIO"
+        elif paso.evento == PagoRealizado or paso.error == PagoFallido:
+            nombre_paso = PagoRealizado.__name__ if paso.evento == PagoRealizado else RevertirPago.__name__,
+            estado = "MEDIO"
+        elif paso.evento == NotificacionCreada or paso.error == NotificacionFallida:
+            nombre_paso = NotificacionCreada.__name__ if paso.evento == NotificacionCreada else RevertirNotificacion.__name__,
+            estado = "FIN"
+        saga = Saga(
+            id_correlacion = evento.id_correlacion,
+            id_cliente = evento.id_cliente,
+            nombre_paso = nombre_paso,
+            estado = estado,
+            index = index
+        )
+        print("Nombre  y estado*** ", nombre_paso, estado)
+        repositorio = SagaBaseHandler.fabrica_repositorio.crear_objeto(RepositorioSagas)
+        repositorio.agregar(saga)
+        
 
     def construir_comando(self, evento: EventoDominio, tipo_comando: type, index: int):
         # TODO Transforma un evento en la entrada de un comando
@@ -124,10 +151,12 @@ class CoordinadorReservas(CoordinadorOrquestacion):
 
 
 # TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
-def oir_mensaje(mensaje):
-    if isinstance(mensaje, EventoDominio):
+def oir_mensaje(evento):
+    if isinstance(evento, EventoDominio):
         coordinador = CoordinadorReservas()
-        coordinador.inicializar_pasos(mensaje.id_correlacion)
-        coordinador.procesar_evento(mensaje)
+        coordinador.inicializar_pasos(evento.id_correlacion)
+        paso, index = coordinador.obtener_paso_dado_un_evento(evento)
+        coordinador.persistir_en_saga_log(evento, paso, index)
+        coordinador.procesar_evento(evento)
     else:
         raise NotImplementedError("El mensaje no es evento de Dominio")

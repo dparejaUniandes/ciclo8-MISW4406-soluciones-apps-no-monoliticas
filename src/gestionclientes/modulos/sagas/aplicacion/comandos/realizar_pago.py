@@ -16,16 +16,16 @@ class RealizarPago(SagaInfo):
 class RealizarPagoHandler(SagaBaseHandler):
     def handle(self, comando: RealizarPago):
         print("********************** EJECUCIÓN COMANDO REALIZAR PAGO, es correcto y guarda saga")
-        saga = Saga(
-            id_correlacion = comando.id_correlacion,
-            id_cliente = comando.id_cliente,
-            nombre_paso = comando.nombre_paso,
-            estado = comando.estado,
-            index = comando.index
-        )
+        # saga = Saga(
+        #     id_correlacion = comando.id_correlacion,
+        #     id_cliente = comando.id_cliente,
+        #     nombre_paso = comando.nombre_paso,
+        #     estado = comando.estado,
+        #     index = comando.index
+        # )
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
-        repositorio.agregar(saga)
+        # repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
+        # repositorio.agregar(saga)
 
         # pago_confirmado = PagoConfirmado(
         #     tipo="ALERTA",
