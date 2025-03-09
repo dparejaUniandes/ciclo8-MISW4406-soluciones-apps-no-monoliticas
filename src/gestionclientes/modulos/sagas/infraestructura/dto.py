@@ -6,7 +6,6 @@ la infraestructura del dominio de vuelos
 """
 
 from gestionclientes.config.db import db
-from gestionclientes.modulos.clientes.dominio.objetos_valor import EstadoPlan
 
 Base = db.declarative_base()
 
@@ -14,11 +13,10 @@ Base = db.declarative_base()
 class SagaLog(db.Model):
     __tablename__ = "saga_log"
     id = db.Column(db.String, primary_key=True)
+    id_cliente = db.Column(db.String, nullable=False)
+    id_correlacion = db.Column(db.String, nullable=False)
+    nombre_paso = db.Column(db.String, nullable=False)
+    estado = db.Column(db.String, nullable=False)
+    index = db.Column(db.Integer, nullable=False)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
-    fecha_actualizacion = db.Column(db.DateTime, nullable=False)
-    nombre = db.Column(db.String, nullable=False)
-    apellidos = db.Column(db.String, nullable=False)
-    correo = db.Column(db.String, nullable=False)
-    contrasena = db.Column(db.String, nullable=False)
-    estado_plan = db.Column(db.Enum(EstadoPlan), nullable=False)
     

@@ -1,9 +1,15 @@
-from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import CrearFacturacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import RevertirFacturacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import CrearNotificacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import RevertirNotificacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import RevertirPago
-from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import RealizarPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import \
+    CrearFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import \
+    CrearNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import \
+    RealizarPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import \
+    RevertirFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import \
+    RevertirNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import \
+    RevertirPago
 from gestionclientes.modulos.sagas.dominio.eventos.facturacion import (
     FacturacionCreada, FacturacionFallida, FacturacionRevertida)
 from gestionclientes.modulos.sagas.dominio.eventos.notificacion import (
@@ -61,7 +67,7 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         # Probablemente usted podría usar un repositorio para ello
         ...
 
-    def construir_comando(self, evento: EventoDominio, tipo_comando: type):
+    def construir_comando(self, evento: EventoDominio, tipo_comando: type, index: int):
         # TODO Transforma un evento en la entrada de un comando
         # Por ejemplo si el evento que llega es ReservaCreada y el tipo_comando es PagarReserva
         # Debemos usar los atributos de ReservaCreada para crear el comando PagarReserva
@@ -69,34 +75,50 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         if tipo_comando == RevertirFacturacion:
             comando=RevertirFacturacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente
+                id_cliente = evento.id_cliente,
+                nombre_paso = RevertirFacturacion.__name__,
+                estado = "INICIO",
+                index = index
             )
         elif tipo_comando == RevertirPago:
-            print("hola*** r ", evento)
             comando=RevertirPago(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente
+                id_cliente = evento.id_cliente,
+                nombre_paso = RevertirPago.__name__,
+                estado = "MEDIO",
+                index = index
             )
         elif tipo_comando == RevertirNotificacion:
             comando=RevertirNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor
+                id_cliente = evento.valor,
+                nombre_paso = RevertirNotificacion.__name__,
+                estado = "FIN",
+                index = index
             )
         if tipo_comando == CrearFacturacion:
             comando=CrearFacturacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente
+                id_cliente = evento.id_cliente,
+                nombre_paso = CrearFacturacion.__name__,
+                estado = "INICIO",
+                index = index
             )
         elif tipo_comando == RealizarPago:
-            print("hola n*** ", evento)
             comando=RealizarPago(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.id_cliente
+                id_cliente = evento.id_cliente,
+                nombre_paso = RealizarPago.__name__,
+                estado = "MEDIO",
+                index = index
             )
         elif tipo_comando == CrearNotificacion:
             comando=CrearNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor
+                id_cliente = evento.valor,
+                nombre_paso = CrearNotificacion.__name__,
+                estado = "FIN",
+                index = index
             )
         return comando
 

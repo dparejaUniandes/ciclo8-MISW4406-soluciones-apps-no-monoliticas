@@ -3,12 +3,18 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import CrearFacturacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import RevertirFacturacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import CrearNotificacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import RevertirNotificacion
-from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import RevertirPago
-from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import RealizarPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_facturacion import \
+    CrearFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.crear_notificacion import \
+    CrearNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.realizar_pago import \
+    RealizarPago
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_facturacion import \
+    RevertirFacturacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_notificacion import \
+    RevertirNotificacion
+from gestionclientes.modulos.sagas.aplicacion.comandos.revertir_pago import \
+    RevertirPago
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.dominio.eventos import EventoDominio
 
@@ -26,8 +32,8 @@ class CoordinadorSaga(ABC):
     def construir_comando(self, evento: EventoDominio, tipo_comando: type) -> Comando:
         ...
 
-    def publicar_comando(self,evento: EventoDominio, tipo_comando: type):
-        comando = self.construir_comando(evento, tipo_comando)
+    def publicar_comando(self,evento: EventoDominio, tipo_comando: type, index: int):
+        comando = self.construir_comando(evento, tipo_comando, index)
         ejecutar_commando(comando)
 
     @abstractmethod
@@ -93,9 +99,9 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
         if self.es_ultima_transaccion(index) and not isinstance(evento, paso.error):
             self.terminar()
         elif isinstance(evento, paso.error):
-            self.publicar_comando(evento, self.pasos[index-1].compensacion)
+            self.publicar_comando(evento, self.pasos[index-1].compensacion, index)
         elif isinstance(evento, paso.evento):
             print("Comando: ", self.pasos[index].comando)
-            self.publicar_comando(evento, self.pasos[index].comando)
+            self.publicar_comando(evento, self.pasos[index].comando, index)
 
 
