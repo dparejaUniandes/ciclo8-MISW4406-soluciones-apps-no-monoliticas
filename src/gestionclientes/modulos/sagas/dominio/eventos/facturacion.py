@@ -20,6 +20,7 @@ class FacturacionRevertida(EventoFacturacion):
     id_cliente: uuid.UUID = None
     estado: str = None
     monto: float = None
+    command_type: str = None
 
 @dataclass
 class FacturacionFallida(EventoFacturacion):

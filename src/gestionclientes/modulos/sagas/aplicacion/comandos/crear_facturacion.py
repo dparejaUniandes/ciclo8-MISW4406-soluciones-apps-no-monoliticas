@@ -15,17 +15,7 @@ class CrearFacturacion(SagaInfo):
 
 class CrearFacturacionHandler(SagaBaseHandler):
     def handle(self, comando: CrearFacturacion):
-        print("********************** EJECUCIÓN COMANDO REVERTIR FACTURACIÓN, EMITE EVENTO DE REVERSIÓN")
-        # saga = Saga(
-        #     id_correlacion = comando.id_correlacion,
-        #     id_cliente = comando.id_cliente,
-        #     nombre_paso = comando.nombre_paso,
-        #     estado = comando.estado,
-        #     index = comando.index
-        # )
-
-        # repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
-        # repositorio.agregar(saga)
+        print("********************** EJECUCIÓN COMANDO CREAR FACTURACIÓN, es correcto, la saga ya se guardó")
 
 
 @comando.register(CrearFacturacion)

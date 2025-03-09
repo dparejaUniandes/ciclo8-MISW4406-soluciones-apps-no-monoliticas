@@ -2,9 +2,10 @@ from dataclasses import dataclass
 
 from gestionclientes.modulos.sagas.aplicacion.comandos.base import (
     SagaBaseHandler, SagaInfo)
-from gestionclientes.modulos.sagas.dominio.entidades import Saga
-from gestionclientes.modulos.sagas.dominio.repositorios import RepositorioSagas
-from gestionclientes.seedwork.aplicacion.comandos import Comando
+from gestionclientes.modulos.sagas.dominio.eventos.notificacion import \
+    NotificacionRevertida
+from gestionclientes.modulos.sagas.infraestructura.despachadores import \
+    Despachador
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
 
@@ -16,16 +17,10 @@ class RevertirNotificacion(SagaInfo):
 class RevertirNotificacionHandler(SagaBaseHandler):
     def handle(self, comando: RevertirNotificacion):
         print("********************** EJECUCIÓN COMANDO RevertirNotificacion, emite evento compensación")
-        # saga = Saga(
-        #     id_correlacion = comando.id_correlacion,
-        #     id_cliente = comando.id_cliente,
-        #     nombre_paso = comando.nombre_paso,
-        #     estado = comando.estado,
-        #     index = comando.index
-        # )
-
-        # repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
-        # repositorio.agregar(saga)
+        eventoDominio = NotificacionRevertida(
+            id_correlacion = comando.id_correlacion, id_cliente = comando.id_cliente, command_type="revertir_notificacion")
+        despachador = Despachador()
+        despachador.publicar_comando(eventoDominio, 'comandos-compensacion-saga')
 
 
 @comando.register(RevertirNotificacion)

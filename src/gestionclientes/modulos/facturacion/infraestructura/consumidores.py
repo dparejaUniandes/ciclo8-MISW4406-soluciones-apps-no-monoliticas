@@ -11,8 +11,10 @@ from gestionclientes.modulos.facturacion.aplicacion.comandos.actualizar_facturac
     ActualizarFacturacion
 from gestionclientes.modulos.facturacion.aplicacion.comandos.crear_facturacion import \
     CrearFacturacion
+from gestionclientes.modulos.facturacion.aplicacion.comandos.revertir_facturacion import \
+    RevertirFacturacion
 from gestionclientes.modulos.facturacion.infraestructura.schema.v1.comandos import (
-    ComandoRealizarPago, ComandoRealizarPagoBFF)
+    ComandoRealizarPago, ComandoRealizarPagoBFF, ComandoRevertir)
 from gestionclientes.modulos.facturacion.infraestructura.schema.v1.eventos import \
     EventoPagoRealizado
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
@@ -82,6 +84,34 @@ def suscribirse_a_comandos_bff():
                 monto=data.monto
             )
             ejecutar_commando(comando)
+
+            consumidor.acknowledge(mensaje)     
+            
+        cliente.close()
+    except:
+        logging.error('ERROR: Suscribiendose al tópico de comandos!')
+        traceback.print_exc()
+        if cliente:
+            cliente.close()
+
+def suscribirse_a_comandos_saga():
+    cliente = None
+    try:
+        cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
+        consumidor = cliente.subscribe('comandos-compensacion-saga', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='gestionclientes-sub-comandos-saga', schema=AvroSchema(ComandoRevertir))
+
+        while True:
+            mensaje = consumidor.receive()
+
+            data = mensaje.value().data
+            command_type = mensaje.value().command_type
+            if command_type == "revertir_facturacion":
+                print(f'Comando recibido desde saga: {mensaje.value().data}')
+                comando = RevertirFacturacion(
+                    id_cliente=data.id_cliente,
+                    estadoReportado="CANCELADO"
+                )
+                ejecutar_commando(comando)
 
             consumidor.acknowledge(mensaje)     
             

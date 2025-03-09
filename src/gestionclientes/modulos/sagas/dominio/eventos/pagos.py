@@ -24,5 +24,5 @@ class PagoFallido(EventoPago):
 @dataclass
 class PagoRevertido(EventoPago):
     id_correlacion: str = None
-    id_cliente: str = None, 
-    estado: str = None
+    id_cliente: str = None
+    command_type: str = None

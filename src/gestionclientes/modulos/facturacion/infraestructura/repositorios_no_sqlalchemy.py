@@ -54,6 +54,7 @@ class RepositorioFacturacionPostgresqlNoSQLAlchemy(RepositorioFacturacionNoSQLAl
         return None
 
     def actualizar(self, facturacion: Facturacion):
+        print("Facturación actualizada***: ", facturacion)
         cursor = init_db().cursor()
         cursor.execute("UPDATE facturacion SET estado_reportado = ? WHERE id_cliente = ?", 
                        (facturacion.estado_reportado,

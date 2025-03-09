@@ -15,25 +15,7 @@ class RealizarPago(SagaInfo):
 
 class RealizarPagoHandler(SagaBaseHandler):
     def handle(self, comando: RealizarPago):
-        print("********************** EJECUCIÓN COMANDO REALIZAR PAGO, es correcto y guarda saga")
-        # saga = Saga(
-        #     id_correlacion = comando.id_correlacion,
-        #     id_cliente = comando.id_cliente,
-        #     nombre_paso = comando.nombre_paso,
-        #     estado = comando.estado,
-        #     index = comando.index
-        # )
-
-        # repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
-        # repositorio.agregar(saga)
-
-        # pago_confirmado = PagoConfirmado(
-        #     tipo="ALERTA",
-        #     valor = "pepe@gmail.com",
-        #     medio="correo"
-        # )
-        # despachador = Despachador()
-        # despachador.publicar_evento_notificacion(pago_confirmado, 'eventos-gestionclientes-notificacion')
+        print("********************** EJECUCIÓN COMANDO REALIZAR PAGO, es correcto, la saga ya se guardó")
 
 
 @comando.register(RealizarPago)

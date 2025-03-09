@@ -15,17 +15,7 @@ class CrearNotificacion(SagaInfo):
 
 class CrearNotificacionHandler(SagaBaseHandler):
     def handle(self, comando: CrearNotificacion):
-        print("********************** EJECUCIÓN COMANDO CrearNotificacion, es correcto y guarda saga")
-        # saga = Saga(
-        #     id_correlacion = comando.id_correlacion,
-        #     id_cliente = comando.id_cliente,
-        #     nombre_paso = comando.nombre_paso,
-        #     estado = comando.estado,
-        #     index = comando.index
-        # )
-
-        # repositorio = self.fabrica_repositorio.crear_objeto(RepositorioSagas)
-        # repositorio.agregar(saga)
+        print("********************** EJECUCIÓN COMANDO CrearNotificacion, es correcto, la saga ya se guardó")
 
 
 @comando.register(CrearNotificacion)
