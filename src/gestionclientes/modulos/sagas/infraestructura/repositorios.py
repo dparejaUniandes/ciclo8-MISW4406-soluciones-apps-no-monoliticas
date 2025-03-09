@@ -25,7 +25,7 @@ class RepositorioSagasPostgresql(RepositorioSagas):
 
     def agregar(self, saga: Saga):
         # TODO
-        print("Saga, ", saga, " agregada")
+        print("Saga agregada***, ", saga)
 
     def actualizar(self, saga: Saga):
         # TODO
