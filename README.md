@@ -77,6 +77,7 @@ docker-compose --profile pulsar up
 ```bash
 flask --app src/notificaciones/api run --port 6000
 ```
+
 ```
 docker-compose -f docker-compose-db.yml up
 ```
