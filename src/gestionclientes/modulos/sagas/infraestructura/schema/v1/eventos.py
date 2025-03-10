@@ -24,3 +24,11 @@ class PagoConfirmadoPayload(Record):
 class EventoPagoConfirmado(EventoIntegracion):
     data = PagoConfirmadoPayload()
     event_type = String()
+
+class NotificacionCreadaPayload(Record):
+    id_correlacion = String()
+    id_cliente = String()
+
+class EventoNotificacionCreada(EventoIntegracion):
+    data = NotificacionCreadaPayload()
+    event_type = String()
