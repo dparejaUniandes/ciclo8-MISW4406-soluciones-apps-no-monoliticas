@@ -73,9 +73,24 @@ flask --app src/gestionclientes/api --debug run
 docker-compose --profile pulsar up
 ```
 
-#### Ejecución de Notificaciones
+#### Ejecución de Notificaciones & Base de datos
 ```bash
 flask --app src/notificaciones/api run --port 6000
+```
+
+#### Ejecutar Postgres con Docker
+```
+docker-compose -f docker-compose-db.yml up
+```
+
+Ingresar a la instancia de postgres y reemplazar `id_instancia_docker`
+```
+ docker exec -it id_instancia_docker bash
+```
+
+Ingresar a la BD
+```
+psql -U postgres -d notificaciones
 ```
 
 #### Ejecución de Integración de pagos

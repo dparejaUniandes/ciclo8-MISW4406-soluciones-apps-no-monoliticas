@@ -6,9 +6,10 @@ from integracionpagos.seedwork.infraestructura.schema.v1.eventos import \
 
 class PagoConfirmadoPayload(Record):
     """ Payload para el evento de pago confirmado """
-    tipo = String() # ALERTA, RECORDATORIO, INFORMATIVO
-    valor = String() # pepe@gmail.com
-    medio = String() # correo
+    id_correlacion = String()
+    tipo = String()
+    valor = String()
+    medio = String()
 
 class EventoPagoConfirmado(EventoIntegracion):
     """ Evento de pago confirmado """

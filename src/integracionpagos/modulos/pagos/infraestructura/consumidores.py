@@ -25,7 +25,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido desde integración pago: {mensaje.value().data}')
+            print(f'Evento emitido desde integración: {mensaje.value().data}')
 
             consumidor.acknowledge(mensaje)     
 
@@ -51,7 +51,8 @@ def suscribirse_a_comandos():
             data = mensaje.value().data
             comando = RealizarPago(
                 id_cliente=data.id_cliente,
-                monto=data.monto
+                monto=data.monto,
+                id_correlacion=data.id_correlacion
             )
             ejecutar_commando(comando)
 

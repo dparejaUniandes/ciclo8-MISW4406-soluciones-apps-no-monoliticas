@@ -47,6 +47,12 @@ def create_app(configuracion={}):
         db.create_all()
         if not app.config.get('TESTING'):
             comenzar_consumidor() 
+
+    # Importa Blueprints
+    from . import pagos
+
+    # Registro de Blueprints
+    app.register_blueprint(pagos.bp)
     
     @app.route("/spec")
     def spec():

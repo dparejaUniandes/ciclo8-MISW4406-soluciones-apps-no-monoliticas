@@ -4,6 +4,10 @@ from gestionclientes.modulos.facturacion.aplicacion.dto import FacturacionDTO
 from gestionclientes.modulos.facturacion.aplicacion.mapeadores import \
     MapeadorFacturacion
 from gestionclientes.modulos.facturacion.dominio.entidades import Facturacion
+from gestionclientes.modulos.facturacion.dominio.eventos import \
+    FacturacionCreada
+from gestionclientes.modulos.facturacion.infraestructura.despachadores import \
+    Despachador
 from gestionclientes.modulos.facturacion.infraestructura.repositorios import \
     RepositorioFacturacion
 from gestionclientes.modulos.facturacion.infraestructura.repositorios_no_sqlalchemy import \
@@ -12,9 +16,6 @@ from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.aplicacion.comandos import \
     ejecutar_commando as comando
 from gestionclientes.seedwork.infraestructura.uow import UnidadTrabajoPuerto
-from gestionclientes.modulos.facturacion.infraestructura.despachadores import \
-    Despachador
-from gestionclientes.modulos.facturacion.dominio.eventos import PagoRealizado
 
 from .base import FacturacionBaseHandler
 
@@ -25,6 +26,7 @@ class CrearFacturacion(Comando):
     medio_pago: str
     id_cliente: str
     monto: int
+    id_correlacion: str
 
 class CrearFacturacionHandler(FacturacionBaseHandler):
     
@@ -42,9 +44,9 @@ class CrearFacturacionHandler(FacturacionBaseHandler):
         repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
         repositorio.agregar(repositorio)
 
-        evento = PagoRealizado(id_cliente=facturacion.idCliente, estado="PAGADO", monto=facturacion.monto)
+        eventoDominio = FacturacionCreada(id_correlacion=comando.id_correlacion,id_cliente=facturacion.idCliente, estado="PAGADO", monto=facturacion.monto)
         despachador = Despachador()
-        despachador.publicar_comando(evento, 'comandos-pago')
+        despachador.publicar_comando(eventoDominio, 'comandos-pago')
 
         # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, facturacion)
         # UnidadTrabajoPuerto.savepoint()

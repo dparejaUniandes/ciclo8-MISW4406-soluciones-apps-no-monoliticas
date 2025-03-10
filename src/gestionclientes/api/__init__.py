@@ -9,6 +9,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def registrar_handlers():
     import gestionclientes.modulos.clientes.aplicacion
     import gestionclientes.modulos.facturacion.aplicacion
+    import gestionclientes.modulos.sagas.aplicacion
 
 def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
@@ -19,9 +20,13 @@ def comenzar_consumidor():
     import threading
 
     import gestionclientes.modulos.facturacion.infraestructura.consumidores as facturacion
+    import gestionclientes.modulos.sagas.infraestructura.consumidores as saga
 
     # Suscripción a eventos
     threading.Thread(target=facturacion.suscribirse_a_eventos).start()
+    threading.Thread(target=facturacion.suscribirse_a_comandos_saga).start()
+    threading.Thread(target=saga.suscribirse_a_eventos).start()
+    threading.Thread(target=saga.suscribirse_a_eventos_facturacion).start()
 
     # Suscripción a comandos
     threading.Thread(target=facturacion.suscribirse_a_comandos).start()

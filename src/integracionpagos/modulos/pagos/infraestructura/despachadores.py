@@ -24,14 +24,16 @@ class Despachador:
     def publicar_evento(self, evento, topico):
         payload = PagoRealizadoPayload(
             id_cliente=str(evento.id_cliente), 
-            estado=str(evento.estado_pago), 
+            estado=str(evento.estado_pago),
+            id_correlacion=str(evento.id_correlacion)
             # fecha_creacion=int(unix_time_millis(evento.fecha_creacion))
         )
-        evento_integracion = EventoPagoRealizado(data=payload)
+        evento_integracion = EventoPagoRealizado(data=payload, event_type="pago_realizado")
         self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoPagoRealizado))
 
     def publicar_comando(self, comando, topico):
         payload = ComandoRealizarPagoPayload(
+            id_correlacion=str(comando.id_correlacion),
             id_cliente=str(comando.id_cliente),
             monto = float(comando.monto)
         )
