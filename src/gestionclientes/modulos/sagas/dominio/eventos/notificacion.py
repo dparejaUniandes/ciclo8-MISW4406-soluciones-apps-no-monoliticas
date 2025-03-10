@@ -12,9 +12,7 @@ class EventoNotificacion(EventoDominio):
 @dataclass
 class NotificacionCreada(EventoNotificacion):
     id_correlacion: str = None
-    tipo: str = None
-    medio: str = None
-    valor: str = None
+    id_cliente: str = None
 
 @dataclass
 class NotificacionRevertida(EventoNotificacion):
@@ -25,6 +23,4 @@ class NotificacionRevertida(EventoNotificacion):
 @dataclass
 class NotificacionFallida(EventoNotificacion):
     id_correlacion: str = None
-    tipo: str = None
-    medio: str = None
-    valor: str = None
+    id_cliente: str = None

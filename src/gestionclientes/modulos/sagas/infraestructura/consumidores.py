@@ -8,12 +8,14 @@ import pulsar
 from pulsar.schema import *
 from pydispatch import dispatcher
 
+from gestionclientes.modulos.sagas.dominio.eventos.facturacion import (
+    FacturacionCreada, FacturacionFallida)
+from gestionclientes.modulos.sagas.dominio.eventos.notificacion import (
+    NotificacionCreada, NotificacionFallida)
 from gestionclientes.modulos.sagas.dominio.eventos.pagos import (PagoFallido,
                                                                  PagoRealizado)
-from gestionclientes.modulos.sagas.dominio.eventos.facturacion import (FacturacionCreada,
-                                                                 FacturacionFallida)
-from gestionclientes.modulos.sagas.infraestructura.schema.v1.eventos import \
-    EventoPagoRealizado, EventoPagoConfirmado
+from gestionclientes.modulos.sagas.infraestructura.schema.v1.eventos import (
+    EventoNotificacionCreada, EventoPagoConfirmado, EventoPagoRealizado)
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.infraestructura import utils
 
@@ -85,6 +87,42 @@ def suscribirse_a_eventos_facturacion():
                     id_correlacion = data.id_correlacion,
                     id_cliente = data.valor,
                     estado = "CONFIRMADO"
+                )
+                dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
+
+
+            consumidor.acknowledge(mensaje)     
+
+        cliente.close()
+    except:
+        logging.error('ERROR: Suscribiendose al tópico de eventos!')
+        traceback.print_exc()
+        if cliente:
+            cliente.close()
+
+def suscribirse_a_eventos_notificacion():
+    cliente = None
+    try:
+        cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
+        consumidor = cliente.subscribe('eventos-notificaciones', consumer_type=_pulsar.ConsumerType.Shared,subscription_name='sagas-sub-eventos-notificacion', schema=AvroSchema(EventoNotificacionCreada))
+
+        while True:
+            mensaje = consumidor.receive()
+            print(f'Evento recibido desde notificación hacia sagas: {mensaje.value().data}')
+
+            data = mensaje.value().data
+            event_type = mensaje.value().event_type
+            if event_type == "notificacion_creada":
+                evento = NotificacionCreada(
+                    id_correlacion = data.id_correlacion,
+                    id_cliente = data.id_cliente
+                )
+                dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
+            
+            elif event_type == "notificacion_revertida":
+                evento = NotificacionFallida(
+                    id_correlacion = data.id_correlacion,
+                    id_cliente = data.id_cliente
                 )
                 dispatcher.send(signal=f'{type(evento).__name__}Dominio', evento=evento)
 
