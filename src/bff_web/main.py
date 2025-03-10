@@ -60,5 +60,8 @@ async def stream_mensajes(request: Request):
 
     return EventSourceResponse(leer_eventos())
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
 app.include_router(v1, prefix="/v1")
