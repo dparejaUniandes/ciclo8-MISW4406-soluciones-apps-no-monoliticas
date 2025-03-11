@@ -5,6 +5,8 @@ Este proyecto es una solución basada en la arquitectura de microservicios utili
 # ENTREGA 5
 por favor tener presente los comandos descritos en las entregas previas para ejecutar el proyecto en local.
 
+(Enlace al video de sustentación)[https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EbEJd8cnr4xOly5-AlseVKQBd-JM20yZUf2mBBkqCGJrqg?e=uwWLCn]
+
 ## Arquitectura general
 ### Microservicios
 * **BFF**: Permite la interacción con los usuarios, la acción a ejecutar es realizar pago
@@ -22,7 +24,7 @@ por favor tener presente los comandos descritos en las entregas previas para eje
 
 <img width="1642" alt="image" src="https://github.com/user-attachments/assets/4105bc0d-714c-403d-a7b3-a70b1cb1fc17" />
 
-
+**Saga:** ​La carpeta *gestión clientes/módulos/sagas* contiene la implementación de Sagas dentro del microservicio de gestión de clientes, y consiste de módulos que coordinan las operaciones relacionadas con la gestión de clientes. La implementación del Patrón Saga garantiza que las operaciones que implican la coordinación de varios microservicios a través del componente de gestión de clientes (que en este caso actúa como orquestador) se completen exitosamente o, que en caso de fallo, se realizaran las compensaciones necesarias para mantener la integridad del sistema.
 
 # ENTREGA 4
 
