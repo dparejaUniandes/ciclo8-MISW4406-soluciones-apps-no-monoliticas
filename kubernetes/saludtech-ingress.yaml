@@ -2,8 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: saludtech-ingress
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: "35.226.164.23"  
+  # annotations:
+  #   kubernetes.io/ingress.global-static-ip-name: "35.226.164.23"  
 spec:
 #   defaultBackend:
 #       service:
