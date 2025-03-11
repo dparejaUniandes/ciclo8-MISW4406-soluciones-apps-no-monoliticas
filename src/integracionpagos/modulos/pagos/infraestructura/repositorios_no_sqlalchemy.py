@@ -30,8 +30,8 @@ def init_db():
             dbname=os.getenv("DB_NAME", default="integracionpagos"),
             user=os.getenv("DB_USER", default="postgres"),
             password=os.getenv("DB_PASSWORD", default=123456),
-            host=os.getenv("DB_HOST_URL", default="localhost"),
-            port=os.getenv("DB_PORT", default="5434")
+            host=os.getenv("DB_HOST_URL", default="db-pagos"),
+            port=os.getenv("DB_PORT", default="5432")
         )
         cursor = sqliteConnection.cursor()
         cursor.execute("CREATE TABLE IF NOT EXISTS pagos(id, fecha_creacion, fecha_actualizacion,id_cliente,monto,estado_pago,pasarela_pago)")
