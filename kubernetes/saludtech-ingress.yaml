@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: saludtech-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "35.226.164.23"  
+spec:
+#   defaultBackend:
+#       service:
+#         name: ms-gestionclientes
+#         port:
+#           number: 5000
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: bff
+            port:
+              number: 8003
+      - path: /bff
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: bff
+            port:
+              number: 8003
+      - path: /ms-gestionclientes
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: ms-gestionclientes
+            port:
+              number: 5000
+
+# kubectl exec -it ms-integracionpagos-ddd4bf648-scs2l -- curl -v http://bff:5002/v1
