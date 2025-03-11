@@ -118,7 +118,7 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         elif tipo_comando == RevertirNotificacion:
             comando=RevertirNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor,
+                id_cliente = evento.id_cliente,
                 nombre_paso = RevertirNotificacion.__name__,
                 estado = "FIN",
                 index = index
@@ -142,7 +142,7 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         elif tipo_comando == CrearNotificacion:
             comando=CrearNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor,
+                id_cliente = evento.id_cliente,
                 nombre_paso = CrearNotificacion.__name__,
                 estado = "FIN",
                 index = index
