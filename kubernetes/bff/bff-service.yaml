@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f ../../docker-compose.yml --profile bff
+    kompose.version: 1.35.0 (9532ceef3)
+  labels:
+    io.kompose.service: bff
+  name: bff
+spec:
+  type: ClusterIP
+  ports:
+    - name: "8003"
+      port: 8003
+      targetPort: 8003
+  selector:
+    io.kompose.service: bff
