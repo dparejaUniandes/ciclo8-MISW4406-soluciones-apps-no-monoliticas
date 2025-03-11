@@ -3,6 +3,8 @@ import threading
 from flask import Flask, jsonify
 from flask_swagger import swagger
 
+
+
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -57,6 +59,9 @@ def create_app(configuracion={}):
         db.create_all()
         if not app.config.get('TESTING'):
             comenzar_consumidor(app)
+
+    from . import notificacion 
+    app.register_blueprint(notificacion.bp)
 
     # Rutas de la API
     @app.route("/spec")

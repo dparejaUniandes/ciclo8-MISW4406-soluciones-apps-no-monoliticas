@@ -2,6 +2,30 @@
 
 Este proyecto es una solución basada en la arquitectura de microservicios utilizando Domain-Driven Design (DDD), y está enfocado en la creación de aplicaciones no monolíticas. El objetivo es proporcionar un conjunto de servicios para la gestión de clientes y facturación, utilizando tecnologías como Flask, PostgreSQL, y Docker.
 
+# ENTREGA 5
+por favor tener presente los comandos descritos en las entregas previas para ejecutar el proyecto en local.
+
+Enlace al video de sustentación: https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EbEJd8cnr4xOly5-AlseVKQBd-JM20yZUf2mBBkqCGJrqg?e=uwWLCn
+
+## Arquitectura general
+### Microservicios
+* **BFF**: Permite la interacción con los usuarios, la acción a ejecutar es realizar pago
+* **Gestión clientes**: Internamente contiene los módulos de clientes, facturación y sagas. El módulo de facturación procesa el comando de realizar pago emitido por el bff, la saga se encarga degestionar los pasos o transacciones realizadas en gestioncliestes, integracionpagos y notificaciones. Clientes se conserva como se menciona con la entrega 3.
+* **Integración pagos**: Recibe el comando de realizar pago, guarda en bd el pago y emite un evento de pago confirmado.
+* **Notificaciones**: Almacena las notificaciones que se deben enviar a los usuarios, emite eventos que permite conocer si la notificación fue correcta a hubo una notificación de reversión, estos eventos los escucha la saga.
+
+<br>
+
+<img width="1333" alt="image" src="https://github.com/user-attachments/assets/134e7e1e-ab56-4836-aa60-ffae8fc385f4" />
+
+<br>
+
+### Saga 
+
+<img width="1642" alt="image" src="https://github.com/user-attachments/assets/4105bc0d-714c-403d-a7b3-a70b1cb1fc17" />
+
+**Saga:** ​La carpeta *gestión clientes/módulos/sagas* contiene la implementación de Sagas dentro del microservicio de gestión de clientes, y consiste de módulos que coordinan las operaciones relacionadas con la gestión de clientes. La implementación del Patrón Saga garantiza que las operaciones que implican la coordinación de varios microservicios a través del componente de gestión de clientes (que en este caso actúa como orquestador) se completen exitosamente o, que en caso de fallo, se realizaran las compensaciones necesarias para mantener la integridad del sistema.
+
 # ENTREGA 4
 
 Este proyecto es una solución basada en la arquitectura de microservicios utilizando Domain-Driven Design (DDD), y está enfocado en la creación de aplicaciones no monolíticas. El objetivo es proporcionar un conjunto de servicios para la gestión de clientes y facturación, utilizando tecnologías como Flask, PostgreSQL, y Docker.
@@ -65,7 +89,7 @@ flask --app src/gestionclientes/api run
 Si deseas ejecutar en modo DEBUG, usa:
 
 ```bash
-flask --app src/gestionclientes/api --debug run
+flask --app src/gestionclientes/api --debug run --reload
 ```
 
 #### Ejecución de PULSAR
@@ -73,14 +97,29 @@ flask --app src/gestionclientes/api --debug run
 docker-compose --profile pulsar up
 ```
 
-#### Ejecución de Notificaciones
+#### Ejecución de Notificaciones & Base de datos
 ```bash
-flask --app src/notificaciones/api run --port 6000
+flask --app src/notificaciones/api run --port 6000 --reload
+```
+
+#### Ejecutar Postgres con Docker
+```
+docker-compose -f docker-compose-db.yml up
+```
+
+Ingresar a la instancia de postgres y reemplazar `id_instancia_docker`
+```
+ docker exec -it id_instancia_docker bash
+```
+
+Ingresar a la BD
+```
+psql -U postgres -d notificaciones
 ```
 
 #### Ejecución de Integración de pagos
 ```bash
-flask --app src/integracionpagos/api run --port 7000
+flask --app src/integracionpagos/api run --port 7000 --reload
 ```
 
 

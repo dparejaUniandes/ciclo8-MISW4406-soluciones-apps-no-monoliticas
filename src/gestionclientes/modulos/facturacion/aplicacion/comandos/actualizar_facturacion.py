@@ -23,6 +23,7 @@ from .base import FacturacionBaseHandler
 class ActualizarFacturacion(Comando):
     id_cliente: str
     estadoReportado: str
+    id_correlacion: str
 
 class ActualizarFacturacionHandler(FacturacionBaseHandler):
     
@@ -34,13 +35,15 @@ class ActualizarFacturacionHandler(FacturacionBaseHandler):
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion)
         repositorio.actualizar(facturacion)
 
         pago_confirmado = PagoConfirmado(
+            id_correlacion = comando.id_correlacion,
             tipo="ALERTA",
             valor = "pepe@gmail.com",
-            medio="correo"
+            medio="correo",
+            event_type="facturacion_actualizada"
         )
         despachador = Despachador()
         despachador.publicar_evento_notificacion(pago_confirmado, 'eventos-gestionclientes-notificacion')

@@ -15,6 +15,7 @@ from gestionclientes.modulos.facturacion.aplicacion.servicios import \
 from gestionclientes.seedwork.aplicacion.comandos import ejecutar_commando
 from gestionclientes.seedwork.aplicacion.queries import ejecutar_query
 from gestionclientes.seedwork.dominio.excepciones import ExcepcionDominio
+import uuid
 
 bp = api.crear_blueprint('facturacion', '/facturacion')
 
@@ -45,7 +46,8 @@ def realizar_pago_asincrono():
             facturacion_dto.id, 
             facturacion_dto.medioPago,
             facturacion_dto.idCliente,
-            facturacion_dto.monto
+            facturacion_dto.monto,
+            id_correlacion=str(uuid.uuid4())
         )
         ejecutar_commando(comando)
 

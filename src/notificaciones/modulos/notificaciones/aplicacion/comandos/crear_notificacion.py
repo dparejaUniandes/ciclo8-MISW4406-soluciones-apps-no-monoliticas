@@ -1,10 +1,19 @@
 """ Caso de uso para crear una Notificación """
 from dataclasses import dataclass
+from datetime import datetime
 
-from notificaciones.modulos.notificaciones.aplicacion.dto import NotificacionDTO
+from sqlalchemy import Column, DateTime
+
+from notificaciones.modulos.notificaciones.aplicacion.dto import \
+    NotificacionDTO
 from notificaciones.modulos.notificaciones.aplicacion.mapeadores import \
     MapeadorNotificacion
-from notificaciones.modulos.notificaciones.dominio.entidades import Notificacion
+from notificaciones.modulos.notificaciones.dominio.entidades import \
+    Notificacion
+from notificaciones.modulos.notificaciones.dominio.eventos import \
+    NotificacionCreada
+from notificaciones.modulos.notificaciones.infraestructura.despachadores import \
+    Despachador
 from notificaciones.modulos.notificaciones.infraestructura.repositorios import \
     RepositorioNotificaciones
 from notificaciones.seedwork.aplicacion.comandos import Comando
@@ -24,6 +33,7 @@ class CrearNotificacion(Comando):
     tipo: str
     medio: str
     valor: str
+    id_correlacion: str
 
 
 class CrearNotificacionHandler(NotificacionBaseHandler):
@@ -31,7 +41,8 @@ class CrearNotificacionHandler(NotificacionBaseHandler):
 
     def handle(self, comando: CrearNotificacion):
         """ Ejecutar comando para crear una notificación """
-        cliente_dto = NotificacionDTO(
+        print("Iniciando comando...")
+        notificacion_dto = NotificacionDTO(
             fecha_actualizacion=comando.fecha_actualizacion,
             fecha_creacion=comando.fecha_creacion,
             id=comando.id,
@@ -40,17 +51,25 @@ class CrearNotificacionHandler(NotificacionBaseHandler):
             valor=comando.valor,
         )
 
-        cliente: Notificacion = self.fabrica_clientes.crear_objeto(
-            cliente_dto, MapeadorNotificacion())
-        cliente.crear_notificacion(cliente)
+        notificacion: Notificacion = self.fabrica_notificaciones.crear_objeto(
+            notificacion_dto, MapeadorNotificacion())
+        notificacion.crear_notificacion(notificacion)
 
         repositorio = self.fabrica_repositorio.crear_objeto(
             RepositorioNotificaciones.__class__)
-        repositorio.agregar(cliente)
+        repositorio.agregar(notificacion)
 
-        # UnidadTrabajoPuerto.registrar_batch(repositorio.agregar, cliente)
-        # UnidadTrabajoPuerto.savepoint()
-        # UnidadTrabajoPuerto.commit()
+        event_type="notificacion_creada"
+        if "REVERSION" in comando.tipo:
+            event_type = "notificacion_revertida"
+        notificacion_creada = NotificacionCreada(
+            id_correlacion = comando.id_correlacion,
+            id_cliente = comando.valor,
+            event_type = event_type
+        )
+        despachador = Despachador()
+        despachador.publicar_evento(notificacion_creada, 'eventos-notificaciones')
+
 
 
 @comando.register(CrearNotificacion)

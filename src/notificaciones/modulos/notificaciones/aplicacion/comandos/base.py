@@ -18,6 +18,6 @@ class NotificacionBaseHandler(ComandoHandler):
         return self._fabrica_repositorio
 
     @property
-    def fabrica_clientes(self):
+    def fabrica_notificaciones(self):
         """ Fabrica de Notificaciones """
         return self._fabrica_notificaciones

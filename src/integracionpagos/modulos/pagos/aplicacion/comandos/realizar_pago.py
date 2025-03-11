@@ -22,6 +22,7 @@ from .base import PagoBaseHandler
 class RealizarPago(Comando):
     id_cliente: str
     monto: float
+    id_correlacion: str
 
 class RealizarPagoHandler(PagoBaseHandler):
     
@@ -41,7 +42,8 @@ class RealizarPagoHandler(PagoBaseHandler):
 
         pago_realizado = PagoRealizado(
             id_cliente=pago_dto.id_cliente,
-            estado_pago = "CONFIRMADO"
+            estado_pago = "CONFIRMADO",
+            id_correlacion=comando.id_correlacion
         )
         despachador = Despachador()
         despachador.publicar_evento(pago_realizado, 'eventos-pago')

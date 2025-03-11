@@ -33,15 +33,17 @@ class Despachador:
     
     def publicar_evento_notificacion(self, evento, topico):
         payload = PagoConfirmadoPayload(
+            id_correlacion=str(evento.id_correlacion),
             tipo=str(evento.tipo), 
             valor=str(evento.valor), 
             medio=str(evento.medio)
         )
-        evento_integracion = EventoPagoConfirmado(data=payload)
+        evento_integracion = EventoPagoConfirmado(data=payload, event_type=evento.event_type)
         self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoPagoConfirmado))
 
     def publicar_comando(self, comando, topico):
         payload = ComandoRealizarPagoPayload(
+            id_correlacion=comando.id_correlacion,
             id_cliente=str(comando.id_cliente),
             monto = float(comando.monto)
         )

@@ -7,6 +7,7 @@ from gestionclientes.seedwork.infraestructura.schema.v1.comandos import \
 
 
 class ComandoRealizarPagoPayload(ComandoIntegracion):
+    id_correlacion = String()
     id_cliente = String()
     monto = Float()
 
@@ -20,3 +21,11 @@ class ComandoRealizarPagoPayloadBFF(ComandoIntegracion):
 
 class ComandoRealizarPagoBFF(ComandoIntegracion):
     data = ComandoRealizarPagoPayloadBFF()
+
+class ComandoRevertirPayload(ComandoIntegracion):
+    id_correlacion = String()
+    id_cliente = String()
+
+class ComandoRevertir(ComandoIntegracion):
+    data = ComandoRevertirPayload()
+    command_type = String()

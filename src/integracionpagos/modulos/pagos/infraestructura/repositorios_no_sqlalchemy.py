@@ -17,14 +17,28 @@ from .dto import Pago as PagoDTO
 from .mapeadores import MapeadorPago
 
 # Sin Flask
+import psycopg2
+import os
+
 import sqlite3
 
-sqliteConnection = None
+bdconexion = None
 
 def init_db():
-    global sqliteConnection
-    if sqliteConnection is None:
-        sqliteConnection = sqlite3.connect('sql_integracionpagos.db')
+    global bdconexion
+    
+    if bdconexion is None:
+        # bdconexion = psycopg2.connect(
+        #     dbname=os.getenv("DB_NAME", default="integracionpagos"),
+        #     user=os.getenv("DB_USER", default="postgres"),
+        #     password=os.getenv("DB_PASSWORD", default=123456),
+        #     host=os.getenv("DB_HOST_URL", default="db-pagos"),
+        #     port=os.getenv("DB_PORT", default="5432")
+        # )
+        sqliteConnection = sqlite3.connect(
+            os.path.join('/workspace/ciclo8-MISW4406-soluciones-apps-no-monoliticas/src/integracionpagos/config', 'database.db'))
+
+        cursor = sqliteConnection.cursor()
         cursor = sqliteConnection.cursor()
         cursor.execute("CREATE TABLE IF NOT EXISTS pagos(id, fecha_creacion, fecha_actualizacion,id_cliente,monto,estado_pago,pasarela_pago)")
         cursor.close()
