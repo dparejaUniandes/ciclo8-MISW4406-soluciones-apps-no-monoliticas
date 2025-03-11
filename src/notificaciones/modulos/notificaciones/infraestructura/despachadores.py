@@ -20,7 +20,7 @@ class Despachador:
         cliente.close()
 
     def publicar_evento(self, evento, topico):
-        print("evento emitido desde notidicaciones " evento)
+        print("evento emitido desde notidicaciones ", evento)
         payload = NotificacionCreadaPayload(
             id_cliente=str(evento.id_cliente), 
             id_correlacion=str(evento.id_correlacion)

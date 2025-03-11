@@ -15,23 +15,28 @@ def importar_modelos_alchemy():
     import gestionclientes.modulos.clientes.infraestructura.dto
     import gestionclientes.modulos.facturacion.infraestructura.dto
 
-def comenzar_consumidor():
+def comenzar_consumidor(app):
 
     import threading
 
     import gestionclientes.modulos.facturacion.infraestructura.consumidores as facturacion
     import gestionclientes.modulos.sagas.infraestructura.consumidores as saga
 
+
+    def run_with_context(target):
+        with app.app_context():
+            target()
+
     # Suscripción a eventos
-    threading.Thread(target=facturacion.suscribirse_a_eventos).start()
-    threading.Thread(target=facturacion.suscribirse_a_comandos_saga).start()
-    threading.Thread(target=saga.suscribirse_a_eventos).start()
-    threading.Thread(target=saga.suscribirse_a_eventos_facturacion).start()
-    threading.Thread(target=saga.suscribirse_a_eventos_notificacion).start()
+    threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_eventos), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_comandos_saga), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos_facturacion), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos_notificacion), daemon=True).start()
 
     # Suscripción a comandos
-    threading.Thread(target=facturacion.suscribirse_a_comandos).start()
-    threading.Thread(target=facturacion.suscribirse_a_comandos_bff).start()
+    threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_comandos), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_comandos_bff), daemon=True).start()
 
 def create_app(configuracion={}):
     # Init la aplicacion de Flask
@@ -64,7 +69,7 @@ def create_app(configuracion={}):
     with app.app_context():
         db.create_all()
         if not app.config.get('TESTING'):
-            comenzar_consumidor() 
+            comenzar_consumidor(app) 
 
      # Importa Blueprints
     from . import clientes, facturacion
