@@ -19,12 +19,13 @@ from gestionclientes.modulos.sagas.dominio.eventos.pagos import (PagoFallido,
                                                                  PagoRealizado,
                                                                  PagoRevertido)
 from gestionclientes.modulos.sagas.dominio.repositorios import RepositorioSagas
+from gestionclientes.modulos.sagas.infraestructura.fabricas import \
+    FabricaRepositorio
 from gestionclientes.seedwork.aplicacion.comandos import Comando
 from gestionclientes.seedwork.aplicacion.sagas import (CoordinadorOrquestacion,
                                                        Fin, Inicio,
                                                        Transaccion)
 from gestionclientes.seedwork.dominio.eventos import EventoDominio
-from gestionclientes.modulos.sagas.infraestructura.fabricas import FabricaRepositorio
 
 
 class CoordinadorReservas(CoordinadorOrquestacion):
@@ -72,7 +73,6 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         # Probablemente usted podría usar un repositorio para ello
         nombre_paso = ""
         estado = ""
-        print("Evento: *** ", type(evento), type(evento) == PagoFallido)
         if type(evento) == FacturacionCreada or type(evento) == FacturacionFallida:
             nombre_paso = FacturacionCreada.__name__ if type(evento) == FacturacionCreada else RevertirFacturacion.__name__,
             estado = "INICIO"
@@ -118,7 +118,7 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         elif tipo_comando == RevertirNotificacion:
             comando=RevertirNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor,
+                id_cliente = evento.id_cliente,
                 nombre_paso = RevertirNotificacion.__name__,
                 estado = "FIN",
                 index = index
@@ -142,7 +142,7 @@ class CoordinadorReservas(CoordinadorOrquestacion):
         elif tipo_comando == CrearNotificacion:
             comando=CrearNotificacion(
                 id_correlacion = evento.id_correlacion,
-                id_cliente = evento.valor,
+                id_cliente = evento.id_cliente,
                 nombre_paso = CrearNotificacion.__name__,
                 estado = "FIN",
                 index = index
@@ -158,7 +158,7 @@ def oir_mensaje(evento):
         coordinador.inicializar_pasos(evento.id_correlacion)
         paso, index = coordinador.obtener_paso_dado_un_evento(evento)
         coordinador.persistir_en_saga_log(evento, paso, index)
-        if type(evento) != FacturacionFallida:
+        if type(evento) != FacturacionFallida and type(evento) != NotificacionFallida:
             coordinador.procesar_evento(evento)
     else:
         raise NotImplementedError("El mensaje no es evento de Dominio")

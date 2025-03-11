@@ -3,10 +3,11 @@ from __future__ import annotations
 import uuid
 from dataclasses import dataclass
 
-from gestionclientes.seedwork.dominio.eventos import EventoDominio
+from notificaciones.seedwork.dominio.eventos import EventoDominio
 
 
 @dataclass
-class PagoRealizado(EventoDominio):
-    id_cliente: uuid.UUID = None
-    estado: str = None
+class NotificacionCreada(EventoDominio):
+    id_cliente: str = None
+    id_correlacion: str = None
+    event_type: str = None
