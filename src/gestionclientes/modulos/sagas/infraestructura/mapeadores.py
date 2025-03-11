@@ -40,13 +40,13 @@ class MapeadorSagaLog(Mapeador):
                 print("Medio DTO n\"", dto.medio)
 
                 saga_log = Saga(
-                    dto.id,
-                    dto.fecha_creacion,
-                    dto.fecha_actualizacion,
-                    tipo=tipo,
-                    medio=dto.medio.value,
-                    valor=dto.valor,
-
+                    id=dto.id,
+                    id_cliente=dto.id_cliente,
+                    id_correlacion=dto.id_correlacion,
+                    nombre_paso=dto.nombre_paso,
+                    estado=dto.estado,
+                    index=dto.index,
+                    fecha_creacion=dto.fecha_creacion,
                 )
                 return saga_log
 
@@ -55,13 +55,13 @@ class MapeadorSagaLog(Mapeador):
             for SagaLogDTO in dto:
 
                 saga_logs.append(Saga(
-                    SagaLogDTO.id,
-                    SagaLogDTO.fecha_creacion,
-                    SagaLogDTO.fecha_actualizacion,
-                    tipo=SagaLogDTO.tipo,
-                    medio=SagaLogDTO.medio,
-                    valor=SagaLogDTO.valor,
-
+                    id=SagaLogDTO.id,
+                    id_cliente=SagaLogDTO.id_cliente,
+                    id_correlacion=SagaLogDTO.id_correlacion,
+                    nombre_paso=SagaLogDTO.nombre_paso,
+                    estado=SagaLogDTO.estado,
+                    index=SagaLogDTO.index,
+                    fecha_creacion=SagaLogDTO.fecha_creacion,
                 ))
             return saga_logs
         except Exception as e:
