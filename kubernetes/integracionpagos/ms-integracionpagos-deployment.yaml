@@ -44,6 +44,7 @@ spec:
               value: 34.72.58.111
           image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_integracion_pagos:latest
           name: ms-integracionpagos
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: "250m"    # 0.25 vCPU (mínimo en Autopilot)
