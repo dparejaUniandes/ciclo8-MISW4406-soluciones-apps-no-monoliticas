@@ -65,7 +65,7 @@ flask --app src/gestionclientes/api run
 Si deseas ejecutar en modo DEBUG, usa:
 
 ```bash
-flask --app src/gestionclientes/api --debug run
+flask --app src/gestionclientes/api --debug run --reload
 ```
 
 #### Ejecución de PULSAR
@@ -75,7 +75,7 @@ docker-compose --profile pulsar up
 
 #### Ejecución de Notificaciones & Base de datos
 ```bash
-flask --app src/notificaciones/api run --port 6000
+flask --app src/notificaciones/api run --port 6000 --reload
 ```
 
 #### Ejecutar Postgres con Docker
@@ -95,7 +95,7 @@ psql -U postgres -d notificaciones
 
 #### Ejecución de Integración de pagos
 ```bash
-flask --app src/integracionpagos/api run --port 7000
+flask --app src/integracionpagos/api run --port 7000 --reload
 ```
 
 

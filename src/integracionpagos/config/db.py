@@ -5,11 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-DB_PORT = os.environ.get("DB_PORT", "5432")
+DB_PORT = os.environ.get("DB_PORT", "5434")
 DB_HOST_URL = os.environ.get("DB_HOST_URL", "127.0.0.1")
 DB_NAME = os.environ.get("DB_NAME", "integracionpagos")
 DB_USER = os.environ.get("DB_USER", "postgres")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "12345")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "123456")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

@@ -12,6 +12,7 @@ from gestionclientes.config.db import db
 from gestionclientes.modulos.sagas.dominio.entidades import Saga
 from gestionclientes.modulos.sagas.dominio.repositorios import RepositorioSagas
 
+from .mapeadores import MapeadorSagaLog
 
 class RepositorioSagasPostgresql(RepositorioSagas):
 
@@ -26,6 +27,11 @@ class RepositorioSagasPostgresql(RepositorioSagas):
     def agregar(self, saga: Saga):
         # TODO
         print("Saga agregada***, ", saga)
+        saga_dto = self.fabrica_saga.crear_objeto(
+            saga, MapeadorSagaLog()
+        )
+        db.session.add(saga_dto)
+        db.session.commit()
 
     def actualizar(self, saga: Saga):
         # TODO

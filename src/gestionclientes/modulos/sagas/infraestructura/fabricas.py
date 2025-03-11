@@ -18,7 +18,7 @@ from .repositorios import RepositorioSagasPostgresql
 @dataclass
 class FabricaRepositorio(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Repositorio:
-        if obj == RepositorioSagas:
+        if obj == RepositorioSagas.__class__:
             return RepositorioSagasPostgresql()
         else:
             raise ExcepcionFabrica()
