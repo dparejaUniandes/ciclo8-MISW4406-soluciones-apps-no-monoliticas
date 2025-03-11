@@ -34,7 +34,7 @@ class RevertirFacturacionHandler(FacturacionBaseHandler):
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
 
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion)
         repositorio.actualizar(facturacion)
 
         pago_confirmado = PagoConfirmado(

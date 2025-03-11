@@ -40,10 +40,11 @@ class CrearFacturacionHandler(FacturacionBaseHandler):
 
         facturacion: Facturacion = self.fabrica_facturacion.crear_objeto(facturacion_dto, MapeadorFacturacion())
         facturacion.crear_facturacion(facturacion)
-
-        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacionNoSQLAlchemy)
-        repositorio.agregar(repositorio)
-
+        print("crear_facturacion ==================>")
+        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioFacturacion)
+        print("crear_facturacion ==================>")
+        repositorio.agregar(facturacion)
+        print("crear_facturacion ==================> agregar")
         eventoDominio = FacturacionCreada(id_correlacion=comando.id_correlacion,id_cliente=facturacion.idCliente, estado="PAGADO", monto=facturacion.monto)
         despachador = Despachador()
         despachador.publicar_comando(eventoDominio, 'comandos-pago')

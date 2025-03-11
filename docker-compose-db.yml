@@ -1,20 +1,97 @@
-version: "3.8"
+# version: "3.8"
+# services:
+#   db:
+#     image: postgres:15
+#     container_name: notifications_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: notificaciones
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: 29062013
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - backend
+# volumes:
+#   postgres_data:
+# networks:
+#   backend:
+
 services:
-  db:
-    image: postgres:15
-    container_name: notifications_db
+  db-clientes:
+    image: postgres:15-alpine
+    
+    container_name: postgres_db_clientes
     restart: always
     environment:
-      POSTGRES_DB: notificaciones
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 29062013
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: gestionclientes
+      PGUSER: postgres
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "5433:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
     networks:
-      - backend
-volumes:
-  postgres_data:
+      - db_gestionclientes
+  
+  
+  db-pagos:
+    image: postgres:15-alpine
+    
+    container_name: postgres_db_pagos
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: integracionpagos
+      PGUSER: postgres
+    ports:
+      - "5434:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
+    networks:
+      - db_integracionpagos
+  
+  db-notificaciones:
+    image: postgres:15-alpine
+    
+    container_name: postgres_db_notificaciones
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: notificaciones
+      PGUSER: postgres
+    ports:
+      - "5435:5432"
+  
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 40s
+      timeout: 20s
+      retries: 5
+    networks:
+      - db_notificaciones
+
 networks:
-  backend:
+  pulsar:
+    driver: bridge
+  db_gestionclientes:
+    driver: bridge
+  gestionclientes:
+    driver: bridge
+  db_notificaciones:
+    driver: bridge
+  db_integracionpagos:
+    driver: bridge

@@ -30,6 +30,7 @@ class MapeadorFacturacion(Mapeador):
         return facturacion_dto
 
     def dto_a_entidad(self, dto: FacturacionDTO) -> any:
+        print("dt0_a_entidad", type(dto))
         if type(dto) is FacturacionDTO:
             print("infra only dto")
             facturacion = Facturacion(
