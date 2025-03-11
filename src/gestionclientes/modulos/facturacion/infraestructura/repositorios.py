@@ -38,10 +38,12 @@ class RepositorioFacturacionPosgresql(RepositorioFacturacion):
         return self._fabrica_facturacion.crear_objeto(facturacion, MapeadorFacturacion())
 
     def agregar(self, facturacion: Facturacion):
+        print("facturacion repositorio ===========>", facturacion)
         facturacion_dto = self.fabrica_facturacion.crear_objeto(facturacion, MapeadorFacturacion())
         facturacion_dto.id = str(uuid.uuid4())
         db.session.add(facturacion_dto)
         db.session.commit()
+        
 
     def actualizar(self, facturacion: Facturacion):
         db.session.query(FacturacionDTO).filter(FacturacionDTO.id_cliente == facturacion.idCliente).update({'estado_reportado': facturacion.estado_reportado})

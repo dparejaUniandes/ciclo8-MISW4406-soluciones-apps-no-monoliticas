@@ -32,6 +32,7 @@ def comenzar_consumidor(app):
     threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_comandos_saga), daemon=True).start()
     threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos), daemon=True).start()
     threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos_facturacion), daemon=True).start()
+    threading.Thread(target=lambda: run_with_context(saga.suscribirse_a_eventos_notificacion), daemon=True).start()
 
     # Suscripción a comandos
     threading.Thread(target=lambda: run_with_context(facturacion.suscribirse_a_comandos), daemon=True).start()
