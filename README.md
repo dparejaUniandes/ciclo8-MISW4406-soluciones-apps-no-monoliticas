@@ -5,7 +5,7 @@ Este proyecto es una solución basada en la arquitectura de microservicios utili
 # ENTREGA 5
 por favor tener presente los comandos descritos en las entregas previas para ejecutar el proyecto en local.
 
-(Enlace al video de sustentación) [https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EbEJd8cnr4xOly5-AlseVKQBd-JM20yZUf2mBBkqCGJrqg?e=uwWLCn]
+Enlace al video de sustentación: https://uniandes-my.sharepoint.com/:v:/g/personal/d_pareja_uniandes_edu_co/EbEJd8cnr4xOly5-AlseVKQBd-JM20yZUf2mBBkqCGJrqg?e=uwWLCn
 
 ## Arquitectura general
 ### Microservicios
