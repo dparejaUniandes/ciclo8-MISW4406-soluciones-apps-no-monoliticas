@@ -1,6 +1,6 @@
 from pulsar.schema import *
 
-from integracionpagos.seedwork.infraestructura.schema.v1.eventos import \
+from notificaciones.seedwork.infraestructura.schema.v1.eventos import \
     EventoIntegracion
 
 
@@ -14,3 +14,12 @@ class PagoConfirmadoPayload(Record):
 class EventoPagoConfirmado(EventoIntegracion):
     """ Evento de pago confirmado """
     data = PagoConfirmadoPayload()
+    event_type = String()
+
+class NotificacionCreadaPayload(Record):
+    id_correlacion = String()
+    id_cliente = String()
+
+class EventoNotificacionCreada(EventoIntegracion):
+    data = NotificacionCreadaPayload()
+    event_type = String()
