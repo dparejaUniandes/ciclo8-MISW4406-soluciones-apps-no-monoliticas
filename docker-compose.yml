@@ -5,7 +5,7 @@ networks:
     driver: bridge
   db_gestionclientes:
     driver: bridge
-  gestionclientes:
+  ms_gestionclientes:
     driver: bridge
   db_notificaciones:
     driver: bridge
@@ -103,7 +103,7 @@ services:
   db-clientes:
     image: postgres:15-alpine
     profiles: ["app-clientes", "db"]
-    container_name: postgres_db
+    container_name: db-clientes
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -125,7 +125,7 @@ services:
   db-pagos:
     image: postgres:15-alpine
     profiles: ["app-pagos", "db"]
-    container_name: postgres_db
+    container_name: db-pagos
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -170,14 +170,12 @@ services:
       dockerfile: gestionclientes.Dockerfile
     hostname: clientes  
     container_name: ms-clientes
-    image: gestionclientes/flask 
+    # image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_gestionclientes
     profiles: ["app-clientes"]
     restart: always
     depends_on:
       db-clientes:
         condition: service_healthy
-      # broker:
-      #   condition: service_started
     environment:
       FLASK_APP: src/gestionclientes/api
       FLASK_ENV: development
@@ -185,8 +183,8 @@ services:
       DB_NAME: gestionclientes
       DB_USER: postgres
       DB_PASSWORD: 123456
-      DB_PORT: 5433
-      BROKER_HOST: broker
+      DB_PORT: 5432
+      BROKER_HOST: 34.72.58.111
   
     ports:
       - "5001:5000"
@@ -196,21 +194,19 @@ services:
     networks:
       - pulsar
       - db_gestionclientes
-      - gestionclientes
+      - ms_gestionclientes
   
   ms-pagos:
     build: 
       context: .
       dockerfile: ./integracionpagos.Dockerfile
     container_name: ms-pagos
-    # image: integracionpagos/flask 
+    # image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_integracion_pagos
     profiles: ["app-pagos"]
     restart: always
     depends_on:
       db-pagos:
         condition: service_healthy
-      # broker:
-      #   condition: service_started
     environment:
       FLASK_APP: src/integracionpagos
       FLASK_ENV: development
@@ -219,8 +215,8 @@ services:
       DB_USER: postgres
       DB_PASSWORD: 123456
       DB_PORT: 5434
-      PULSAR_ADDRESS: broker
-      BROKER_HOST: broker
+      PULSAR_ADDRESS: 34.72.58.111
+      BROKER_HOST: 34.72.58.111
   
     volumes:
       - .:/app
@@ -232,26 +228,26 @@ services:
     build: 
       context: .
       dockerfile: ./notificaciones.Dockerfile
-    container_name: app-notificaciones
-    # image: integracionpagos/flask 
+    container_name: ms-notificaciones
+    # image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_notificaciones
     profiles: ["app-notificaciones"]
     restart: always
-    # depends_on:
-    #   db-postgres:
-    #     condition: service_healthy
-      # broker:
-      #   condition: service_started
+    depends_on:
+      db-notificaciones:
+        condition: service_healthy
     environment:
-      FLASK_APP: src/notificaciones
+      FLASK_APP: src/notificaciones/api
       FLASK_ENV: development
       DB_HOST_URL: db-notificaciones
       DB_NAME: notificaciones
       DB_USER: postgres
       DB_PASSWORD: 123456
       DB_PORT: 5432
-      PULSAR_ADDRESS: broker
-      BROKER_HOST: broker
-  
+      PULSAR_ADDRESS: 34.72.58.111
+      BROKER_HOST: 34.72.58.111
+    ports:
+      - "5001:5001"
+    command: ["flask", "--debug", "run", "--host=0.0.0.0", "--port=5001"]
     volumes:
       - .:/app
     networks:
@@ -265,19 +261,25 @@ services:
       dockerfile: ./bff.Dockerfile
     container_name: bff
     hostname: bff
-    # image: saludtech/bff 
+    image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/bff
     profiles: ["bff"]
-    # depends_on:
-    #   broker:
-    #     condition: service_started
     environment:
       - SALUDTECH_ADDRESS=clientes
       - BROKER_HOST=34.72.58.111
     networks:
       - pulsar
-      - gestionclientes
+      - ms_gestionclientes
     ports:
       - "5002:8003"
 
 volumes:
   postgres_data:
+
+# docker tag 86daa82cec21 us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_integracion_pagos
+# docker push us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_integracion_pagos
+
+# docker tag  841e57e23ac8 us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_notificaciones
+# docker push us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_notificaciones
+
+# docker tag 4d3ece5eb31d us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_gestionclientes
+# docker push us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_gestionclientes

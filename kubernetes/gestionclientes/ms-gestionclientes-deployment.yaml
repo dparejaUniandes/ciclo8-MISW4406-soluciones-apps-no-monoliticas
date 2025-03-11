@@ -48,6 +48,7 @@ spec:
               value: development
           image: us-central1-docker.pkg.dev/monomaster-saludtech/saludtech/ms_gestionclientes:latest
           name: ms-gestionclientes
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
               protocol: TCP
